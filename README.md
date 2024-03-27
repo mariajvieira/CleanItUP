@@ -50,6 +50,13 @@ Mobile Application: A cross-platform mobile development framework like Flutter i
 
 
 
+#### Vertical Prototype:
+In the prototype, it is implemented the starting menu, login page, and user profile screen of the application, showing the login feature. These screens demonstrate the integration of various technologies and validate architectural and design decisions. 
+This demonstration of the app was made in Dart, using AndroidStudio and Flutter. [Here is the .apk of the prototype]
+
+
+
+
 
 
 
