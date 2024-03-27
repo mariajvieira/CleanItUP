@@ -22,6 +22,9 @@ CleanItUP: where your green journey begins.
 
 
 ## Requirements 
+The topics regarding this section (such as user stories, user interface mockups, acceptance tests and value and effort) are all in the group's GitHub Project. 
+### Domain Model
+
 
 ## Architecture and Design
 
