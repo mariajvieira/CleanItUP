@@ -51,6 +51,27 @@ Database Server: Dedicated servers for databases optimize performance and securi
 Application Server: Separating the application logic from the database layer follows the principle of single responsibility and allows independent scaling. A microservices architecture could also be adopted, with each service running in a containerized environment for better resource utilization and deployment flexibility (a topic to be further explored in the next sprint).
 Mobile Application: A cross-platform mobile development framework like Flutter is chosen for its fast development cycle, UI capabilities, and native performance. This is in line with the product's need for a wide-reaching, engaging, and responsive user interface.
 
+### Logical architecture
+This package diagram provides the logical architecture of a system for managing recycling bins, incorporating external services like the Google Maps API. 
+#### UML Package Diagram: 
+<img width="411" alt="pkgdiagram" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145374103/55394701-4cf9-4d0e-a050-ec521fced634">
+
+#### UML Deployment Diagram Description:
+* External Services:
+This package represents the external services used by the system. In this case, it uses the Google Maps API.
+
+* Recycling Bins System:
+This package includes the core components of the recycling bins management system.
+
+* Recycling Bins Web UI:
+This package contains the user interface components which interacts with the recycling bins system. 
+
+*Recycling Bins Search Logic:
+This package contains the logic responsible for handling search functionalities related to recycling bins.
+
+*Recycling Bins DataBase Schema:
+This package represents the database schema used by the recycling bins system to store relevant data.
+
 
 
 ## Vertical Prototype:
