@@ -66,10 +66,10 @@ This package includes the core components of the recycling bins management syste
 * Recycling Bins Web UI:
 This package contains the user interface components which interacts with the recycling bins system. 
 
-*Recycling Bins Search Logic:
+* Recycling Bins Search Logic:
 This package contains the logic responsible for handling search functionalities related to recycling bins.
 
-*Recycling Bins DataBase Schema:
+* Recycling Bins DataBase Schema:
 This package represents the database schema used by the recycling bins system to store relevant data.
 
 
