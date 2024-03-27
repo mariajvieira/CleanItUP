@@ -1,14 +1,14 @@
 # 2LEIC01T2 - CleanItUP Development Report
 
 Welcome to the documentation pages of the CleanItUP app!
-You can find here details about the [your product name], from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by type of activities:
+You can find here details about the CleanItUP, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by type of activities:
 
 
 ## Business Modelling
 ### Product Vision
 #### What is CleanItUP?
 CleanItUP is an app that aims to serve as a one-stop solution for individuals and communities looking to enhance their sustainability practices. It integrates various features to make environmental responsibility an accessible, enjoyable, and collective effort. These include:
-* Information Repository: Provides up-to-date information on recycling protocols, sustainability tips, and eco-friendly practices.
+* Information Repository: Provides up-to-date information on recycling protocols, available recycling bins (near locations, pick up updates, etc), sustainability tips, and eco-friendly practices.
 * Community Forum: A platform for users to connect, share experiences and learn from each other about sustainable living.
 * Local Initiative Finder: Helps users discover and participate in local green initiatives, fostering community involvement and impact.
 * Gamification: Engages users through rewards, levels and challenges to encourage and motivate sustainable behaviors.
