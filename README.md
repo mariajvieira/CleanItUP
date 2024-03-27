@@ -14,6 +14,12 @@ CleanItUP is an app that aims to serve as a one-stop solution for individuals an
 * Gamification: Engages users through rewards, levels and challenges to encourage and motivate sustainable behaviors.
 
 ### Features and assumptions 
+* User Login/Logout: Enables access to your personal account, allowing you to connect with friends, view their pages and posts, and add your work credentials to discover green initiatives and recycling bins at your workplace.
+* Location Services: By allowing the app to access your location, it can help you find the nearest recycling bin and notify you of green initiatives nearby.
+* Friend’s Forum: This feature enables you to post eco-friendly tips and share green initiatives with friends, as well as view their posts, fostering a community of shared sustainability interests.
+* Progress Tracking: Monitor your environmental impact through a points system that reflects how eco-friendly your actions are.
+* Calendar: Provides a schedule of upcoming local sustainability activities and keeps a record of your recycling efforts and event participation. 
+* Map Integration: Displays a map pinpointing available recycling bins, making it easier to locate them.
 
 ### Elevator Pitch 
 Imagine every small action you take could help shape a greener planet. CleanItUP is a groundbreaking app designed to turn the ideal of sustainable living into an accessible reality for everyone. With just a few taps, you can locate the nearest recycling bins, join local green initiatives, and get personalized reminders to make your lifestyle more eco-friendly. But it's not just an app — it's a community. Connect with friends, share sustainability tips, and track your progress with engaging gamification features.
