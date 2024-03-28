@@ -29,12 +29,12 @@ CleanItUP: where your green journey begins.
 
 ## Requirements 
 The topics regarding this section (such as user stories, user interface mockups, acceptance tests and value and effort) are all in the group's GitHub Project. 
-### Domain Model
+### Domain Model - Diagram: 
 
 ![dommodesof drawio (3)](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/a48fc5fb-2c19-4d81-a4be-e61dcf1b8752)
 
 
-####Description:
+### Domain Model - Description:
 * User:
 Represents an individual who uses the application.
 Attributes include a unique identifier (UserID), the user's name, email address, password for authentication, location to provide personalized information, and points that represent a cumulative score of the user’s eco-friendly actions.
