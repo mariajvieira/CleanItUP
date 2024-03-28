@@ -31,6 +31,55 @@ CleanItUP: where your green journey begins.
 The topics regarding this section (such as user stories, user interface mockups, acceptance tests and value and effort) are all in the group's GitHub Project. 
 ### Domain Model
 
+![dommodesof drawio (3)](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/a48fc5fb-2c19-4d81-a4be-e61dcf1b8752)
+
+
+####Description:
+* User:
+Represents an individual who uses the application.
+Attributes include a unique identifier (UserID), the user's name, email address, password for authentication, location to provide personalized information, and points that represent a cumulative score of the user’s eco-friendly actions.
+
+* RecyclingBin:
+Represents physical recycling bins that users can locate and use.
+Attributes consist of a unique identifier (BinID), its physical location, and the type of content (e.g., plastics, paper, etc.) it is meant for.
+
+* GreenInitiative:
+Represents an eco-friendly initiative or event that users can participate in.
+Attributes include a unique identifier (InitiativeID), the name of the initiative, a description, the date when the initiative takes place, its location, and an identifier for the organizer (related to a User who created it).
+
+* ForumPost:
+Represents posts made by users in a forum within the application.
+Attributes include a post identifier (PostID), the content of the post, the author's identifier (AuthorID), and a timestamp indicating when the post was created.
+
+* Topic:
+Represents categories or subjects under which forum posts can be grouped.
+Attributes consist of a unique identifier (TopicID), the name of the topic, and a description of what the topic covers.
+
+* Progress:
+Represents the tracking of a user's environmental actions and achievements within the application.
+Attributes include the user's identifier (UserID), total points obtained from eco-friendly actions, the level (indicating the user's progression or ranking), and a string of achievements which may be a list or summary of specific accomplishments.
+
+* Achievement:
+Represents specific goals or milestones users can reach by performing sustainable actions.
+Attributes consist of an achievement identifier (AchievementID), the name of the achievement, a description, and the number of points required to obtain this achievement.
+
+Relations:
+* User-RecyclingBin: This relationship suggests that a user may have zero or one used recycling bin daily. Daily, the app only registers one (at most) visit of the user to the bin. A bin might be used by many Users.
+
+* User-GreenInitiative: Indicates that a user can participate in none or many green initiatives. This relationship allows users to engage with multiple environmental events or campaigns within the app.
+
+* User-User: This recursive relationship implies that users can have connections with other users within the application. It  supports the social networking feature of the app where users can add friends and form a community.
+
+* User-ForumPost: Depicts that a user can create none or multiple forum posts. Users can contribute to the forum by sharing tips, asking questions, or engaging in discussions.
+
+* ForumPost-Topic: Each forum post is categorized in exactly one topic, which helps in organizing the forum's content and makes it easier for users to navigate and find relevant discussions.
+
+* User-Progress:
+A one-to-one relationship showing that each user has a progress tracker associated with their account, which monitors their actions and achievements related to sustainability efforts.
+
+* Progress-Achievement: Indicates that the progress of a user can result in earning none or multiple achievements. Achievements are milestones within the app that users can unlock by completing certain tasks or accumulating a certain number of points.
+
+
 
 ## Architecture and Design
 
