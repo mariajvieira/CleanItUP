@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:projeto/screens/userprofile_screen.dart';
 import '../main.dart';
 
 class Geolocation extends StatelessWidget {
@@ -43,9 +44,11 @@ class _GeolocationStateState extends State<_GeolocationState> {
               onPressed: ()async{
                 currentLocation= await getCurrentLocation();
                 print("$currentLocation");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()) );
               }, child: const Text('Get Current Location'),
             )
         )
     );
   }
 }  //VAI SER PAGINA DO MAPA
+
