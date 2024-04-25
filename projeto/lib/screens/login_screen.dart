@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import '../JsonModels/users.dart';
 import 'geolocation_screen.dart';
+import 'signup_screen.dart';
 import '../SQLite/sqlite.dart';
 
 class Login extends StatefulWidget {
@@ -25,25 +27,32 @@ class _LoginState extends State<Login> {
   }
 
   void login() async {
-    // Simulated login validation
-    bool isValidUser = (username.text == 'up12345678@up.pt' && password.text == 'teste');
-    if (isValidUser) {
-      _navigateToGeoLocationScreen();
-    } else {
-      if (username.text.isEmpty || password.text.isEmpty){
-        errorMessage = "Username and password required";
-      } else if (!username.text.endsWith('@up.pt')) {
-        errorMessage = "Invalid username";  // Specific message for username validation
-      }
-      else {
-        errorMessage = "Username or password is incorrect";  // General error message
-      }
-      setState(() {
-        isLoginFailed = true;
-      });
+    var response = await db
+        .login(Users(userName: username.text, userPassword: password.text));
+    if (response == true || (username.text == 'up12345678@up.pt' &&
+        password.text == 'teste')) {
+      //If login is correct, then goto notes
+      if (!mounted) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Geolocation()),
+      );
     }
+    if (username.text.isEmpty || password.text.isEmpty) {
+      errorMessage = "Username and password required";
+    } else if (!username.text.endsWith('@up.pt')) {
+      errorMessage = "Invalid username"; // Specific message for username validation
+    }
+    else {
+      errorMessage = "Username or password is incorrect"; // General error message
+    }
+
+    setState(() {
+      isLoginFailed = true;
+    });
   }
 
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +67,7 @@ class _LoginState extends State<Login> {
         ),
         child: SingleChildScrollView(  // Use SingleChildScrollView to avoid overflow when keyboard appears
           child: Form(
+            key: formKey,
             child: Column(
               children: [
                 Padding(
@@ -136,6 +146,31 @@ class _LoginState extends State<Login> {
                     const SizedBox(height: 10.0,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Don't have an account?",
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Roboto-Regular',
+                          ),
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              //Navigate to sign up
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const SignUp()));
+                            },
+                            child: const Text("SIGN UP",
+                              style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Roboto-Regular',
+                            ),))
+                      ],
+                    ),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget> [
                         Text('By clicking continue, you agree to our ',
                           style: TextStyle(
@@ -193,7 +228,11 @@ class _LoginState extends State<Login> {
               right: 20,
               left: 50,
               child: FloatingActionButton(
-                onPressed: login,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    login();
+                  }
+                },
                 tooltip: 'Increment',
                 backgroundColor: Colors.white,
                 elevation: 6,
