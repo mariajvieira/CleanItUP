@@ -66,17 +66,30 @@ class _LoginState extends State<Login> {
                   ),
                 TextFormField(
                   controller: username,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Username',
                     hintText: 'Enter your UP email',
+                    filled: true, // new line
+                    fillColor: Colors.white, // new line
+                    border: OutlineInputBorder( // new line
+                      borderRadius: BorderRadius.circular(8), // new line
+                      borderSide: BorderSide.none, // new line
+                    ),
                   ),
                 ),
+                SizedBox(height: 8), // Add some space between fields
                 TextFormField(
                   controller: password,
                   obscureText: !isVisible,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     hintText: 'Enter your password',
+                    filled: true, // new line
+                    fillColor: Colors.white, // new line
+                    border: OutlineInputBorder( // new line
+                      borderRadius: BorderRadius.circular(8), // new line
+                      borderSide: BorderSide.none, // new line
+                    ),
                     suffixIcon: IconButton(
                       icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
                       onPressed: () {

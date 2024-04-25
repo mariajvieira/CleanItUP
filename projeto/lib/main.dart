@@ -8,8 +8,6 @@ void main() => runApp(const MaterialApp(
 ));
 
 
-
-
 class SecondScreen extends StatelessWidget {
   final VoidCallback _navigateToThirdScreen;
 
