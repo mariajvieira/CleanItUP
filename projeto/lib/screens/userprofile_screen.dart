@@ -6,7 +6,10 @@ class UserProfile extends StatefulWidget {
   State<UserProfile> createState() => _UserProfileState();
 }
 
+
+
 class _UserProfileState extends State<UserProfile> {
+  int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +70,40 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
-      // Add bottom navigation bar here
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed, // Fixed type of BottomNavigationBar
+        backgroundColor: Colors.teal, // Background color
+        selectedItemColor: Colors.white, // Color of the selected item
+        unselectedItemColor: Colors.white70, // Color of the unselected items
+        currentIndex: _selectedIndex, // Current index of the BottomNavigationBar
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.public), // trocar
+            label: 'Global',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.book), // trocar
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.radio_button_checked), // Trocar
+            label: 'Near me',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today), // Trocar
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline), // Trocar
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
 
@@ -216,5 +252,4 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 }
-
 
