@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
-import 'screens/login_screen.dart';
-import 'JsonModels/users.dart';
 
 void main() => runApp(const MaterialApp(
   home: MyHomePage(title: 'Flutter Demo Home Page'),
 ));
-
-
 
 
 class SecondScreen extends StatelessWidget {
