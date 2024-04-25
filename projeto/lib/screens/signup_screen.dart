@@ -30,7 +30,7 @@ class _SignUpState extends State<SignUp> {
       if (username.text.isEmpty || password.text.isEmpty || confirm_password.text.isEmpty){
         errorMessage = "Fill all required fields";
       } else if (password.text!=confirm_password.text) {
-        errorMessage = "Password fields do not match";  // Specific message for username validation
+        errorMessage = "Passwords do not match";  // Specific message for username validation
       } else if (!username.text.endsWith('@up.pt')) {
         errorMessage = "Invalid username";  // Specific message for username validation
       }
@@ -152,6 +152,31 @@ class _SignUpState extends State<SignUp> {
                                 }, icon: Icon(isVisible_? Icons.visibility : Icons.visibility_off),
                               )
                           ),
+                        ),
+                        const SizedBox(height: 10.0,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("Already have an account?",
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: 'Roboto-Regular',
+                              ),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  //Navigate to sign up
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const Login()));
+                                },
+                                child: const Text("LOGIN",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Roboto-Regular',
+                                  ),))
+                          ],
                         ),
                         const SizedBox(height: 10.0,),
 
