@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../JsonModels/users.dart';
 import 'geolocation_screen.dart';
 import '../SQLite/sqlite.dart';
 
@@ -77,7 +76,7 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                 ),
-                SizedBox(height: 8), // Add some space between fields
+                const SizedBox(height: 8), // Add some space between fields
                 TextFormField(
                   controller: password,
                   obscureText: !isVisible,

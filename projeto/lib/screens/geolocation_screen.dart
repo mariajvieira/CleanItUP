@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
-import '../main.dart';
 
 class Geolocation extends StatelessWidget {
   const Geolocation({super.key});
