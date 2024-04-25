@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../JsonModels/users.dart';
 import 'login_screen.dart';
 import '../SQLite/sqlite.dart';
 
@@ -17,32 +18,47 @@ class _SignUpState extends State<SignUp> {
   bool isVisible = false;
   bool isVisible_ = false;
   bool isSignUpFailed = false;
+  final db = UsersDatabaseHelper();
 
   void signup() async {
-    // Simulated login validation
-    bool isValidUser = (username.text == 'up12345678@up.pt' && password.text == 'teste' && confirm_password.text == 'teste');
-    if (isValidUser) {
+    if (username.text.isEmpty || password.text.isEmpty || confirm_password.text.isEmpty) {
+      setState(() {
+        errorMessage = "Fill all required fields";
+        isSignUpFailed = true;
+      });
+      return;
+    } else if (password.text != confirm_password.text) {
+      setState(() {
+        errorMessage = "Passwords do not match";
+        isSignUpFailed = true;
+      });
+      return;
+    } else if (!username.text.endsWith('@up.pt')) {
+      setState(() {
+        errorMessage = "Invalid username";
+        isSignUpFailed = true;
+      });
+      return;
+    }
+    int result = await db.signup(Users(userName: username.text, userPassword: password.text));
+
+    if (result > 0) {
+      // Signup successful, navigate to login screen
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const Login()),
       );
     } else {
-      if (username.text.isEmpty || password.text.isEmpty || confirm_password.text.isEmpty){
-        errorMessage = "Fill all required fields";
-      } else if (password.text!=confirm_password.text) {
-        errorMessage = "Passwords do not match";  // Specific message for username validation
-      } else if (!username.text.endsWith('@up.pt')) {
-        errorMessage = "Invalid username";  // Specific message for username validation
-      }
-      else {
-        errorMessage = "Username or password is incorrect";  // General error message
-      }
+      // Signup failed
       setState(() {
+        errorMessage = "Signup failed. Please try again.";
         isSignUpFailed = true;
       });
     }
   }
 
+
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +73,7 @@ class _SignUpState extends State<SignUp> {
           ),
           child: SingleChildScrollView(  // Use SingleChildScrollView to avoid overflow when keyboard appears
             child: Form(
+              key: formKey,
               child: Column(
                 children: [
                   Padding(
@@ -206,7 +223,11 @@ class _SignUpState extends State<SignUp> {
               right: 20,
               left: 50,
               child: FloatingActionButton(
-                onPressed: signup,
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    signup();
+                  }
+                },
                 tooltip: 'Increment',
                 backgroundColor: Colors.white,
                 elevation: 6,
