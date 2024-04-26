@@ -16,17 +16,12 @@ class UsersDatabaseHelper {
 
     return openDatabase(path, version: 1, onCreate: (db, version) async {
       await db.execute(usersTable);
-      Users defaultUser = Users(userId: 1, userName: 'up12345678@up.pt', userPassword: 'teste');
-      await insertUser(defaultUser);
+
     });
   }
 
-  // Method to insert a new user
-  Future<int> insertUser(Users user) async {
-    final Database db = await initDB();
-    return db.insert('users', user.toMap());
-  }
 
+/*
   // Method to retrieve a user by username
   Future<Users?> getUserByUsername(String username) async {
     final Database db = await initDB();
@@ -40,17 +35,8 @@ class UsersDatabaseHelper {
     } else {
       return null;
     }
-  }
+  }*/
 
-  // Method to delete a user by ID
-  Future<int> deleteUser(int userId) async {
-    final Database db = await initDB();
-    return db.delete(
-      'users',
-      where: 'userId = ?',
-      whereArgs: [userId],
-    );
-  }
 
   Future<bool> login(Users user) async {
     final Database db = await initDB();
@@ -63,6 +49,12 @@ class UsersDatabaseHelper {
     } else {
       return false;
     }
+  }
+
+  Future<int> signup(Users user) async {
+    final Database db = await initDB();
+
+    return db.insert('users', user.toMap());
   }
 }
 
