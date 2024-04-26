@@ -48,6 +48,7 @@ class _GeolocationState extends State<Geolocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar: AppBar(
         title: const Text('Geolocation'),
       ),
@@ -70,6 +71,34 @@ class _GeolocationState extends State<Geolocation> {
           child: const Text('Get Current Location'),
         ),
       ),
+=======
+        body: Container(
+        width: MediaQuery.of(context).size.width,
+    decoration: const BoxDecoration(
+    image: DecorationImage(
+    image: AssetImage("lib/assets/Mockup3esof.png"),
+    fit: BoxFit.cover,
+    ),
+    )
+    ),
+    floatingActionButton: Stack(
+    alignment: Alignment.center,
+    children: [
+    Positioned(
+        bottom: 330,
+        right: 100,
+        left: 135,
+    child: ElevatedButton(
+              onPressed: ()async{
+                currentLocation= await getCurrentLocation();
+                print("$currentLocation");
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()) );
+              }, child: const Text('Yes'),
+            )
+        )
+    ]
+    )
+>>>>>>> fa05319c208fed8cf62e125c93c209a5b59ef809
     );
   }
 }

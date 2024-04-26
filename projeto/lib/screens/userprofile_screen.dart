@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
+=======
+import 'map_screen.dart';
+>>>>>>> fa05319c208fed8cf62e125c93c209a5b59ef809
 
 
 class UserProfile extends StatefulWidget {
@@ -77,7 +81,7 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // Fixed type of BottomNavigationBar
         backgroundColor: Colors.teal, // Background color
         selectedItemColor: Colors.white, // Color of the selected item
@@ -86,6 +90,13 @@ class _UserProfileState extends State<UserProfile> {
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
+            // Adicionar navegação para o MapScreen
+            if (index == 1) { // Este é o índice do novo item na barra de navegação
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MapScreen()), // MapScreen é a tela que você quer navegar
+              );
+            }
           });
         },
         items: [
@@ -94,7 +105,7 @@ class _UserProfileState extends State<UserProfile> {
             label: 'Global',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.book), // trocar
+            icon: Icon(Icons.map), // Ícone para o MapScreen
             label: 'Map',
           ),
           BottomNavigationBarItem(
@@ -111,6 +122,7 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
+
     );
   }
 
