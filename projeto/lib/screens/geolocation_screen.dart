@@ -3,7 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:projeto/JsonModels/users.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 
-// Convert Geolocation to a StatefulWidget since it deals with state
 class Geolocation extends StatefulWidget {
   final Users user;
 
@@ -48,57 +47,37 @@ class _GeolocationState extends State<Geolocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
       appBar: AppBar(
         title: const Text('Geolocation'),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async {
-            try {
-              currentLocation = await getCurrentLocation();
-              print("Current location is: $currentLocation");
-              // Assuming UserProfile needs a location or user data
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
-              );
-            } catch (e) {
-              print("Failed to get location: $e");
-              // Handle the error (e.g., show an alert dialog)
-            }
-          },
-          child: const Text('Get Current Location'),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/assets/Mockup3esof.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              try {
+                currentLocation = await getCurrentLocation();
+                print("Current location is: $currentLocation");
+                // Assuming UserProfile needs a location or user data
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+                );
+              } catch (e) {
+                print("Failed to get location: $e");
+                // Handle the error (e.g., show an alert dialog)
+              }
+            },
+            child: const Text('Get Current Location'),
+          ),
         ),
       ),
-=======
-        body: Container(
-        width: MediaQuery.of(context).size.width,
-    decoration: const BoxDecoration(
-    image: DecorationImage(
-    image: AssetImage("lib/assets/Mockup3esof.png"),
-    fit: BoxFit.cover,
-    ),
-    )
-    ),
-    floatingActionButton: Stack(
-    alignment: Alignment.center,
-    children: [
-    Positioned(
-        bottom: 330,
-        right: 100,
-        left: 135,
-    child: ElevatedButton(
-              onPressed: ()async{
-                currentLocation= await getCurrentLocation();
-                print("$currentLocation");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()) );
-              }, child: const Text('Yes'),
-            )
-        )
-    ]
-    )
->>>>>>> fa05319c208fed8cf62e125c93c209a5b59ef809
     );
   }
 }
