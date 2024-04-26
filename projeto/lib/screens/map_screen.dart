@@ -4,38 +4,44 @@ import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+
+
+
 class MapScreen extends StatefulWidget{
   const MapScreen({super.key});
 
   @override
   State<MapScreen> createState()=> _MapState();
 }
+
 class _MapState extends State<MapScreen>{
+
   @override
   Widget build(BuildContext context) {
     Position? currentLocation;
     late bool servicePermission = false;
     late LocationPermission permission;
     String currentAdress = "";
-    while (true){
-      Future<Position> getCurrentLocation() async {
-        servicePermission = await Geolocator.isLocationServiceEnabled();
-        if (!servicePermission) {
-          print("Service Disabled");
-        }
-        permission = await Geolocator.checkPermission();
-        if (permission == LocationPermission.denied) {
-          permission = await Geolocator.requestPermission();
-        }
-        return await Geolocator.getCurrentPosition();
+    Future<Position> getCurrentLocation() async{
+      servicePermission = await Geolocator.isLocationServiceEnabled();
+      if(!servicePermission){
+        print("Service Disabled");
       }
-    currentLocation = getCurrentLocation() as Position?;
-    double? lat = currentLocation?.latitude;
-    double? lng = currentLocation?.longitude;
+      permission = await Geolocator.checkPermission();
+      if(permission==LocationPermission.denied){
+        permission = await Geolocator.requestPermission();
+      }
+      return await Geolocator.getCurrentPosition();
+    }
+
+    /*currentLocation= getCurrentLocation() as Position?; //NÃO FUNCIONA
+    double? lat= currentLocation?.latitude;
+    double? lng= currentLocation?.longitude;*/
 
     return FlutterMap(
       options: MapOptions(
-        initialCenter: LatLng(lat!, lng!),
+        initialCenter: LatLng(41.178444, -8.596222),
+        //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
         initialZoom: 9.2,
       ),
       children: [
@@ -46,5 +52,5 @@ class _MapState extends State<MapScreen>{
       ],
     );
   }
-  }
 }
+
