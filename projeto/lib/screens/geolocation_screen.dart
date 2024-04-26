@@ -35,18 +35,32 @@ class _GeolocationStateState extends State<_GeolocationState> {
       return await Geolocator.getCurrentPosition();
     }
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Geolocation'),
-        ),
-        body: Center(
-            child: ElevatedButton(
+        body: Container(
+        width: MediaQuery.of(context).size.width,
+    decoration: const BoxDecoration(
+    image: DecorationImage(
+    image: AssetImage("lib/assets/Mockup3esof.png"),
+    fit: BoxFit.cover,
+    ),
+    )
+    ),
+    floatingActionButton: Stack(
+    alignment: Alignment.center,
+    children: [
+    Positioned(
+        bottom: 330,
+        right: 100,
+        left: 135,
+    child: ElevatedButton(
               onPressed: ()async{
                 currentLocation= await getCurrentLocation();
                 print("$currentLocation");
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()) );
-              }, child: const Text('Get Current Location'),
+              }, child: const Text('Yes'),
             )
         )
+    ]
+    )
     );
   }
 }  //VAI SER PAGINA DO MAPA
