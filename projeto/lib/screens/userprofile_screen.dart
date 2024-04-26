@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:projeto/JsonModels/users.dart';
+
 
 class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+  final Users user;
+
+  const UserProfile({Key? key, required this.user}) : super(key: key);
+
+
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
@@ -38,7 +45,7 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       SizedBox(height: 10.0),
                       Text(
-                        'Name Surname',
+                        '${widget.user.firstName} ${widget.user.lastName}',
                         style: TextStyle(
                           fontSize: 30.0,
                           color: Colors.black,

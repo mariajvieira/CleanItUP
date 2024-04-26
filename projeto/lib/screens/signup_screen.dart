@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import '../JsonModels/users.dart';
 import 'login_screen.dart';
 import '../SQLite/sqlite.dart';
@@ -13,6 +14,8 @@ class _SignUpState extends State<SignUp> {
   final username = TextEditingController();
   final password = TextEditingController();
   final confirm_password = TextEditingController();
+  final firstName = TextEditingController();  // Controller for first name
+  final lastName = TextEditingController();   // Controller for last name
   String errorMessage = "Username or password is incorrect";  // Default error message
 
   bool isVisible = false;
@@ -21,41 +24,68 @@ class _SignUpState extends State<SignUp> {
   final db = UsersDatabaseHelper();
 
   void signup() async {
-    if (username.text.isEmpty || password.text.isEmpty || confirm_password.text.isEmpty) {
-      setState(() {
-        errorMessage = "Fill all required fields";
-        isSignUpFailed = true;
-      });
+    if (!formKey.currentState!.validate()) {
       return;
-    } else if (password.text != confirm_password.text) {
-      setState(() {
-        errorMessage = "Passwords do not match";
-        isSignUpFailed = true;
-      });
+    }
+
+    // Check each field and set specific error messages
+    if (firstName.text.isEmpty) {
+      setErrorMessage("First name is required");
+      return;
+    }
+
+    if (lastName.text.isEmpty) {
+      setErrorMessage("Last name is required");
+      return;
+    }
+
+    if (username.text.isEmpty) {
+      setErrorMessage("Email is required");
       return;
     } else if (!username.text.endsWith('@up.pt')) {
-      setState(() {
-        errorMessage = "Invalid username";
-        isSignUpFailed = true;
-      });
+      setErrorMessage("Invalid email. Use your UP email");
       return;
     }
-    int result = await db.signup(Users(userName: username.text, userPassword: password.text));
 
-    if (result > 0) {
-      // Signup successful, navigate to login screen
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Login()),
+    if (password.text.isEmpty) {
+      setErrorMessage("Password is required");
+      return;
+    }
+
+    if (confirm_password.text.isEmpty || password.text != confirm_password.text) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+
+    try {
+      print("Attempting to create user with username: ${username.text}");
+      Users newUser = Users(
+          userName: username.text,
+          userPassword: password.text,
+          firstName: firstName.text,
+          lastName: lastName.text
       );
-    } else {
-      // Signup failed
-      setState(() {
-        errorMessage = "Signup failed. Please try again.";
-        isSignUpFailed = true;
-      });
+      print("User created, attempting to sign up...");
+      int result = await db.signup(newUser);
+      print("Signup result: $result");
+      if (result > 0) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const Login()));
+      } else {
+        setErrorMessage("Signup failed. Please try again.");
+      }
+    } catch (e) {
+      print('Signup error: $e');
+      setErrorMessage("An error occurred. Please check logs.");
     }
   }
+
+  void setErrorMessage(String message) {
+    setState(() {
+      errorMessage = message;
+      isSignUpFailed = true;
+    });
+  }
+
 
 
   final formKey = GlobalKey<FormState>();
@@ -71,7 +101,7 @@ class _SignUpState extends State<SignUp> {
               fit: BoxFit.cover,
             ),
           ),
-          child: SingleChildScrollView(  // Use SingleChildScrollView to avoid overflow when keyboard appears
+          child: SingleChildScrollView(
             child: Form(
               key: formKey,
               child: Column(
@@ -106,16 +136,40 @@ class _SignUpState extends State<SignUp> {
                             ]
                         ),
                         const SizedBox(height: 10.0,),
-                        const Text('Sign up with up email',
+                        const Text('Sign up with your UP email',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Roboto-Bold',
-                          ),),
-
-
-                        const SizedBox(height: 10.0),
+                          ),
+                        ),
+                        TextFormField(
+                          controller: firstName,
+                          decoration: InputDecoration(
+                            hintText: 'First Name',
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
+                        TextFormField(
+                          controller: lastName,
+                          decoration: InputDecoration(
+                            hintText: 'Last Name',
+                            fillColor: Colors.white,
+                            filled: true,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10.0),
                         TextFormField(
                           controller: username,
                           decoration: InputDecoration(
@@ -128,7 +182,7 @@ class _SignUpState extends State<SignUp> {
                             hintText: 'up*********@up.pt',
                           ),
                         ),
-                        const SizedBox(height: 20.0), // Add some space between fields
+                        SizedBox(height: 20.0),
                         TextFormField(
                           controller: password,
                           obscureText: !isVisible,
@@ -139,17 +193,17 @@ class _SignUpState extends State<SignUp> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: 'password',
+                              hintText: 'Password',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
                                     isVisible = !isVisible;
                                   });
-                                }, icon: Icon(isVisible? Icons.visibility : Icons.visibility_off),
+                                }, icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
                               )
                           ),
                         ),
-                        const SizedBox(height: 20.0), // Add some space between fields
+                        SizedBox(height: 20.0),
                         TextFormField(
                           controller: confirm_password,
                           obscureText: !isVisible_,
@@ -160,17 +214,17 @@ class _SignUpState extends State<SignUp> {
                                 borderRadius: BorderRadius.circular(10.0),
                                 borderSide: BorderSide.none,
                               ),
-                              hintText: 'Confirm password',
+                              hintText: 'Confirm Password',
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
                                     isVisible_ = !isVisible_;
                                   });
-                                }, icon: Icon(isVisible_? Icons.visibility : Icons.visibility_off),
+                                }, icon: Icon(isVisible_ ? Icons.visibility : Icons.visibility_off),
                               )
                           ),
                         ),
-                        const SizedBox(height: 10.0,),
+                        SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -182,21 +236,17 @@ class _SignUpState extends State<SignUp> {
                             ),
                             TextButton(
                                 onPressed: () {
-                                  //Navigate to sign up
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const Login()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
                                 },
                                 child: const Text("LOGIN",
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Roboto-Regular',
-                                  ),))
+                                  ),
+                                )
+                            )
                           ],
                         ),
-                        const SizedBox(height: 10.0,),
-
                         if (isSignUpFailed)
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10.0),
@@ -205,11 +255,9 @@ class _SignUpState extends State<SignUp> {
                               style: const TextStyle(color: Colors.red, fontSize: 14),
                             ),
                           )
-
                       ],
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -228,7 +276,7 @@ class _SignUpState extends State<SignUp> {
                     signup();
                   }
                 },
-                tooltip: 'Increment',
+                tooltip: 'Sign Up',
                 backgroundColor: Colors.white,
                 elevation: 6,
                 child: const Text('SIGN UP'),

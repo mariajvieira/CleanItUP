@@ -3,22 +3,33 @@ import 'package:sqflite/sqflite.dart';
 import '../JsonModels/users.dart';
 
 class UsersDatabaseHelper {
-  final databaseName = "users.db";
-
-  // Define the users table schema
-  String usersTable =
-      "CREATE TABLE users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT)";
+  final String databaseName = "users.db";
 
   // Initialize the users database
   Future<Database> initDB() async {
     final databasePath = await getDatabasesPath();
     final path = join(databasePath, databaseName);
 
-    return openDatabase(path, version: 1, onCreate: (db, version) async {
-      await db.execute(usersTable);
-
-    });
+    return openDatabase(
+        path,
+        version: 2,  // Increase version number if schema changes
+        onCreate: (Database db, int version) async {
+          await db.execute(
+              "CREATE TABLE users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT, firstName TEXT, lastName TEXT)"
+          );
+        },
+        onUpgrade: (Database db, int oldVersion, int newVersion) async {
+          // Check if the table version is older and needs to be upgraded
+          if (oldVersion < newVersion) {
+            await db.execute("DROP TABLE IF EXISTS users");
+            await db.execute(
+                "CREATE TABLE users (userId INTEGER PRIMARY KEY AUTOINCREMENT, userName TEXT UNIQUE, userPassword TEXT, firstName TEXT, lastName TEXT)"
+            );
+          }
+        }
+    );
   }
+
 
 
 /*
@@ -38,24 +49,37 @@ class UsersDatabaseHelper {
   }*/
 
 
-  Future<bool> login(Users user) async {
+  Future<bool> login(String userName, String userPassword) async {
     final Database db = await initDB();
-
-    // I forgot the password to check
     var result = await db.rawQuery(
-        "select * from users where userName = '${user.userName}' AND userPassword = '${user.userPassword}'");
-    if (result.isNotEmpty) {
-      return true;
-    } else {
-      return false;
-    }
+        "SELECT * FROM users WHERE userName = ? AND userPassword = ?",
+        [userName, userPassword]
+    );
+    return result.isNotEmpty;
   }
 
   Future<int> signup(Users user) async {
     final Database db = await initDB();
-
-    return db.insert('users', user.toMap());
+    return await db.insert('users', user.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
   }
+
+  Future<Users?> getUserByUsername(String username) async {
+    final Database db = await initDB();
+    List<Map<String, dynamic>> maps = await db.query(
+        'users',
+        columns: ['userId', 'userName', 'userPassword', 'firstName', 'lastName'],
+        where: 'userName = ?',
+        whereArgs: [username]
+    );
+    if (maps.isNotEmpty) {
+      return Users.fromMap(maps.first);
+    }
+    return null;
+  }
+
+
 }
+
+
 
 
