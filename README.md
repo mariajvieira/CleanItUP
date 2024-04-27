@@ -135,6 +135,31 @@ This demonstration of the app was made in Dart, using AndroidStudio and Flutter.
 [Link for .apk of the prototype](app-release.apk)
 
 
+## Project Management 
+### Sprint 2 Overview 
+#### Sprint Planning for This Iteration (Expected)
+Details about the planned tasks and objectives set at the beginning of the sprint.
+<img width="1511" alt="sprint2_sprintbacklog" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/92f5d557-0cb4-4937-a47f-f0d785ce407f">
+<img width="1507" alt="sprint2_management" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/b4bfba47-2533-42d6-af9a-6a7319875795">
+
+#### Sprint Planning for This Iteration (Current)
+Updates and current status of the sprint planning.
+[to add]
+
+#### General considerations
+* The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
+* The group came to the conclusion that, in the previous sprint, they should have payed greater attention to detail, in areas such as the Project Management section, the Changelog.md, a better use of GitHub, testing implementation and more detailed user stories (with corresponding mock-ups).
+* As seen in "Sprint planning for this iteration (expected)", the necessary tasks and goals for this sprint were determined in group. Team members mutually agreed on their responsibilities, with some tasks being done in pairs due to their complexity. We tried to simplify the user stories as much as possible; however, some were very complex due to their nature and needed to be addressed jointly.
+* The tasks from Sprint 1 were not marked as done/accepted until this iteration, as they were either previously incomplete or lacked testing.
+
+#### Main Dificulties of Each Team Element:
+* Duarte Marques:
+* Francisca Fernandes:
+* Maria Vieira:
+* Marta Cruz:
+
+Note: further information on the improvements made in this iteration available in Changelog.md. 
+
 
 
 
