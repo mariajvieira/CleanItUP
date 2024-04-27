@@ -196,17 +196,7 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            login();
-          }
-        },
-        tooltip: 'Login',
-        backgroundColor: Colors.white,
-        elevation: 6,
-        child: const Text('LOGIN'),
-      ),
+
     );
   }
 }
