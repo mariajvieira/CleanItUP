@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/JsonModels/users.dart';
 import 'map_screen.dart';
 
-
 class UserProfile extends StatefulWidget {
-  const UserProfile({super.key});
+  final Users user;
+
+  const UserProfile({Key? key, required this.user}) : super(key: key);
+
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
@@ -40,7 +43,7 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       SizedBox(height: 10.0),
                       Text(
-                        'Name Surname',
+                        '${widget.user.firstName} ${widget.user.lastName}',
                         style: TextStyle(
                           fontSize: 30.0,
                           color: Colors.black,
@@ -72,31 +75,30 @@ class _UserProfileState extends State<UserProfile> {
           ),
         ],
       ),
-      bottomNavigationBar:BottomNavigationBar(
-        type: BottomNavigationBarType.fixed, // Fixed type of BottomNavigationBar
-        backgroundColor: Colors.teal, // Background color
-        selectedItemColor: Colors.white, // Color of the selected item
-        unselectedItemColor: Colors.white70, // Color of the unselected items
-        currentIndex: _selectedIndex, // Current index of the BottomNavigationBar
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.teal,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: _selectedIndex,
         onTap: (index) {
           setState(() {
             _selectedIndex = index;
-            // Adicionar navegação para o MapScreen
-            if (index == 1) { // Este é o índice do novo item na barra de navegação
+            if (index == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MapScreen()), // MapScreen é a tela que você quer navegar
+                MaterialPageRoute(builder: (context) => MapScreen()),
               );
             }
           });
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.public), // trocar
+            icon: Icon(Icons.public),
             label: 'Global',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map), // Ícone para o MapScreen
+            icon: Icon(Icons.map),
             label: 'Map',
           ),
           BottomNavigationBarItem(

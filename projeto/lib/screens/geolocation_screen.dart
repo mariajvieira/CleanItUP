@@ -1,67 +1,83 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:projeto/JsonModels/users.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 
-class Geolocation extends StatelessWidget {
-  const Geolocation({super.key});
+class Geolocation extends StatefulWidget {
+  final Users user;
+
+  const Geolocation({Key? key, required this.user}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return _GeolocationState();
-  }
+  _GeolocationState createState() => _GeolocationState();
 }
 
-class _GeolocationState extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() => _GeolocationStateState();
-}
+class _GeolocationState extends State<Geolocation> {
+  Position? currentLocation;
+  String currentAddress = "";
+  bool serviceEnabled = false;
+  LocationPermission permission = LocationPermission.denied;
 
-
-class _GeolocationStateState extends State<_GeolocationState> {
-  @override
-  Widget build(BuildContext context) {
-    Position? currentLocation;
-    late bool servicePermission = false;
-    late LocationPermission permission;
-    String currentAdress = "";
-    Future<Position> getCurrentLocation() async{
-      servicePermission = await Geolocator.isLocationServiceEnabled();
-      if(!servicePermission){
-        print("Service Disabled");
-      }
-      permission = await Geolocator.checkPermission();
-      if(permission==LocationPermission.denied){
-        permission = await Geolocator.requestPermission();
-      }
-      return await Geolocator.getCurrentPosition();
+  Future<Position> getCurrentLocation() async {
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Consider showing a message to the user or returning a default position
+      print("Location services are disabled.");
+      return Future.error('Location services are disabled.');
     }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        // Permissions are denied, next steps are needed
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are permanently denied, handle appropriately
+      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    // When we reach here, permissions are granted and we can continue accessing the position of the device.
+    return await Geolocator.getCurrentPosition();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      appBar: AppBar(
+        title: const Text('Geolocation'),
+      ),
+      body: Container(
         width: MediaQuery.of(context).size.width,
-    decoration: const BoxDecoration(
-    image: DecorationImage(
-    image: AssetImage("lib/assets/Mockup3esof.png"),
-    fit: BoxFit.cover,
-    ),
-    )
-    ),
-    floatingActionButton: Stack(
-    alignment: Alignment.center,
-    children: [
-    Positioned(
-        bottom: 330,
-        right: 100,
-        left: 135,
-    child: ElevatedButton(
-              onPressed: ()async{
-                currentLocation= await getCurrentLocation();
-                print("$currentLocation");
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const UserProfile()) );
-              }, child: const Text('Yes'),
-            )
-        )
-    ]
-    )
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("lib/assets/Mockup3esof.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () async {
+              try {
+                currentLocation = await getCurrentLocation();
+                print("Current location is: $currentLocation");
+                // Assuming UserProfile needs a location or user data
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+                );
+              } catch (e) {
+                print("Failed to get location: $e");
+                // Handle the error (e.g., show an alert dialog)
+              }
+            },
+            child: const Text('Get Current Location'),
+          ),
+        ),
+      ),
     );
   }
-}  //VAI SER PAGINA DO MAPA
-
+}

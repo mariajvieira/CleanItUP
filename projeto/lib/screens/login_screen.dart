@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../JsonModels/users.dart';
-import 'geolocation_screen.dart';
+import 'geolocation_screen.dart';  // Make sure this import is correct
 import 'signup_screen.dart';
 import '../SQLite/sqlite.dart';
 
@@ -19,37 +19,43 @@ class _LoginState extends State<Login> {
 
   final db = UsersDatabaseHelper();  // Assuming db methods are correctly implemented
 
-  void _navigateToGeoLocationScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const Geolocation()),
-    );
+  void login() async {
+    if (!formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (username.text.isEmpty || password.text.isEmpty) {
+      setState(() {
+        errorMessage = "Username and password required";
+        isLoginFailed = true;
+      });
+      return;
+    }
+
+    bool loggedIn = await db.login(username.text, password.text);
+    if (loggedIn) {
+      Users? user = await db.getUserByUsername(username.text);
+      if (user != null) {
+        _navigateToGeoLocationScreen(user);
+      } else {
+        setState(() {
+          errorMessage = "Failed to retrieve user details";
+          isLoginFailed = true;
+        });
+      }
+    } else {
+      setState(() {
+        errorMessage = "Username or password is incorrect";
+        isLoginFailed = true;
+      });
+    }
   }
 
-  void login() async {
-    var response = await db
-        .login(Users(userName: username.text, userPassword: password.text));
-    if (response == true || (username.text == 'up12345678@up.pt' &&
-        password.text == 'teste')) {
-      //If login is correct, then goto notes
-      if (!mounted) return;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const Geolocation()),
-      );
-    }
-    if (username.text.isEmpty || password.text.isEmpty) {
-      errorMessage = "Username and password required";
-    } else if (!username.text.endsWith('@up.pt')) {
-      errorMessage = "Invalid username"; // Specific message for username validation
-    }
-    else {
-      errorMessage = "Username or password is incorrect"; // General error message
-    }
-
-    setState(() {
-      isLoginFailed = true;
-    });
+  void _navigateToGeoLocationScreen(Users user) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Geolocation(user: user)), // Make sure Geolocation accepts a Users object
+    );
   }
 
   final formKey = GlobalKey<FormState>();
@@ -65,50 +71,48 @@ class _LoginState extends State<Login> {
             fit: BoxFit.cover,
           ),
         ),
-        child: SingleChildScrollView(  // Use SingleChildScrollView to avoid overflow when keyboard appears
+        child: SingleChildScrollView(
           child: Form(
             key: formKey,
             child: Column(
               children: [
                 Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget> [
-                    const SizedBox(height: 20.0,),
-                    const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget> [
-                          Text('CleanIt',
-                            style: TextStyle(
-                              color: Colors.blueAccent,
-                              letterSpacing: 2.0,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Roboto-Bold',
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget> [
+                      const SizedBox(height: 20.0,),
+                      const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget> [
+                            Text('CleanIt',
+                              style: TextStyle(
+                                color: Colors.blueAccent,
+                                letterSpacing: 2.0,
+                                fontSize: 50.0,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto-Bold',
+                              ),
                             ),
-                          ),
-                          Text('UP',
-                            style: TextStyle(
-                              color: Colors.green,
-                              letterSpacing: 2.0,
-                              fontSize: 50.0,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Roboto-Bold',
-                            ),
-                          )
-                        ]
-                    ),
-                    const SizedBox(height: 10.0,),
-                    const Text('Login with up email',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto-Bold',
-                      ),),
-
-
+                            Text('UP',
+                              style: TextStyle(
+                                color: Colors.green,
+                                letterSpacing: 2.0,
+                                fontSize: 50.0,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto-Bold',
+                              ),
+                            )
+                          ]
+                      ),
+                      const SizedBox(height: 10.0,),
+                      const Text('Login with your UP email',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Roboto-Bold',
+                        ),),
                       const SizedBox(height: 10.0),
                       TextFormField(
                         controller: username,
@@ -122,7 +126,7 @@ class _LoginState extends State<Login> {
                           hintText: 'up*********@up.pt',
                         ),
                       ),
-                      const SizedBox(height: 20.0), // Add some space between fields
+                      const SizedBox(height: 20.0),
                       TextFormField(
                         controller: password,
                         obscureText: !isVisible,
@@ -133,7 +137,7 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(10.0),
                               borderSide: BorderSide.none,
                             ),
-                            hintText: 'password',
+                            hintText: 'Password',
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -143,76 +147,48 @@ class _LoginState extends State<Login> {
                             )
                         ),
                       ),
-                    const SizedBox(height: 10.0,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Don't have an account?",
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontFamily: 'Roboto-Regular',
-                          ),
-                        ),
-                        TextButton(
-                            onPressed: () {
-                              //Navigate to sign up
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const SignUp()));
-                            },
-                            child: const Text("SIGN UP",
-                              style: TextStyle(
-                              color: Colors.white,
+                      const SizedBox(height: 10.0,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account?",
+                            style: TextStyle(
+                              color: Colors.grey,
                               fontFamily: 'Roboto-Regular',
-                            ),))
-                      ],
-                    ),
-
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget> [
-                        Text('By clicking continue, you agree to our ',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontFamily: 'Roboto-Regular',
+                            ),
                           ),
-                        ),
-                        Text('Terms of Service ',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto-Regular',
-                          ),)
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text('and',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontFamily: 'Roboto-Regular',
-                          ),),
-                        Text(' Privacy Policy',
-                          style: TextStyle(
-                            color: Colors.grey[500],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Roboto-Regular',
-                          ),)
-                      ],
-                    ),
-                    if (isLoginFailed)
-                      Padding(
+                          TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => const SignUp()));
+                              },
+                              child: const Text("SIGN UP",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Roboto-Regular',
+                                ),))
+                        ],
+                      ),
+                      if (isLoginFailed)
+                        Padding(
                           padding: EdgeInsets.symmetric(vertical: 10.0),
                           child: Text(
                             errorMessage,
                             style: const TextStyle(color: Colors.red, fontSize: 14),
                           ),
-                      )
-
-                  ],
-                ),
+                        ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            login();
+                          }
+                        },
+                        child: const Text('LOGIN'),
+                      ),
+                    ],
+                  ),
                 ),
 
               ],
@@ -220,27 +196,7 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
-        floatingActionButton: Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Positioned(
-              bottom: 40,
-              right: 20,
-              left: 50,
-              child: FloatingActionButton(
-                onPressed: () {
-                  if (formKey.currentState!.validate()) {
-                    login();
-                  }
-                },
-                tooltip: 'Increment',
-                backgroundColor: Colors.white,
-                elevation: 6,
-                child: const Text('LOGIN'),
-              ),
-            )
-          ],
-        )
+
     );
   }
 }
