@@ -144,22 +144,29 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 
 #### Sprint Planning for This Iteration (Current)
 Updates and current status of the sprint planning.
-[to add]
+<img width="1512" alt="image" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/c7f439d7-0497-4c49-ad64-957a1302b7ab">
+
 
 #### General considerations
 * The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
 * The group came to the conclusion that, in the previous sprint, they should have payed greater attention to detail, in areas such as the Project Management section, the Changelog.md, a better use of GitHub, testing implementation and more detailed user stories (with corresponding mock-ups).
 * As seen in "Sprint planning for this iteration (expected)", the necessary tasks and goals for this sprint were determined in group. Team members mutually agreed on their responsibilities, with some tasks being done in pairs due to their complexity. We tried to simplify the user stories as much as possible; however, some were very complex due to their nature and needed to be addressed jointly.
 * The tasks from Sprint 1 were not marked as done/accepted until this iteration, as they were either previously incomplete or lacked testing.
+* The testing isn't yet fully implemented, since the group had difficulties in that area. However, that will be a priority in the next sprint. 
 
-#### Main Dificulties of Each Team Element:
+#### Main Difficulties of Each Team Element:
 * Duarte Marques:
-* Francisca Fernandes:
-* Maria Vieira:
+* Francisca Fernandes: Unit Testing and Team Management.
+* Maria Vieira: Unit Testing, Team Management.
 * Marta Cruz:
+* Nazim Nasirov: 
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
 
+#### Final retrospective 
+The team believes to have done a significative incrementation on the project.
+For the next sprint, one of our main goals is to expand the testing. 
+Next, the team wants to finish the "in Progress" tasks, and to start new ones, such as changing the profile picture and features regarding friendships. 
 
 
 
