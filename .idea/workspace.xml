@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/2LEIC01T2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/2LEIC01T2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/SQLite/sqlite.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/SQLite/sqlite.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +60,7 @@
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
-  <component name="RunManager" selected="Flutter.Unnamed">
+  <component name="RunManager" selected="Flutter Test.tests in recycling_bin_db_test.dart">
     <configuration name="Unnamed" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/projeto/lib/main.dart" />
       <method v="2" />
@@ -73,8 +70,14 @@
       <option name="useRegexp" value="false" />
       <method v="2" />
     </configuration>
+    <configuration name="tests in recycling_bin_db_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/projeto/test/test_driver/recycling_bin_db_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Flutter Test.tests in recycling_bin_db_test.dart" />
         <item itemvalue="Flutter Test.tests in geolocation_screen_test.dart" />
       </list>
     </recent_temporary>
