@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CalendarScreen extends StatelessWidget {
@@ -27,7 +28,18 @@ class CalendarScreen extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(height: 20.0),
+            SizedBox(
+              height: 200,
+              child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.dateAndTime,
+                initialDateTime: DateTime(1969, 1, 1, 11, 33),
+                onDateTimeChanged: (DateTime newDateTime) {
+                  //Do Some thing
+                },
+                use24hFormat: false,
+                minuteInterval: 1,
+              ),
+            ),
               
               _buildAchievementsSection(),
               
