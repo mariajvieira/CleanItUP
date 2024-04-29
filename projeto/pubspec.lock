@@ -155,14 +155,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0-rc.17"
-  flutter_lints:
-    dependency: "direct dev"
-    description:
-      name: flutter_lints
-      sha256: "9e8c3858111da373efc5aa341de011d9bd23e2c5c5e0c62bccf32438e192d7b1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.2"
   flutter_map:
     dependency: "direct overridden"
     description:
@@ -288,7 +280,7 @@ packages:
     source: sdk
     version: "0.0.0"
   intl:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -312,7 +304,7 @@ packages:
     source: hosted
     version: "0.7.1"
   latlong2:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: latlong2
       sha256: "98227922caf49e6056f91b6c56945ea1c7b166f28ffcd5fb8e72fc0b453cc8fe"
@@ -343,14 +335,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  lints:
-    dependency: transitive
-    description:
-      name: lints
-      sha256: cbf8d4b858bb0134ef3ef87841abdf8d63bfc255c266b7bf6b39daa1085c4290
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   lists:
     dependency: transitive
     description:
@@ -432,7 +416,7 @@ packages:
     source: hosted
     version: "2.1.0"
   path:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
@@ -565,7 +549,7 @@ packages:
     source: hosted
     version: "1.10.0"
   sqflite:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       name: sqflite
       sha256: "5ce2e1a15e822c3b4bfb5400455775e421da7098eed8adc8f26298ada7c9308c"
@@ -684,14 +668,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.3.1"
-  universal_io:
-    dependency: "direct overridden"
-    description:
-      name: universal_io
-      sha256: "2c0fa418dfe4758c36171f228c68f80cbe624bc382872a907f6963618bf6cb08"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   url_launcher:
     dependency: "direct overridden"
     description:
@@ -836,14 +812,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.2"
-  zone_local:
-    dependency: transitive
-    description:
-      name: zone_local
-      sha256: be21885a10f8f25fa633cb9bee3a24e102eee51006900158ce06c100687c6fb3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0-nullsafety.1"
 sdks:
   dart: ">=3.3.3 <4.0.0"
   flutter: ">=3.19.0"

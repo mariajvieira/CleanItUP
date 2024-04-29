@@ -15,10 +15,14 @@ void main() {
   test('Insert Recycling Bins', () async {
     List<RecyclingBin> bins =[];
     //bins in feup
-    bins.add(RecyclingBin(bin_id:1, bin_latitude: 123.456, bin_longitude: 789.012, clean: 1, full: 0,));
+    bins.add(RecyclingBin(bin_id:1, bin_latitude: 41.1774101, bin_longitude: -8.5957178, clean: 0, full: 0,));
+    bins.add(RecyclingBin(bin_id:2, bin_latitude: 41.1777103, bin_longitude: -8.5964536, clean: 0, full: 0,));
+    bins.add(RecyclingBin(bin_id:3, bin_latitude: 41.1777615, bin_longitude: -8.5968776, clean: 0, full: 0,));
+    bins.add(RecyclingBin(bin_id:4, bin_latitude: 41.1775628, bin_longitude: -8.5957688, clean: 0, full: 0,));
+
 
     for(int i=0;i<bins.length;i++){
-      //add bins to data base
-    }
+      await dbHelper.initDB();
+      await dbHelper.insertRecyclingBin(bins[i]);    }
   });
 }
