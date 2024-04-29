@@ -52,23 +52,6 @@ class UsersDatabaseHelper {
 
 
 
-/*
-  // Method to retrieve a user by username
-  Future<Users?> getUserByUsername(String username) async {
-    final Database db = await initDB();
-    List<Map<String, dynamic>> results = await db.query(
-      'users',
-      where: 'userName = ?',
-      whereArgs: [username],
-    );
-    if (results.isNotEmpty) {
-      return Users.fromMap(results.first);
-    } else {
-      return null;
-    }
-  }*/
-
-
   Future<bool> login(String userName, String userPassword) async {
     final Database db = await initDB();
     var result = await db.rawQuery(
