@@ -8,12 +8,12 @@ All notable changes to this project will be documented in this file.
 - Map feature: live location;
 - Calendar screen (to be improved)
 - Navigation bar creation;
-- Database: Recycling Bin;
+- Recycling Bin database creation.
 
   
 ### Changed
 - Login feature: logging in the account created in signup with the respective credentials;
-- Database improvement: Users
+- Users database improvement.
 
 ### Removed
 
