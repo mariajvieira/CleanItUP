@@ -6,7 +6,7 @@ import 'package:projeto/screens/userprofile_screen.dart';
 class Geolocation extends StatefulWidget {
   final Users user;
 
-  const Geolocation({Key? key, required this.user}) : super(key: key);
+  const Geolocation({super.key, required this.user});
 
   @override
   _GeolocationState createState() => _GeolocationState();

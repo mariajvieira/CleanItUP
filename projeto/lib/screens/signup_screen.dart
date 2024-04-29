@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import '../JsonModels/users.dart';
 import 'login_screen.dart';
 import '../SQLite/sqlite.dart';
@@ -156,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         TextFormField(
                           controller: lastName,
                           decoration: InputDecoration(
@@ -169,7 +168,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         TextFormField(
                           controller: username,
                           decoration: InputDecoration(
@@ -182,7 +181,7 @@ class _SignUpState extends State<SignUp> {
                             hintText: 'up*********@up.pt',
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         TextFormField(
                           controller: password,
                           obscureText: !isVisible,
@@ -203,7 +202,7 @@ class _SignUpState extends State<SignUp> {
                               )
                           ),
                         ),
-                        SizedBox(height: 20.0),
+                        const SizedBox(height: 20.0),
                         TextFormField(
                           controller: confirm_password,
                           obscureText: !isVisible_,
@@ -224,7 +223,7 @@ class _SignUpState extends State<SignUp> {
                               )
                           ),
                         ),
-                        SizedBox(height: 10.0),
+                        const SizedBox(height: 10.0),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -249,7 +248,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                         if (isSignUpFailed)
                           Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10.0),
+                            padding: const EdgeInsets.symmetric(vertical: 10.0),
                             child: Text(
                               errorMessage,
                               style: const TextStyle(color: Colors.red, fontSize: 14),

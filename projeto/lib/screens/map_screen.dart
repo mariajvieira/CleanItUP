@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 
 
@@ -39,7 +38,7 @@ class _MapState extends State<MapScreen>{
     double? lng= currentLocation?.longitude;*/
 
     return FlutterMap(
-      options: MapOptions(
+      options: const MapOptions(
         initialCenter: LatLng(41.178444, -8.596222),
         //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
         initialZoom: 9.2,

@@ -5,7 +5,7 @@ import 'map_screen.dart';
 class UserProfile extends StatefulWidget {
   final Users user;
 
-  const UserProfile({Key? key, required this.user}) : super(key: key);
+  const UserProfile({super.key, required this.user});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -33,18 +33,18 @@ class _UserProfileState extends State<UserProfile> {
             delegate: SliverChildListDelegate(
               [
                 Padding(
-                  padding: EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: AssetImage('assets/Avatar.png'),
                         radius: 55.0,
                       ),
-                      SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
                       Text(
                         '${widget.user.firstName} ${widget.user.lastName}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 30.0,
                           color: Colors.black,
                           fontFamily: 'Roboto-Bold',
@@ -52,7 +52,7 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      Text(
+                      const Text(
                         'up*********',
                         style: TextStyle(
                           fontSize: 20.0,
@@ -62,7 +62,7 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: 15.0),
+                      const SizedBox(height: 15.0),
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
                       _buildPostsSection(),
@@ -87,12 +87,12 @@ class _UserProfileState extends State<UserProfile> {
             if (index == 1) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => MapScreen()),
+                MaterialPageRoute(builder: (context) => const MapScreen()),
               );
             }
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.public),
             label: 'Global',
@@ -121,23 +121,23 @@ class _UserProfileState extends State<UserProfile> {
 
   Widget _buildStatisticSection() {
     // Texto dos amigos, recycling bins, ...
-    var numberStyle = TextStyle(
+    var numberStyle = const TextStyle(
       color: Colors.white,
       fontSize: 20,
       fontWeight: FontWeight.bold,
     );
-    var labelStyle = TextStyle(
+    var labelStyle = const TextStyle(
       color: Colors.white70,
       fontSize: 12,
     );
 
-    Widget _buildStatistic(String number, String label, {bool isLarge = false}) {
+    Widget buildStatistic(String number, String label, {bool isLarge = false}) {
       double width = isLarge ? 120.0 : 80.0; // Larger width for the 'RECYCLING BINS' box
 
       return Container(
         width: width,
-        margin: EdgeInsets.symmetric(horizontal: 4.0),
-        padding: EdgeInsets.symmetric(vertical: 10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
         decoration: BoxDecoration(
           color: Colors.green,
           borderRadius: BorderRadius.circular(8),
@@ -161,10 +161,10 @@ class _UserProfileState extends State<UserProfile> {
       spacing: 8.0, // horizontal space
       runSpacing: 8.0, // vertical space
       children: <Widget>[
-        _buildStatistic('23', 'FRIENDS'),
-        _buildStatistic('54', 'ECOPOINTS'),
-        _buildStatistic('2', 'LEVEL'),
-        _buildStatistic('17', 'RECYCLING BINS', isLarge: true),
+        buildStatistic('23', 'FRIENDS'),
+        buildStatistic('54', 'ECOPOINTS'),
+        buildStatistic('2', 'LEVEL'),
+        buildStatistic('17', 'RECYCLING BINS', isLarge: true),
       ],
     );
   }
@@ -184,8 +184,8 @@ class _UserProfileState extends State<UserProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           child: Text(
             'Achievements',
             style: TextStyle(
@@ -194,16 +194,16 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ),
         ),
-        Container(
+        SizedBox(
           height: 60.0, // altura dos icones
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: achievementIcons.length,
-            separatorBuilder: (context, index) => SizedBox(width: 10),
+            separatorBuilder: (context, index) => const SizedBox(width: 10),
             itemBuilder: (context, index) {
               return Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(10),
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.purple,
                 ),
@@ -212,7 +212,7 @@ class _UserProfileState extends State<UserProfile> {
             },
           ),
         ),
-        Divider(color: Colors.teal, height: 20, thickness: 2), // Divider line
+        const Divider(color: Colors.teal, height: 20, thickness: 2), // Divider line
       ],
     );
   }
@@ -231,8 +231,8 @@ class _UserProfileState extends State<UserProfile> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
           child: Text(
             'Posts',
             style: TextStyle(
@@ -241,11 +241,11 @@ class _UserProfileState extends State<UserProfile> {
             ),
           ),
         ),
-        Container(
+        SizedBox(
           height: 200,
           child: GridView.builder(
             //physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // Number of columns
               crossAxisSpacing: 10, // Space between images horizontally
               mainAxisSpacing: 10, // Space between images vertically

@@ -31,6 +31,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+
+  latlong2: any
+  path: any
+  sqflite: any
 dependency_overrides:
   test_api: 0.6.1  # Ensure this is compatible with flutter_test
   analyzer: any  # Be cautious with 'any', better to specify a version that works
@@ -43,22 +47,21 @@ dependency_overrides:
   url_launcher: any
   universal_io: ^1.0.1
 
-  path: any
-  sqflite: any
-  sqflite_common_ffi: any
 dev_dependencies:
   flutter_test:
     sdk: flutter
   test: ^1.16.0
+  intl: ^0.19.0
+  flutter_lints: ^3.0.0
   gherkin: ^3.0.0
   flutter_gherkin: ^3.0.0-rc.17
   flutter_driver:
-      sdk: flutter
-
+    sdk: flutter
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+
 flutter:
 
   # The following line ensures that the Material Icons font is
