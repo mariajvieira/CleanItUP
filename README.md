@@ -152,10 +152,10 @@ Updates and current status of the sprint planning.
 * As seen in "Sprint planning for this iteration (expected)", the necessary tasks and goals for this sprint were determined in group. Team members mutually agreed on their responsibilities, with some tasks being done in pairs due to their complexity. We tried to simplify the user stories as much as possible; however, some were very complex due to their nature and needed to be addressed jointly.
 * The tasks from Sprint 1 were not marked as done/accepted until this iteration, as they were either previously incomplete or lacked testing.
 
-#### Main Dificulties of Each Team Element:
+#### Main Difficulties of Each Team Element:
 * Duarte Marques:
-* Francisca Fernandes:
-* Maria Vieira:
+* Francisca Fernandes: Unit Testing and Team Management.
+* Maria Vieira: Unit Testing, Team Management.
 * Marta Cruz:
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
