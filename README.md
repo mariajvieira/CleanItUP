@@ -152,13 +152,13 @@ Updates and current status of the sprint planning.
 * The group came to the conclusion that, in the previous sprint, they should have payed greater attention to detail, in areas such as the Project Management section, the Changelog.md, a better use of GitHub, testing implementation and more detailed user stories (with corresponding mock-ups).
 * As seen in "Sprint planning for this iteration (expected)", the necessary tasks and goals for this sprint were determined in group. Team members mutually agreed on their responsibilities, with some tasks being done in pairs due to their complexity. We tried to simplify the user stories as much as possible; however, some were very complex due to their nature and needed to be addressed jointly.
 * The tasks from Sprint 1 were not marked as done/accepted until this iteration, as they were either previously incomplete or lacked testing.
-* The testing isn't yet fully implemented, since the group had difficulties in that area. However, that will be a priority in the next sprint. 
+* The testing isn't yet fully implemented, since the group had difficulties in that area. However, that will be a priority in the next sprint.
 
 #### Main Difficulties of Each Team Element:
-* Duarte Marques:
+* Duarte Marques: Map implementation and Unit testing.
 * Francisca Fernandes: Unit Testing and Team Management.
 * Maria Vieira: Unit Testing, Team Management.
-* Marta Cruz: Map implementation and Unit testing
+* Marta Cruz: Map implementation and Unit testing.
 * Nazim Nasirov: Software issues
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
@@ -166,7 +166,7 @@ Note: further information on the improvements made in this iteration available i
 #### Final retrospective 
 The team believes to have done a significative incrementation on the project.
 For the next sprint, one of our main goals is to expand the testing. 
-Next, the team wants to finish the "in Progress" tasks, and to start new ones, such as changing the profile picture and features regarding friendships. 
+Next, the team wants to finish the "in Progress" tasks, and to start new ones, such as changing the profile picture and features regarding friendships.
 
 
 
