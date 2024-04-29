@@ -144,7 +144,8 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 
 #### Sprint Planning for This Iteration (Current)
 Updates and current status of the sprint planning.
-[to add]
+<img width="1512" alt="image" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/146080260/c7f439d7-0497-4c49-ad64-957a1302b7ab">
+
 
 #### General considerations
 * The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
