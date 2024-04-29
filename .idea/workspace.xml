@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/recycling_bin_db_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/recycling_bin_db_test.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,7 +63,12 @@
       <recent name="$PROJECT_DIR$/projeto" />
     </key>
   </component>
-  <component name="RunManager" selected="Flutter Test.tests in recycling_bin_db_test.dart">
+  <component name="RunManager" selected="Dart Command Line App.addBins.dart">
+    <configuration name="addBins.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/projeto/lib/addToDB/addBins.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/projeto" />
+      <method v="2" />
+    </configuration>
     <configuration name="Unnamed" type="FlutterRunConfigurationType" factoryName="Flutter" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/projeto/lib/main.dart" />
       <method v="2" />
@@ -74,6 +80,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Command Line App.addBins.dart" />
         <item itemvalue="Flutter Test.tests in recycling_bin_db_test.dart" />
       </list>
     </recent_temporary>

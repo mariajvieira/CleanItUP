@@ -12,7 +12,7 @@ void main() {
     dbHelper = UsersDatabaseHelper();
   });
 
-  test('Teste de inserção e recuperação de RecyclingBin', () async {
+  test('Test to insert Recycling Bins', () async {
     RecyclingBin bin = RecyclingBin(
       bin_id:1,
       bin_latitude: 123.456,
