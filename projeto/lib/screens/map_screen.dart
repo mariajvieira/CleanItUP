@@ -52,4 +52,3 @@ class _MapState extends State<MapScreen>{
     );
   }
 }
-
