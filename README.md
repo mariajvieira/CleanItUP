@@ -159,7 +159,7 @@ Updates and current status of the sprint planning.
 * Francisca Fernandes: Unit Testing and Team Management.
 * Maria Vieira: Unit Testing, Team Management.
 * Marta Cruz:
-* Nazim Nasirov: 
+* Nazim Nasirov: Software issues
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
 
