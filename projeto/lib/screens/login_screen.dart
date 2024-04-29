@@ -173,7 +173,7 @@ class _LoginState extends State<Login> {
                       ),
                       if (isLoginFailed)
                         Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10.0),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
                           child: Text(
                             errorMessage,
                             style: const TextStyle(color: Colors.red, fontSize: 14),
