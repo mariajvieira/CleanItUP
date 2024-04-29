@@ -1,7 +1,7 @@
 # CHANGELOG
 All notable changes to this project will be documented in this file.
 
-## Sprint 2 - 2024-04-29
+## Sprint 2 (2024-04-15 - 2024-04-29)
 
 ### Added
 - Sign up feature: name and last name, password and username registered;
