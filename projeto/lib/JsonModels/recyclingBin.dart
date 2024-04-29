@@ -1,12 +1,12 @@
 class RecyclingBin {
-  int? bin_id;
+  int bin_id;
   double bin_latitude;
   double bin_longitude;
   int clean;
   int full;
 
   RecyclingBin({
-    this.bin_id,
+    required this.bin_id,
     required this.bin_latitude,
     required this.bin_longitude,
     required this.clean,
@@ -15,9 +15,9 @@ class RecyclingBin {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': bin_id,
-      'latitude': bin_latitude,
-      'longitude': bin_longitude,
+      'bin_id': bin_id,
+      'bin_latitude': bin_latitude,
+      'bin_longitude': bin_longitude,
       'clean': clean,
       'full': full,
     };
@@ -25,9 +25,9 @@ class RecyclingBin {
 
   factory RecyclingBin.fromMap(Map<String, dynamic> map) {
     return RecyclingBin(
-      bin_id: map['id'],
-      bin_latitude: map['latitude'],
-      bin_longitude: map['longitude'],
+      bin_id: map['bin_id'],
+      bin_latitude: map['bin_latitude'],
+      bin_longitude: map['bin_longitude'],
       clean: map['clean'],
       full: map['full'],
     );
