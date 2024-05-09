@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({Key? key}) : super(key: key);
 
@@ -8,40 +9,30 @@ class CalendarScreen extends StatefulWidget {
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
-  class _CalendarScreenState extends State<CalendarScreen>{
-    
-    String dailyAction = "";
+class _CalendarScreenState extends State<CalendarScreen> {
+  String selectedDate = ""; // Store the selected date
 
-    List<String> achievementIcons = [
-      '05.05.2024',
-      '06.05.2024',
-      '07.05.2024',
-      '08.05.2024',
-      '09.05.2024',
-      '10.05.2024',
-    ];
+  List<String> achievementIcons = [
+    '05.05.2024',
+    '06.05.2024',
+    '07.05.2024',
+    '08.05.2024',
+    '09.05.2024',
+    '10.05.2024',
+  ];
 
-    List<String> dailyActivities = [
-      "Some activity 1",
-      "Some activity 2",
-      "Some activity 3",
-      "Some activity 4",
-      "Some activity 5",
-      "Some activity 6",
-      "Some activity 7",
-    ];
-    @override
-    Widget build(BuildContext context) {
-    
+  List<String> dailyActivities = [
+    "Some activity 1",
+    "Some activity 2",
+    "Some activity 3",
+    "Some activity 4",
+    "Some activity 5",
+    "Some activity 6",
+    "Some activity 7",
+  ];
 
-    void updateSelectedItem(String item) {
-    setState(() {
-      dailyAction = item;
-      print("Daily action updated to: $dailyAction");
-    });
-  }
-
-
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(16),
@@ -78,28 +69,27 @@ class CalendarScreen extends StatefulWidget {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: achievementIcons.length,
-                          separatorBuilder: (context, index) =>
-                              SizedBox(width: 10),
+                          separatorBuilder: (context, index) => SizedBox(width: 10),
                           itemBuilder: (context, index) {
                             return TextButton(
-                              onPressed: () => {
-                                updateSelectedItem(dailyActivities[index])
+                              onPressed: () {
+                                setState(() {
+                                  selectedDate = achievementIcons[index];
+                                });
                               },
                               child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: 
-                                      Text(
-                                        achievementIcons[index],
-                                        selectionColor: Colors.black,
-                                        style: TextStyle(
-                                            fontSize: 24.0,
-                                            color: Colors.black,
-                                            fontWeight: FontWeight.w700,
-                                            backgroundColor: Colors.blue),
-                                      ),
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  achievementIcons[index],
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    color: selectedDate == achievementIcons[index] ? Colors.white : Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    backgroundColor: selectedDate == achievementIcons[index] ? Colors.blue : null,
+                                  ),
                                 ),
-                              );
-                            
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -107,17 +97,32 @@ class CalendarScreen extends StatefulWidget {
                   ),
                 ],
               ),
-
-              
+              const SizedBox(height: 20.0),
               Text(
-                dailyAction,
-                style : TextStyle(
-                  color : Colors.black
-                )
+                'Selected Date: $selectedDate',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-
-              const SizedBox(height: 200.0),
-
+              const SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () async {
+                  final DateTime? picked = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2025),
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      selectedDate = "${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}";
+                    });
+                  }
+                },
+                child: const Text('Pick a Date'),
+              ),
+              const SizedBox(height: 20.0),
               ElevatedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -134,6 +139,10 @@ class CalendarScreen extends StatefulWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
     );
   }
 }
