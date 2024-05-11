@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/JsonModels/users.dart';
+import 'forum_screen.dart';
+import 'map_screen.dart';
+import 'userprofile_screen.dart';
+import 'package:projeto/screens/calendar_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({super.key});
+  final Users user; // Add this line to accept a Users object
+
+  const CalendarScreen({Key? key, required this.user}) : super(key: key); // Modify constructor
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  String selectedDate = ""; // Store the selected date
+  int _selectedIndex = 3; // Index for 'Calendar'
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        break;
+      case 2:
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user))); // Pass the user to UserProfile
+        break;
+    }
+  }
+
+  String selectedDate = ""; // Store the selected date
   Map<String, List<String>> events = {
     '02.05.2024': ["Some activity 1"],
     '08.05.2024': ["Some activity 2"],
@@ -32,14 +60,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       }
     });
     upcomingEvents.sort((a, b) {
-      var aDate = DateTime.parse("${a.key
-          .split('.')
-          .reversed
-          .join('-')}T00:00:00Z");
-      var bDate = DateTime.parse("${b.key
-          .split('.')
-          .reversed
-          .join('-')}T00:00:00Z");
+      var aDate = DateTime.parse("${a.key.split('.').reversed.join('-')}T00:00:00Z");
+      var bDate = DateTime.parse("${b.key.split('.').reversed.join('-')}T00:00:00Z");
       return aDate.compareTo(bDate);
     });
     return upcomingEvents.take(2).toList();
@@ -50,6 +72,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
     List<MapEntry<String, String>> upcomingEvents = getUpcomingEvents();
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Calendar'),
+      ),
       body: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -93,9 +118,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 );
                 if (picked != null) {
                   setState(() {
-                    selectedDate =
-                    "${picked.day.toString().padLeft(2, '0')}.${picked.month
-                        .toString().padLeft(2, '0')}.${picked.year}";
+                    selectedDate = "${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}";
                   });
                 }
               },
@@ -109,19 +132,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 });
               },
               child: const Text('Reset'),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                  content: Text("You are joined to this event."),
-                ));
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              child: const Text(
-                'Participate in this event.',
-                style: TextStyle(color: Colors.white),
-              ),
             ),
             const SizedBox(height: 20.0),
             const Text(
@@ -145,8 +155,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8.0),
                       child: Text(
-                        '${upcomingEvents[index].value} (${upcomingEvents[index]
-                            .key})',
+                        '${upcomingEvents[index].value} (${upcomingEvents[index].key})',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: selectedDate == upcomingEvents[index].key
@@ -162,6 +171,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.teal,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.public),
+            label: 'Global',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.radio_button_checked),
+            label: 'Near me',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
       ),
     );
   }
