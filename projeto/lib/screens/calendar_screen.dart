@@ -32,6 +32,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
       case 2:
         break;
       case 3:
+        break;
+      case 4:
         Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user))); // Pass the user to UserProfile
         break;
     }
