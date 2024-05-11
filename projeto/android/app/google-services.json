@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "333788221456",
+    "project_id": "clean-it-up-t12",
+    "storage_bucket": "clean-it-up-t12.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:333788221456:android:c42f23a417d915aabb7a95",
+        "android_client_info": {
+          "package_name": "com.cleanitup.projeto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ4G0znRMm77cYwXpiAUiqxH7UO2Iyj8k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
