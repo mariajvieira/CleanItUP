@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
+import 'forum_screen.dart';
 import 'map_screen.dart';
+import 'package:projeto/screens/calendar_screen.dart';
+
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -81,17 +84,7 @@ class _UserProfileState extends State<UserProfile> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white70,
         currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-            if (index == 1) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MapScreen()),
-              );
-            }
-          });
-        },
+        onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.public),
@@ -102,22 +95,39 @@ class _UserProfileState extends State<UserProfile> {
             label: 'Map',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.radio_button_checked), // Trocar
+            icon: Icon(Icons.radio_button_checked),
             label: 'Near me',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today), // Trocar
+            icon: Icon(Icons.calendar_today),
             label: 'Calendar',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline), // Trocar
+            icon: Icon(Icons.person_outline),
             label: 'Profile',
           ),
         ],
       ),
-
     );
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const CalendarScreen()));
+        break;
+    }
+  }
+
 
   Widget _buildStatisticSection() {
     // Texto dos amigos, recycling bins, ...

@@ -1,7 +1,5 @@
 import 'package:flutter_driver/flutter_driver.dart';
-import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
-import 'package:test/test.dart';
 
 class FlutterWorld extends World {
   final FlutterDriver driver;
@@ -13,7 +11,7 @@ StepDefinitionGeneric GivenIAmOnTheLoginPage() {
   return given1<String, FlutterWorld>(
     'I am on the login page',
         (input1, context) async {
-          final FlutterDriver driver = context.world.driver as FlutterDriver; // Cast driver to FlutterDriver
+          final FlutterDriver driver = context.world.driver; // Cast driver to FlutterDriver
           // Implement logic to navigate to the login page
           await driver.waitFor(find.byType('LoginPage'));
     },
