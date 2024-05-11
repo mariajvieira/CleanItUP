@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/clothing.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/login_steps.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/login_steps.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/sign_up.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,25 +54,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
-  <component name="RunManager" selected="Flutter Test.tests in recycling_bin_db_test.dart">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/projeto/lib/assets" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Flutter.Unnamed">
     <configuration name="addBins.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/projeto/lib/addToDB/addBins.dart" />
       <option name="workingDirectory" value="$PROJECT_DIR$/projeto" />

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class CalendarScreen extends StatefulWidget {
-  const CalendarScreen({Key? key}) : super(key: key);
+  const CalendarScreen({super.key});
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
@@ -69,7 +68,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             const SizedBox(height: 20.0),
             Text(
               'Selected Date: $selectedDate',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.bold,
               ),
@@ -78,7 +77,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             if (selectedDate.isNotEmpty)
               Text(
                 events[selectedDate]?.join(", ") ?? "No events on this date",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -125,7 +124,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ),
             ),
             const SizedBox(height: 20.0),
-            Text(
+            const Text(
               'Next Events:',
               style: TextStyle(
                 fontSize: 18.0,
