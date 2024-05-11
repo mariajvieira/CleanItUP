@@ -5,20 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/clothing.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/login_steps.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/login_steps.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/sign_up.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/sign_up.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +51,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "forumpage",
     "io.flutter.reload.alreadyRun": "true",
     "last_opened_file_path": "/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2",
     "project.structure.last.edited": "Project",
