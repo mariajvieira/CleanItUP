@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/geolocation_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/geolocation_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +31,20 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "franciscasf"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="6a08733a-55a8-44f4-b7d8-4cc3605a892a" />
+        <option name="url" value="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -51,7 +64,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "forumpage",
+    "git-widget-placeholder": "main",
     "io.flutter.reload.alreadyRun": "true",
     "last_opened_file_path": "/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2",
     "project.structure.last.edited": "Project",

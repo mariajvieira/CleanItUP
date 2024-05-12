@@ -37,7 +37,8 @@ class _GeolocationState extends State<Geolocation> {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are permanently denied, handle appropriately
-      return Future.error('Location permissions are permanently denied, we cannot request permissions.');
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
     }
 
     // When we reach here, permissions are granted and we can continue accessing the position of the device.
@@ -49,31 +50,29 @@ class _GeolocationState extends State<Geolocation> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Geolocation'),
-      ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("lib/assets/Mockup3esof.png"),
-            fit: BoxFit.cover,
-          ),
+      ),body: Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.only(top: 140),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("lib/assets/Mockup3esof.png"),
+          fit: BoxFit.cover,
         ),
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              try {
-                currentLocation = await getCurrentLocation();
-                print("Current location is: $currentLocation");
-                // Assuming UserProfile needs a location or user data
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
-                );
-              } catch (e) {
-                print("Failed to get location: $e");
-                // Handle the error (e.g., show an alert dialog)
-              }
-            },
+      ),
+      child: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            try {
+              currentLocation = await getCurrentLocation();
+              print("Current location is: $currentLocation");
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+              );
+            } catch (e) {
+              print("Failed to get location: $e");
+            }
+          },
             child: const Text('Get Current Location'),
           ),
         ),
