@@ -65,4 +65,22 @@ void main() {
       expect(validatePassword('NoNumber'), isFalse);
     });
   });
+    testWidgets('Valid Signup', (WidgetTester tester) async {
+    // Build the widget
+    await tester.pumpWidget(MaterialApp(home: SignUp()));
+
+    // Enter valid data
+    await tester.enterText(find.byType(TextFormField).at(0), 'Valid');
+    await tester.enterText(find.byType(TextFormField).at(1), 'Code');
+    await tester.enterText(find.byType(TextFormField).at(2), 'up123@up.pt');
+    await tester.enterText(find.byType(TextFormField).at(3), 'ValidCode1');
+    await tester.enterText(find.byType(TextFormField).at(4), 'ValidCode1');
+
+    // Tap signup button
+    await tester.tap(find.text('SIGN UP'));
+    await tester.pumpAndSettle(); // Wait for navigation and widget animations to complete
+
+    // Verify navigation to login screen
+    expect(find.byType(Login), findsOneWidget);
+  });
 }
