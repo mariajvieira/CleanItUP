@@ -172,5 +172,6 @@ Next, the team wants to finish the "in Progress" tasks, and to start new ones, s
 ### Sprint 3 Overview 
 #### Sprint Planning for This Iteration (Expected)
 Details about the planned tasks and objectives set at the beginning of the sprint.
-<img width="33" alt="image" src="https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/c576e002-4bee-4491-88ec-4b9f8c1b13ee">
+![sprint2](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/0d4d950f-a77a-49aa-b862-0f66df4f5f07)
+
 
