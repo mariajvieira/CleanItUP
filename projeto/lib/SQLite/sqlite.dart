@@ -97,6 +97,7 @@ class UsersDatabaseHelper {
     }
   }
 
+
   Future<int> insertRecyclingBin(RecyclingBin bin) async {
     final Database db = await initDB();
     try {

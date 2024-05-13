@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
+import 'package:projeto/screens/account_settings_screen.dart';  // Import the AccountSettingsScreen
 import '../SQLite/sqlite.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
-import 'package:projeto/screens/calendar_screen.dart';
-
+import 'calendar_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -14,8 +14,6 @@ class UserProfile extends StatefulWidget {
   @override
   State<UserProfile> createState() => _UserProfileState();
 }
-
-
 
 class _UserProfileState extends State<UserProfile> {
   int _selectedIndex = 0;
@@ -41,7 +39,6 @@ class _UserProfileState extends State<UserProfile> {
       });
     }
   }
-
 
   Widget _buildPostsSection() {
     return Column(
@@ -88,8 +85,6 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,6 +95,14 @@ class _UserProfileState extends State<UserProfile> {
             expandedHeight: 120.0,
             floating: false,
             pinned: true,
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsScreen(user: widget.user)));
+                },
+              ),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               background: Image.asset('lib/assets/LoginBackground.png', fit: BoxFit.cover),
             ),
@@ -182,7 +185,6 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -193,7 +195,7 @@ class _UserProfileState extends State<UserProfile> {
             MaterialPageRoute(builder: (context) => const ForumScreen()));
         break;
       case 1:
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
         break;
       case 3: // Assuming 'Calendar' is at index 3
         Navigator.push(context, MaterialPageRoute(
@@ -201,7 +203,6 @@ class _UserProfileState extends State<UserProfile> {
         break;
     }
   }
-
 
   Widget _buildStatisticSection() {
     return Wrap(
