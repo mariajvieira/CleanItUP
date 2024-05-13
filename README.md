@@ -175,3 +175,21 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 ![sprint2](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/0d4d950f-a77a-49aa-b862-0f66df4f5f07)
 
 
+#### General considerations
+* The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
+* In this sprint, the main  focus was on the unit testing that wasn´t fully implemented as weel as the rest of the planned features.
+
+#### Main Difficulties of Each Team Element:
+* Duarte Marques:
+* Francisca Fernandes:
+* Maria Vieira: 
+* Marta Cruz:
+* Nazim Nasirov:
+
+Note: further information on the improvements made in this iteration available in Changelog.md. 
+
+#### Final retrospective 
+The team believes to have done a significative incrementation on the project.
+For the next sprint, one of our main goals is to expand the testing. 
+Next, the team wants to finish the "in Progress" tasks, and to start new ones, such as changing the profile picture and features regarding friendships.
+
