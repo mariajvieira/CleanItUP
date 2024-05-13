@@ -5,6 +5,7 @@ import '../SQLite/sqlite.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
+import 'friend_requests_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -100,6 +101,12 @@ class _UserProfileState extends State<UserProfile> {
                 icon: Icon(Icons.settings),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsScreen(user: widget.user)));
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.group_add),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => FriendRequestsScreen()));
                 },
               ),
             ],
@@ -254,4 +261,5 @@ class _UserProfileState extends State<UserProfile> {
       ],
     );
   }
+
 }
