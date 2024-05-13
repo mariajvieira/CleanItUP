@@ -3,16 +3,7 @@ import 'package:projeto/JsonModels/recyclingBin.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
-
-  late UsersDatabaseHelper dbHelper;
-  setUp(() {
-    dbHelper = UsersDatabaseHelper();
-  });
-
-  test('Insert Recycling Bins', () async {
+void add_Bins(dbHelper) {
     List<RecyclingBin> bins =[];
     //bins in feup
     bins.add(RecyclingBin(bin_id:1, bin_latitude: 41.1774101, bin_longitude: -8.5957178, clean: 0, full: 0,));
@@ -22,7 +13,6 @@ void main() {
 
 
     for(int i=0;i<bins.length;i++){
-      await dbHelper.initDB();
-      await dbHelper.insertRecyclingBin(bins[i]);    }
-  });
+      dbHelper.initDB();
+      dbHelper.insertRecyclingBin(bins[i]);    }
 }

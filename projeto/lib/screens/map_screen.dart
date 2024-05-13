@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+import '../JsonModels/recyclingBin.dart';
+import '../addToDB/addBins.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
-
+import '../SQLite/sqlite.dart';
+import 'package:projeto/SQLite/sqlite.dart';
+import 'package:projeto/JsonModels/recyclingBin.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 
 
@@ -95,7 +102,25 @@ class _MapState extends State<MapScreen>{
   }
 
 }
+
+Future<void> get_bins(m) async {
+  sqfliteFfiInit();
+  databaseFactory = databaseFactoryFfi;
+  late UsersDatabaseHelper dbHelper;
+  dbHelper = UsersDatabaseHelper();
+  add_Bins(dbHelper);
+  List<RecyclingBin> bins = await dbHelper.getAllRecyclingBins();
+
+  int i=0;
+  bins.forEach((b) {
+    m.insert(i, Marker(point:LatLng(b.bin_latitude, b.bin_longitude),child: Image.asset("lib/assets/bin.png")));
+    i++;
+  });
+}
+
 Widget map(){
+  List<Marker> m=[];
+  get_bins(m);
   return FlutterMap(
     options: const MapOptions(
       initialCenter: LatLng(41.178444, -8.596222),
@@ -107,12 +132,7 @@ Widget map(){
         urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clw49mqbq02jn01qve0cd8ih1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
         userAgentPackageName: 'com.example.app',
       ),
-      MarkerLayer(markers:[
-        Marker(
-            point: LatLng(41.178444, -8.596222),
-            child: Image.asset("lib/assets/BinIcon.png")
-        )
-      ]),
+      MarkerLayer(markers: m),
     ],
   );
 }
