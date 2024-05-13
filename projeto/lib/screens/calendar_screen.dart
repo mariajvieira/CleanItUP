@@ -27,7 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
         break;
       case 2:
         break;

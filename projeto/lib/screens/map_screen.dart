@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:projeto/screens/userprofile_screen.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import '../JsonModels/recyclingBin.dart';
+import '../JsonModels/users.dart';
 import '../addToDB/addBins.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
@@ -17,14 +19,16 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 
 class MapScreen extends StatefulWidget{
-  const MapScreen({super.key});
+  final Users user; // Add this line to accept a Users object
+
+  const MapScreen({Key? key, required this.user}) : super(key: key); // Modify constructor
 
   @override
   State<MapScreen> createState()=> _MapState();
 }
 
 class _MapState extends State<MapScreen>{
-  int _selectedIndex = 4;
+  int _selectedIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -88,15 +92,21 @@ class _MapState extends State<MapScreen>{
     setState(() {
       _selectedIndex = index;
     });
+
     switch (index) {
       case 0:
         Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) =>  MapScreen(user: widget.user)));
         break;
-        /*case 3:  // Assuming 'Calendar' is at index 3
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));*/
+      case 2:
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));
+        break;
+      case 4:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user))); // Pass the user to UserProfile
         break;
     }
   }

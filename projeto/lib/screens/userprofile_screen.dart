@@ -120,7 +120,7 @@ class _UserProfileState extends State<UserProfile> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen(user: widget.user,)));
         break;
       case 3:  // Assuming 'Calendar' is at index 3
         Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));
