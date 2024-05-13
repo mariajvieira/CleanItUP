@@ -100,13 +100,19 @@ Widget map(){
     options: const MapOptions(
       initialCenter: LatLng(41.178444, -8.596222),
       //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
-      initialZoom: 10,
+      initialZoom: 19,
     ),
     children: [
       TileLayer(
-        urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clvfvlk3g017f01qu16r635mk/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
+        urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clw49mqbq02jn01qve0cd8ih1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
         userAgentPackageName: 'com.example.app',
       ),
+      MarkerLayer(markers:[
+        Marker(
+            point: LatLng(41.178444, -8.596222),
+            child: Image.asset("lib/assets/BinIcon.png")
+        )
+      ]),
     ],
   );
 }
