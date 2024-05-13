@@ -17,7 +17,7 @@ class MapScreen extends StatefulWidget{
 }
 
 class _MapState extends State<MapScreen>{
-  int _selectedIndex = 4;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -88,25 +88,25 @@ class _MapState extends State<MapScreen>{
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
         break;
-        /*case 3:  // Assuming 'Calendar' is at index 3
+      /*case 3:  // Assuming 'Calendar' is at index 3
         Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));*/
         break;
     }
   }
 
-}
-Widget map(){
-  return FlutterMap(
-    options: const MapOptions(
-      initialCenter: LatLng(41.178444, -8.596222),
-      //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
-      initialZoom: 10,
-    ),
-    children: [
-      TileLayer(
-        urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clvfvlk3g017f01qu16r635mk/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
-        userAgentPackageName: 'com.example.app',
+  }
+  Widget map(){
+    return FlutterMap(
+      options: const MapOptions(
+        initialCenter: LatLng(41.178444, -8.596222),
+        //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
+        initialZoom: 20,
       ),
-    ],
-  );
-}
+      children: [
+        TileLayer(
+          urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clvfvlk3g017f01qu16r635mk/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
+          userAgentPackageName: 'com.example.app',
+        ),
+      ],
+    );
+  }
