@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
+import '../SQLite/sqlite.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'package:projeto/screens/calendar_screen.dart';
@@ -18,6 +19,77 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   int _selectedIndex = 0;
+  int numberOfFriends = 0;
+  int numberOfPosts = 0;
+  List<Map<String, dynamic>> userPosts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() async {
+    final db = UsersDatabaseHelper();
+    if (widget.user.userId != null) {
+      final friendsCount = await db.countUserFriends(widget.user.userId!);
+      final posts = await db.getUserPosts(widget.user.userId!);
+      setState(() {
+        numberOfFriends = friendsCount;
+        numberOfPosts = posts.length;
+        userPosts = posts;
+      });
+    }
+  }
+
+
+  Widget _buildPostsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,  // Ensures alignment starts from the start horizontally
+      children: [
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          child: Text(
+            'Posts',
+            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
+          ),
+        ),
+        if (userPosts.isEmpty)
+          const Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: Text(
+              'No posts yet',
+              style: TextStyle(fontSize: 18.0, color: Colors.grey),
+            ),
+          )
+        else
+          SizedBox(
+            height: 200,
+            child: GridView.builder(
+              padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: 1,
+              ),
+              itemCount: userPosts.length,
+              itemBuilder: (context, index) {
+                var post = userPosts[index];
+                return Image.asset(
+                  post['image_path'],
+                  fit: BoxFit.cover,
+                );
+              },
+            ),
+          ),
+        const Divider(color: Colors.teal, thickness: 2),  // Divider after the section
+      ],
+    );
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +141,6 @@ class _UserProfileState extends State<UserProfile> {
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
                       _buildPostsSection(),
-                      // Add posts grid here
                     ],
                   ),
                 ),
@@ -111,167 +182,76 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const ForumScreen()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const MapScreen()));
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const MapScreen()));
         break;
-      case 3:  // Assuming 'Calendar' is at index 3
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));
+      case 3: // Assuming 'Calendar' is at index 3
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => CalendarScreen(user: widget.user,)));
         break;
     }
   }
 
 
   Widget _buildStatisticSection() {
-    // Texto dos amigos, recycling bins, ...
-    var numberStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-    var labelStyle = const TextStyle(
-      color: Colors.white70,
-      fontSize: 12,
-    );
-
-    Widget buildStatistic(String number, String label, {bool isLarge = false}) {
-      double width = isLarge ? 120.0 : 80.0; // Larger width for the 'RECYCLING BINS' box
-
-      return Container(
-        width: width,
-        margin: const EdgeInsets.symmetric(horizontal: 4.0),
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(number, style: numberStyle, textAlign: TextAlign.center),
-            FittedBox(
-              fit: BoxFit.fitWidth, // scales the text down if not fit
-              child: Text(label, style: labelStyle, textAlign: TextAlign.center),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
-      spacing: 8.0, // horizontal space
-      runSpacing: 8.0, // vertical space
       children: <Widget>[
-        buildStatistic('23', 'FRIENDS'),
-        buildStatistic('54', 'ECOPOINTS'),
-        buildStatistic('2', 'LEVEL'),
-        buildStatistic('17', 'RECYCLING BINS', isLarge: true),
+        _buildStatisticItem('$numberOfFriends', 'FRIENDS'),
+        _buildStatisticItem('$numberOfPosts', 'POSTS'),
+        // Add more items as needed
       ],
+    );
+  }
+
+  Widget _buildStatisticItem(String number, String label) {
+    return Container(
+      width: 80.0,
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(number, style: const TextStyle(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(label,
+              style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        ],
+      ),
     );
   }
 
   Widget _buildAchievementsSection() {
-    // part of achievements
-    List<String> achievementIcons = [
-      //acrescentar
-      'assets/icon.png',
-      'assets/icon_.png',
-      'assets/icon_.png',
-      'assets/icon_.png',
-      'assets/icon_.png',
-      'assets/icon_.png',
-    ];
-
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start, // Align text to start
       children: [
+        const Divider(color: Colors.teal, thickness: 2),
         const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0),
+          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          // Consistent padding
           child: Text(
             'Achievements',
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
           ),
         ),
-        SizedBox(
-          height: 60.0, // altura dos icones
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: achievementIcons.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 10),
-            itemBuilder: (context, index) {
-              return Container(
-                padding: const EdgeInsets.all(10),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.purple,
-                ),
-                child: Image.asset(achievementIcons[index]), // Loads achievement icon
-              );
-            },
-          ),
-        ),
-        const Divider(color: Colors.teal, height: 20, thickness: 2), // Divider line
-      ],
-    );
-  }
-
-
-  Widget _buildPostsSection() {
-    // list of image paths for posts
-    //to do
-    List<String> postImages = [
-      'assets/post1.jpg',
-      'assets/post2.jpg',
-      'assets/post3.jpg',
-      'assets/post4.jpg',
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-          child: Text(
-            'Posts',
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        SizedBox(
-          height: 200,
-          child: GridView.builder(
-            //physics: NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Number of columns
-              crossAxisSpacing: 10, // Space between images horizontally
-              mainAxisSpacing: 10, // Space between images vertically
-              childAspectRatio: 1, //  ratio
-            ),
-            itemCount: postImages.length,
-            itemBuilder: (context, index) {
-              return Image.asset(
-                postImages[index],
-                fit: BoxFit.cover, // fills the space, cropping if necessary
-              );
-            },
-          ),
-        ),
+        const Divider(color: Colors.teal, thickness: 2),  // Divider after the section
       ],
     );
   }
 }
-

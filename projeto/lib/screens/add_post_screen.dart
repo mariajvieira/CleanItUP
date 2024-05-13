@@ -3,6 +3,8 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';  // Used for File type
 import 'package:geolocator/geolocator.dart';
 
+import '../SQLite/sqlite.dart';
+
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
 
@@ -16,9 +18,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   List<File> images = [];
   double? latitude;
   double? longitude;
-  String? address;
 
-  // Method to handle image picking from gallery
   Future<void> _pickImageFromGallery() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -28,7 +28,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
     }
   }
 
-  // Method to handle image capture from camera
   Future<void> _takePicture() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.camera);
     if (pickedFile != null) {
@@ -38,199 +37,141 @@ class _AddPostScreenState extends State<AddPostScreen> {
     }
   }
 
-  Future<bool> submitPost(String text, List<File> images) async {
-    // Por implementar
-    return true;
+  Future<void> _addCurrentLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Location services are disabled."))
+      );
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Location permissions are denied."))
+        );
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Location permissions are permanently denied."))
+      );
+      return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+    latitude = position.latitude;
+    longitude = position.longitude;
   }
 
-  Future<void> _addCurrentLocation() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Location services are disabled."),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
 
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text("Location permissions are denied"),
-              backgroundColor: Colors.red,
-            ),
-          );
-          return;
-        }
-      }
+  Future<bool> submitPost(String text, List<File> images, double? lat, double? lon) async {
+    if (images.isEmpty) return false; // Make sure there's at least one image
 
-      if (permission == LocationPermission.deniedForever) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text("Location permissions are permanently denied"),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
+    UsersDatabaseHelper db = UsersDatabaseHelper();
+    int userId = 1; // Assuming you have a way to get the user's ID
+    String imagePath = images.first.path; // Using only the first image for simplicity
 
-      Position position = await Geolocator.getCurrentPosition();
-      setState(() {
-        latitude = position.latitude;
-        longitude = position.longitude;
-      });
-      print("Location: ${position.latitude}, ${position.longitude}");
-    } catch (e) {
+    int postId = await db.addPost(userId, text, lat, lon, imagePath: imagePath);
+    return postId > 0; // Check if the post was added successfully
+  }
+
+  void submitPostHandler() async {
+    if (_postTextController.text.isEmpty || images.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to get location: $e"),
-          backgroundColor: Colors.red,
-        ),
+          SnackBar(content: Text("Please add some text and images."))
+      );
+      return;
+    }
+
+    bool success = await submitPost(_postTextController.text, images, latitude, longitude);
+    if (success) {
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Post submitted successfully!"))
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Failed to submit post."))
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text('New Post', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
-        actions: [
+        title: Text('Add Post'),
+        actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.send),
-            onPressed: submitPostHandler,
-            tooltip: 'Submit Post',
+              icon: Icon(Icons.save),
+              onPressed: submitPostHandler
           )
         ],
       ),
       body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _postTextController,
-              decoration: InputDecoration(
-                hintText: 'Enter text here...',
-                border: OutlineInputBorder(),
-              ),
-              maxLines: 3,
-            ),
+        children: <Widget>[
+          TextField(
+            controller: _postTextController,
+            decoration: InputDecoration(labelText: 'Post Text'),
           ),
-          ElevatedButton.icon(
-            onPressed: _addCurrentLocation,
-            icon: Icon(Icons.location_pin),
-            label: Text('Add location'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.teal,
-            ),
+          ElevatedButton(
+              onPressed: _addCurrentLocation,
+              child: Text('Add Location')
           ),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(8),
+              itemCount: images.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 4,
                 mainAxisSpacing: 4,
               ),
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {}, //se precisarmos depoois acrescentar
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue, width: 2),
-                      image: DecorationImage(
-                        image: FileImage(images[index]),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                );
+              itemBuilder: (BuildContext context, int index) {
+                return Image.file(images[index]);
               },
             ),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showImageSourceActionSheet(context),
-        child: Icon(Icons.camera_enhance),
-        backgroundColor: Colors.green,
+        onPressed: _showImageSourceActionSheet,
+        child: Icon(Icons.add_a_photo),
       ),
     );
   }
 
-  void submitPostHandler() async {
-    if (_postTextController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Post text cannot be empty."),
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    bool success = await submitPost(_postTextController.text, images);
-    if (success) {
-      setState(() {
-        _postTextController.clear();
-        images.clear();
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Post submitted successfully!"),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Failed to submit post."),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-
-  void _showImageSourceActionSheet(BuildContext context) {
+  void _showImageSourceActionSheet() {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return SafeArea(
-          child: Wrap(
-            children: <Widget>[
-              ListTile(
-                leading: Icon(Icons.photo_library),
-                title: Text('Photo Library'),
-                onTap: () {
-                  _pickImageFromGallery();
-                  Navigator.of(context).pop();
-                },
-              ),
-              ListTile(
-                leading: Icon(Icons.photo_camera),
-                title: Text('Camera'),
-                onTap: () {
-                  _takePicture();
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      },
+        context: context,
+        builder: (context) {
+          return Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: Icon(Icons.photo_library),
+                    title: Text('Gallery'),
+                    onTap: () {
+                      _pickImageFromGallery();
+                      Navigator.pop(context);
+                    }
+                ),
+                ListTile(
+                    leading: Icon(Icons.photo_camera),
+                    title: Text('Camera'),
+                    onTap: () {
+                      _takePicture();
+                      Navigator.pop(context);
+                    }
+                )
+              ]
+          );
+        }
     );
   }
 }
