@@ -113,15 +113,17 @@ class _MapState extends State<MapScreen>{
 
 }
 
-Future<void> get_bins(m) async {
+Future<void> get_bins(List<Marker>m) async {
   sqfliteFfiInit();
   databaseFactory = databaseFactoryFfi;
   late UsersDatabaseHelper dbHelper;
   dbHelper = UsersDatabaseHelper();
   add_Bins(dbHelper);
+
   List<RecyclingBin> bins = await dbHelper.getAllRecyclingBins();
   int i=0;
   bins.forEach((b) {
+    print(b.bin_id);
     m.insert(i, Marker(point:LatLng(b.bin_latitude, b.bin_longitude),child: Image.asset("lib/assets/bin.png")));
     i++;
   });
@@ -129,6 +131,7 @@ Future<void> get_bins(m) async {
 
 Widget map(){
   List<Marker> m=[];
+  print("0000000000000000000000000000");
   get_bins(m);
   return FlutterMap(
     options: const MapOptions(
@@ -141,7 +144,9 @@ Widget map(){
         urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clw49mqbq02jn01qve0cd8ih1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
         userAgentPackageName: 'com.example.app',
       ),
-      MarkerLayer(markers:[
+      MarkerLayer(
+          markers: /*m*/
+          [
         Marker(point: LatLng(41.1774101,-8.5957178),child: Image.asset("lib/assets/bin.png")),
         Marker(point: LatLng(41.1777103,-8.5964536),child: Image.asset("lib/assets/bin.png")),
         Marker(point: LatLng(41.1777615,-8.5968776),child: Image.asset("lib/assets/bin.png")),
