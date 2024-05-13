@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^0.8.5+3
+  firebase_core: 2.31.0
+  image_picker: ^1.1.1
   path: any
   sqflite: any
   sqflite_common_ffi: any

@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/google-services.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +80,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\android\app" />
       <recent name="$PROJECT_DIR$/projeto/test/test_driver" />
       <recent name="$PROJECT_DIR$/projeto/lib/assets" />
     </key>
