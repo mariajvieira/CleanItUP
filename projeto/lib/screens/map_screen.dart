@@ -110,7 +110,6 @@ Future<void> get_bins(m) async {
   dbHelper = UsersDatabaseHelper();
   add_Bins(dbHelper);
   List<RecyclingBin> bins = await dbHelper.getAllRecyclingBins();
-
   int i=0;
   bins.forEach((b) {
     m.insert(i, Marker(point:LatLng(b.bin_latitude, b.bin_longitude),child: Image.asset("lib/assets/bin.png")));
@@ -132,7 +131,12 @@ Widget map(){
         urlTemplate: 'https://api.mapbox.com/styles/v1/duartemarques/clw49mqbq02jn01qve0cd8ih1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
         userAgentPackageName: 'com.example.app',
       ),
-      MarkerLayer(markers: m),
+      MarkerLayer(markers:[
+        Marker(point: LatLng(41.1774101,-8.5957178),child: Image.asset("lib/assets/bin.png")),
+        Marker(point: LatLng(41.1777103,-8.5964536),child: Image.asset("lib/assets/bin.png")),
+        Marker(point: LatLng(41.1777615,-8.5968776),child: Image.asset("lib/assets/bin.png")),
+        Marker(point: LatLng(41.1775628,-8.5957688),child: Image.asset("lib/assets/bin.png"))
+      ]),
     ],
   );
 }
