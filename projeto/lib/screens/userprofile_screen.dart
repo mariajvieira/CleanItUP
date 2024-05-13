@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
+import '../SQLite/sqlite.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'package:projeto/screens/calendar_screen.dart';
@@ -18,7 +19,32 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   int _selectedIndex = 0;
+  int numberOfFriends = 0;
+  int numberOfPosts = 0;
+
   @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() async {
+    if (widget.user.userId != null) {
+      final friendsCount = await UsersDatabaseHelper().countUserFriends(widget.user.userId!);
+      final postsCount = await UsersDatabaseHelper().countUserPosts(widget.user.userId!);
+      setState(() {
+        numberOfFriends = friendsCount;
+        numberOfPosts = postsCount;
+      });
+    } else {
+      // Handle the case where userId is null, maybe set default values or show error
+      setState(() {
+        numberOfFriends = 0; // Default or error value
+        numberOfPosts = 0; // Default or error value
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.teal[50],
@@ -130,52 +156,33 @@ class _UserProfileState extends State<UserProfile> {
 
 
   Widget _buildStatisticSection() {
-    // Texto dos amigos, recycling bins, ...
-    var numberStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-    var labelStyle = const TextStyle(
-      color: Colors.white70,
-      fontSize: 12,
-    );
-
-    Widget buildStatistic(String number, String label, {bool isLarge = false}) {
-      double width = isLarge ? 120.0 : 80.0; // Larger width for the 'RECYCLING BINS' box
-
-      return Container(
-        width: width,
-        margin: const EdgeInsets.symmetric(horizontal: 4.0),
-        padding: const EdgeInsets.symmetric(vertical: 10.0),
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(number, style: numberStyle, textAlign: TextAlign.center),
-            FittedBox(
-              fit: BoxFit.fitWidth, // scales the text down if not fit
-              child: Text(label, style: labelStyle, textAlign: TextAlign.center),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
-      spacing: 8.0, // horizontal space
-      runSpacing: 8.0, // vertical space
       children: <Widget>[
-        buildStatistic('23', 'FRIENDS'),
-        buildStatistic('54', 'ECOPOINTS'),
-        buildStatistic('2', 'LEVEL'),
-        buildStatistic('17', 'RECYCLING BINS', isLarge: true),
+        _buildStatisticItem('$numberOfFriends', 'FRIENDS'),
+        _buildStatisticItem('$numberOfPosts', 'POSTS'),
+        // Add more items as needed
       ],
+    );
+  }
+
+  Widget _buildStatisticItem(String number, String label) {
+    return Container(
+      width: 80.0,
+      margin: const EdgeInsets.symmetric(horizontal: 4.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      decoration: BoxDecoration(
+        color: Colors.green,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Text(number, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 12)),
+        ],
+      ),
     );
   }
 
