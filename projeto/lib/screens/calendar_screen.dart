@@ -74,6 +74,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
     List<MapEntry<String, String>> upcomingEvents = getUpcomingEvents();
 
     return Scaffold(
+      backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
         title: Text('Calendar'),
       ),
@@ -83,13 +84,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const SizedBox(height: 24.0),
-            const Text(
-              'Upcoming Sustainability Activities',
-              style: TextStyle(
-                color: Colors.black,
-                letterSpacing: 2.0,
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+            Center(
+              child: const Text(
+                'Upcoming Events',
+                style: TextStyle(
+                  color: Colors.black,
+                  letterSpacing: 2.0,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+
+                ),
               ),
             ),
             const SizedBox(height: 20.0),

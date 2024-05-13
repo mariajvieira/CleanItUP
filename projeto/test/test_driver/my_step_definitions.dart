@@ -19,7 +19,7 @@ StepDefinitionGeneric WhenIDoSomething() {
   );
 }
 
-// Example of a then step
+
 StepDefinitionGeneric ThenIExpectSomething() {
   return then1<String, FlutterWorld>(
     'I expect something',
