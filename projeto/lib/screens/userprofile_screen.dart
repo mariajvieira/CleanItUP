@@ -98,13 +98,13 @@ class _UserProfileState extends State<UserProfile> {
             pinned: true,
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.settings),
+                icon: Icon(Icons.settings, color: Colors.white),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AccountSettingsScreen(user: widget.user)));
                 },
               ),
               IconButton(
-                icon: Icon(Icons.group_add),
+                icon: Icon(Icons.group_add, color: Colors.white),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => FriendRequestsScreen()));
                 },

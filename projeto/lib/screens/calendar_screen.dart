@@ -1,210 +1,195 @@
 import 'package:flutter/material.dart';
-import 'package:projeto/JsonModels/users.dart';
-import 'forum_screen.dart';
-import 'map_screen.dart';
-import 'userprofile_screen.dart';
-import 'package:projeto/screens/calendar_screen.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../JsonModels/users.dart';
+import 'add_event_screen.dart';
+
+const Color backgroundColor = Color(0xFFF5F5F5);
+const Color appBarColor = Color(0xFF00796B);
+const Color cardColor = Color(0xFFFFFFFF);
+const Color primaryTextColor = Color(0xFF212121);
+const Color secondaryTextColor = Color(0xFF757575);
+
+
+class Event {
+  final String title;
+  final String description;
+  final String location;
+  final String time;
+  final String district;
+
+  Event(this.title, this.description, this.location, this.time, this.district);
+}
 
 class CalendarScreen extends StatefulWidget {
-  final Users user; // Add this line to accept a Users object
+  final Users user;
 
-  const CalendarScreen({Key? key, required this.user}) : super(key: key); // Modify constructor
+  const CalendarScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   _CalendarScreenState createState() => _CalendarScreenState();
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
-  int _selectedIndex = 3; // Index for 'Calendar'
+  CalendarFormat _calendarFormat = CalendarFormat.month;
+  DateTime _focusedDay = DateTime.now();
+  DateTime? _selectedDay;
+  String _selectedDistrict = 'All';
+  List<String> _districts = [
+    'All', 'Aveiro', 'Beja', 'Braga', 'Bragança', 'Castelo Branco', 'Coimbra',
+    'Évora', 'Faro', 'Guarda', 'Leiria', 'Lisbon', 'Portalegre', 'Porto',
+    'Santarém', 'Setúbal', 'Viana do Castelo', 'Vila Real', 'Viseu'
+  ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    switch (index) {
-      case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
-        break;
-      case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
-        break;
-      case 2:
-        break;
-      case 3:
-        break;
-      case 4:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user))); // Pass the user to UserProfile
-        break;
-    }
-  }
-
-  String selectedDate = ""; // Store the selected date
-  Map<String, List<String>> events = {
-    '02.05.2024': ["Some activity 1"],
-    '08.05.2024': ["Some activity 2"],
-    '16.05.2024': ["Some activity 3"],
-    '22.05.2024': ["Some activity 4"],
-    '28.05.2024': ["Some activity 5"],
-    '03.06.2024': ["Some activity 6", "Some activity 7"],
+  Map<DateTime, List<Event>> _events = {
+    DateTime.utc(2024, 5, 7): [
+      Event('River Cleanup', 'Join us to clean the riverbanks in our community. Volunteers needed!', 'Riverbank Park', '08:00 AM', 'Lisbon'),
+      Event('Beach Cleanup', 'Join us to clean the beach in our community. Volunteers needed!', 'Riverbank Beach', '08:00 AM', 'Lisbon')
+    ],
+    DateTime.utc(2024, 5, 23): [
+      Event('Plant Trees', 'Help us plant trees in the local park. All materials provided.', 'Green Park', '10:00 AM', 'Porto')
+    ],
   };
 
-  List<MapEntry<String, String>> getUpcomingEvents() {
-    List<MapEntry<String, String>> upcomingEvents = [];
-    var now = DateTime.now();
-    events.forEach((key, value) {
-      var dateComponents = key.split('.');
-      var eventDate = DateTime(
-          int.parse(dateComponents[2]), int.parse(dateComponents[1]),
-          int.parse(dateComponents[0]));
-      if (eventDate.isAfter(now) || eventDate.isAtSameMomentAs(now)) {
-        upcomingEvents.add(MapEntry(key, value.join(", ")));
-      }
-    });
-    upcomingEvents.sort((a, b) {
-      var aDate = DateTime.parse("${a.key.split('.').reversed.join('-')}T00:00:00Z");
-      var bDate = DateTime.parse("${b.key.split('.').reversed.join('-')}T00:00:00Z");
-      return aDate.compareTo(bDate);
-    });
-    return upcomingEvents.take(2).toList();
+  void _launchURL(String url) async {
+    if (!await launch(url)) throw 'Could not launch $url';
+  }
+
+  Widget _buildEventCard(Event event) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        children: [
+          ListTile(
+            title: Text(event.title, style: TextStyle(color: primaryTextColor)),
+            subtitle: Text('${event.time} - ${event.location}', style: TextStyle(color: secondaryTextColor)),
+          ),
+        ],
+      ),
+    );
+  }
+
+
+  void _showEventDetails(List<Event> events) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => Container(
+        padding: EdgeInsets.all(16),
+        child: ListView(
+          children: events.map((event) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(event.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(event.description, style: TextStyle(fontSize: 18)),
+              Text('Location: ${event.location}', style: TextStyle(fontSize: 16)),
+              Text('Time: ${event.time}', style: TextStyle(fontSize: 16)),
+              SizedBox(height: 10),
+              ElevatedButton(
+                child: Text("Share"),
+                onPressed: () {
+                  _launchURL(""); //acrescentar
+                },
+              ),
+              ElevatedButton(
+                child: Text("I'll attend"),
+                onPressed: () {
+                  // acrescentar
+                },
+              ),
+              Divider()
+            ],
+          )).toList(),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<MapEntry<String, String>> upcomingEvents = getUpcomingEvents();
+    List<Event>? _selectedEvents = _events[_selectedDay]?.where((event) => _selectedDistrict == 'All' || event.district == _selectedDistrict).toList();
 
     return Scaffold(
-      backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
-        title: Text('Calendar'),
+        title: Text('Upcoming Events', style: TextStyle(color: Colors.white)),
+        backgroundColor: appBarColor,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddEventScreen()));
+            },
+          )
+        ],
       ),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(height: 24.0),
-            Center(
-              child: const Text(
-                'Upcoming Events',
-                style: TextStyle(
-                  color: Colors.black,
-                  letterSpacing: 2.0,
-                  fontSize: 30.0,
-                  fontWeight: FontWeight.bold,
-
-                ),
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            Text(
-              'Selected Date: $selectedDate',
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 20.0),
-            if (selectedDate.isNotEmpty)
-              Text(
-                events[selectedDate]?.join(", ") ?? "No events on this date",
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () async {
-                final DateTime? picked = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2020),
-                  lastDate: DateTime(2025),
-                );
-                if (picked != null) {
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              DropdownButton<String>(
+                value: _selectedDistrict,
+                onChanged: (value) {
                   setState(() {
-                    selectedDate = "${picked.day.toString().padLeft(2, '0')}.${picked.month.toString().padLeft(2, '0')}.${picked.year}";
+                    _selectedDistrict = value!;
                   });
-                }
-              },
-              child: const Text('Pick a Date'),
-            ),
-            const SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  selectedDate = "";
-                });
-              },
-              child: const Text('Reset'),
-            ),
-            const SizedBox(height: 20.0),
-            const Text(
-              'Next Events:',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: upcomingEvents.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        selectedDate = upcomingEvents[index].key;
-                      });
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        '${upcomingEvents[index].value} (${upcomingEvents[index].key})',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          color: selectedDate == upcomingEvents[index].key
-                              ? Colors.blue
-                              : Colors.black,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                  );
                 },
+                items: _districts.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
+            ],
+          ),
+          TableCalendar(
+            firstDay: DateTime.utc(2020, 1, 1),
+            lastDay: DateTime.utc(2025, 12, 31),
+            focusedDay: _focusedDay,
+            calendarFormat: _calendarFormat,
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              List<Event>? dayEvents = _events[selectedDay];
+              if (dayEvents != null) {
+                _showEventDetails(dayEvents);
+              }
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            },
+            eventLoader: (day) {
+              return _events[day]?.where((event) => _selectedDistrict == 'All' || event.district == _selectedDistrict).toList() ?? [];
+            },
+            onFormatChanged: (format) {
+              if (_calendarFormat != format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
+              }
+            },
+            onPageChanged: (focusedDay) {
+              _focusedDay = focusedDay;
+            },
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _selectedEvents?.length ?? 0,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(_selectedEvents![index].title),
+                  subtitle: Text('Location: ${_selectedEvents[index].location} - ${_selectedEvents[index].district}'),
+                  onTap: () {
+                    List<Event>? dayEvents = _events[_selectedDay];
+                    if (dayEvents != null) {
+                      _showEventDetails(dayEvents);
+                    }
+                  },
+                );
+              },
             ),
-          ],
-        ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.teal,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.public),
-            label: 'Global',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.radio_button_checked),
-            label: 'Near me',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_today),
-            label: 'Calendar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
           ),
         ],
       ),
