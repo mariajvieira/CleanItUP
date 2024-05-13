@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_post_screen.dart';
+import 'search_users_screen.dart'; // Make sure to import your AddUserScreen
 
 class ForumScreen extends StatefulWidget {
   const ForumScreen({Key? key}) : super(key: key);
@@ -39,7 +40,11 @@ class _ForumScreenState extends State<ForumScreen> {
       appBar: AppBar(
         title: Text('CleanItUP', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
-        actions: [
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () => _navigateToAddUserScreen(context),
+          ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () => _navigateToAddPostScreen(context),
@@ -55,12 +60,12 @@ class _ForumScreenState extends State<ForumScreen> {
               children: <Widget>[
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage('assets/avatar.png'), // depois meter quando tivermos
+                    backgroundImage: AssetImage('assets/avatar.png'),
                   ),
                   title: Text(posts[index]['username']),
                   subtitle: Text(posts[index]['content']),
                 ),
-                Image.asset(posts[index]['image']), // alterar
+                Image.asset(posts[index]['image']),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                   child: Row(
@@ -84,7 +89,6 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 
-
   void _navigateToAddPostScreen(BuildContext context) {
     Navigator.push(
       context,
@@ -92,4 +96,10 @@ class _ForumScreenState extends State<ForumScreen> {
     );
   }
 
+  void _navigateToAddUserScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchUsersScreen()),
+    );
+  }
 }
