@@ -154,4 +154,25 @@ class UsersDatabaseHelper {
       return -1; // Return -1 to indicate an error
     }
   }
+
+  Future<List<Map<String, dynamic>>> getUserPosts(int userId) async {
+    final Database db = await initDB();
+    List<Map<String, dynamic>> posts = await db.query(
+        'posts',
+        where: 'user_id = ?',
+        whereArgs: [userId]
+    );
+    return posts;
+  }
+
+  Future<List<Users>> searchUsersByName(String name) async {
+    final Database db = await initDB();
+    List<Map<String, dynamic>> result = await db.query(
+      'users',
+      where: 'firstName LIKE ? OR lastName LIKE ?',
+      whereArgs: ['%$name%', '%$name%'],
+    );
+    return result.map((map) => Users.fromMap(map)).toList();
+  }
+
 }
