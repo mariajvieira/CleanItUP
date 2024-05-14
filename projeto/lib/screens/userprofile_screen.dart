@@ -32,8 +32,8 @@ class _UserProfileState extends State<UserProfile> {
   void _loadUserData() async {
     final db = UsersDatabaseHelper();
     if (widget.user.userId != null) {
-      final friendsCount = await db.countUserFriends(widget.user.userId!);
-      final posts = await db.getUserPosts(widget.user.userId!);
+      final friendsCount = await db.countUserFriends(widget.user.userId! as int);
+      final posts = await db.getUserPosts(widget.user.userId! as int);
       setState(() {
         numberOfFriends = friendsCount;
         numberOfPosts = posts.length;

@@ -69,7 +69,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                 var user = _searchResults[index];
                 return ListTile(
                   title: Text('${user.firstName} ${user.lastName}'),
-                  subtitle: Text(user.userName),
+                  subtitle: Text(user.userEmail),
                 );
               },
             ),

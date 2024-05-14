@@ -1,14 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 
 
-void main() => runApp(const MaterialApp(
-  home: MyHomePage(title: 'Flutter Demo Home Page'),
-));
 
-
-//com firebase
-/*
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // Ensure plugin services are initialized
   await Firebase.initializeApp();             // Initialize Firebase
@@ -25,9 +20,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomeScreen(),
+      home: MyHomePage(title: '',),
     );
   }
 }
-
- */
