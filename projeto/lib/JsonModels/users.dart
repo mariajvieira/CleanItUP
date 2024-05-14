@@ -1,4 +1,3 @@
-
 class Users {
 
   String? userId;
@@ -21,10 +20,10 @@ class Users {
   factory Users.fromMap(Map<String, dynamic> map) {
     return Users(
       userId: map['userId'],
-      userEmail: map['userEmail'],
-      userPassword: map['userPassword'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
+      userName: map['userName'] as String,
+      userPassword: map['userPassword'] as String,
+      firstName: map['firstName'] as String,
+      lastName: map['lastName'] as String,
     );
   }
 }
