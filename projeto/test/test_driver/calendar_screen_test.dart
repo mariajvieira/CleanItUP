@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:projeto/screens/calendar_screen.dart';
 import 'package:projeto/JsonModels/users.dart';
-import 'package:projeto/utilities/date_utils.dart';
 
 
 void main() {

@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../JsonModels/users.dart';
-import 'geolocation_screen.dart';  // Make sure this import is correct
+import 'geolocation_screen.dart';
 import 'signup_screen.dart';
-import '../SQLite/sqlite.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -11,14 +11,37 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final username = TextEditingController();
-  final password = TextEditingController();
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
   bool isVisible = false;
   bool isLoginFailed = false;
-  String errorMessage = "Username or password is incorrect";  // Default error message
+  String errorMessage = "Username or password is incorrect";
 
-  final db = UsersDatabaseHelper();  // Assuming db methods are correctly implemented
+  void login() async {
+    try {
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: usernameController.text,
+        password: passwordController.text,
+      );
+      final user = userCredential.user;
+      if (user != null) {
+        _navigateToGeoLocationScreen(user as Users);
+      } else {
+        setState(() {
+          errorMessage = "Failed to retrieve user details";
+          isLoginFailed = true;
+        });
+      }
+    } catch (e) {
+      print("Failed to log in: $e");
+      setState(() {
+        errorMessage = "Username or password is incorrect";
+        isLoginFailed = true;
+      });
+    }
+  }
 
+  /*
   void login() async {
     if (!formKey.currentState!.validate()) {
       return;
@@ -49,7 +72,7 @@ class _LoginState extends State<Login> {
         isLoginFailed = true;
       });
     }
-  }
+  }*/
 
   void _navigateToGeoLocationScreen(Users user) {
     Navigator.push(
@@ -115,7 +138,7 @@ class _LoginState extends State<Login> {
                         ),),
                       const SizedBox(height: 10.0),
                       TextFormField(
-                        controller: username,
+                        controller: usernameController,
                         decoration: InputDecoration(
                           fillColor: Colors.white,
                           filled: true,
@@ -128,7 +151,7 @@ class _LoginState extends State<Login> {
                       ),
                       const SizedBox(height: 20.0),
                       TextFormField(
-                        controller: password,
+                        controller: passwordController,
                         obscureText: !isVisible,
                         decoration: InputDecoration(
                             fillColor: Colors.white,

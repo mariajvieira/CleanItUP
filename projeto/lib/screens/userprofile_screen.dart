@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
 import 'package:projeto/screens/account_settings_screen.dart';  // Import the AccountSettingsScreen
-import '../SQLite/sqlite.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
@@ -10,7 +10,7 @@ import 'friend_requests_screen.dart';
 class UserProfile extends StatefulWidget {
   final Users user;
 
-  const UserProfile({super.key, required this.user});
+  const UserProfile({Key? key, required this.user});
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -29,18 +29,23 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   void _loadUserData() async {
-    final db = UsersDatabaseHelper();
-    if (widget.user.userId != null) {
-      final friendsCount = await db.countUserFriends(widget.user.userId! as int);
-      final posts = await db.getUserPosts(widget.user.userId! as int);
+    try {
+      final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users')
+          .doc(widget.user.id)
+          .get();
+
+      final friendsCount = userData['numberOfFriends'];
+      final posts = userData['posts'];
+
       setState(() {
         numberOfFriends = friendsCount;
         numberOfPosts = posts.length;
         userPosts = posts;
       });
+    } catch (e) {
+      print('Error loading user data: $e');
     }
   }
-
   Widget _buildPostsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,  // Ensures alignment starts from the start horizontally

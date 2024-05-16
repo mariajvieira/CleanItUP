@@ -9,6 +9,25 @@
       "client_info": {
         "mobilesdk_app_id": "1:768305393904:android:f80805d088dc9f75f45235",
         "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC-N5hsQUdP-ZsF-4-B57556RiEyoU8iM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768305393904:android:7677ce2cabe3c37ff45235",
+        "android_client_info": {
           "package_name": "com.cleanitup.projeto"
         }
       },

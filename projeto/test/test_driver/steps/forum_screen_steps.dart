@@ -1,5 +1,4 @@
 import 'package:flutter_driver/flutter_driver.dart' as driver;
-import 'package:flutter_test/flutter_test.dart' as test;
 import 'package:flutter_gherkin/flutter_gherkin.dart';
 import 'package:gherkin/gherkin.dart';
 
@@ -11,10 +10,8 @@ class CustomFlutterWorld extends FlutterWorld {
 
   @override
   Future<void> dispose() async {
-    if (driver != null) {
-      await driver.close();
+    await driver.close();
     }
-  }
 }
 
 

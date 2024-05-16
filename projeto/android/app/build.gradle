@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.application'
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
     id 'com.google.gms.google-services'
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
 }
 
 def localProperties = new Properties()
@@ -33,9 +33,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -46,7 +44,7 @@ android {
         applicationId "com.cleanitup.projeto"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -69,4 +67,8 @@ flutter {
 dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation platform('com.google.firebase:firebase-bom:33.0.0')
+    implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-firestore'
 }
+
+

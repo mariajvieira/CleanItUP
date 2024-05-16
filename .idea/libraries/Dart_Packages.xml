@@ -226,6 +226,27 @@
             </list>
           </value>
         </entry>
+        <entry key="firebase_storage">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage-11.7.5/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_storage_platform_interface">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_platform_interface-5.1.20/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="firebase_storage_web">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_web-3.9.5/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter">
           <value>
             <list>
@@ -460,21 +481,21 @@
         <entry key="leak_tracker">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.4/lib" />
             </list>
           </value>
         </entry>
         <entry key="leak_tracker_flutter_testing">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-2.0.1/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.3/lib" />
             </list>
           </value>
         </entry>
         <entry key="leak_tracker_testing">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-2.0.1/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1/lib" />
             </list>
           </value>
         </entry>
@@ -516,7 +537,7 @@
         <entry key="meta">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.11.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.12.0/lib" />
             </list>
           </value>
         </entry>
@@ -632,6 +653,13 @@
             </list>
           </value>
         </entry>
+        <entry key="simple_gesture_detector">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/simple_gesture_detector-0.2.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="sky_engine">
           <value>
             <list>
@@ -727,6 +755,13 @@
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.1.0+1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="table_calendar">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/table_calendar-3.1.1/lib" />
             </list>
           </value>
         </entry>
@@ -845,7 +880,7 @@
         <entry key="vm_service">
           <value>
             <list>
-              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-13.0.0/lib" />
+              <option value="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.1/lib" />
             </list>
           </value>
         </entry>
@@ -940,6 +975,9 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core-2.31.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core_platform_interface-5.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_core_web-2.17.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage-11.7.5/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_platform_interface-5.1.20/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/firebase_storage_web-3.9.5/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_gherkin-3.0.0-rc.17/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_map-6.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.19/lib" />
@@ -967,15 +1005,15 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/io-1.0.4/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/js-0.7.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/latlong2-0.9.1/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.0/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-2.0.1/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-2.0.1/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker-10.0.4/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.3/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/leak_tracker_testing-3.0.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/lists-1.0.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/logger-2.3.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/logging-1.2.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/matcher-0.12.16+1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/material_color_utilities-0.8.0/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.11.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.12.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/mgrs_dart-2.0.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/mime-1.0.5/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/node_preamble-2.0.2/lib" />
@@ -992,6 +1030,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/shelf_packages_handler-3.0.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/shelf_static-1.1.2/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/shelf_web_socket-2.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/simple_gesture_detector-0.2.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/source_gen-1.5.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/source_map_stack_trace-2.1.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/source_maps-0.10.12/lib" />
@@ -1005,6 +1044,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/string_scanner-1.2.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/sync_http-0.3.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/synchronized-3.1.0+1/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/table_calendar-3.1.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/term_glyph-1.2.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/test-1.25.5/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/test_api-0.6.1/lib" />
@@ -1021,7 +1061,7 @@
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/url_launcher_windows-3.1.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/uuid-3.0.7/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vector_math-2.1.4/lib" />
-      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-13.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/vm_service-14.2.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/watcher-1.1.0/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.5.1/lib" />
       <root url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dev/web_socket-0.1.3/lib" />

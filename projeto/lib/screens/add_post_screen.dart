@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';  // Used for File type
-import 'package:geolocator/geolocator.dart';
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../JsonModels/post.dart';
 
-import '../SQLite/sqlite.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -16,8 +16,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final TextEditingController _postTextController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
   List<File> images = [];
-  double? latitude;
-  double? longitude;
+
 
   Future<void> _pickImageFromGallery() async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -37,48 +36,31 @@ class _AddPostScreenState extends State<AddPostScreen> {
     }
   }
 
-  Future<void> _addCurrentLocation() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Location services are disabled."))
-      );
-      return;
-    }
+  Future<String> _uploadImage(File image) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString(); // Unique filename
+      Reference storageReference = FirebaseStorage.instance.ref().child('images/$fileName');
 
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Location permissions are denied."))
-        );
-        return;
-      }
-    }
+      await storageReference.putFile(image);
 
-    if (permission == LocationPermission.deniedForever) {
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Location permissions are permanently denied."))
-      );
-      return;
-    }
+      String imageUrl = await storageReference.getDownloadURL();
 
-    Position position = await Geolocator.getCurrentPosition();
-    latitude = position.latitude;
-    longitude = position.longitude;
+      return imageUrl;
+    } catch (e) {
+      print('Error uploading image: $e');
+      throw e;
+    }
   }
 
-
-  Future<bool> submitPost(String text, List<File> images, double? lat, double? lon) async {
+  Future<bool> submitPost(String text, List<File> images) async {
     if (images.isEmpty) return false; // Make sure there's at least one image
 
-    UsersDatabaseHelper db = UsersDatabaseHelper();
-    int userId = 1; // Assuming you have a way to get the user's ID
-    String imagePath = images.first.path; // Using only the first image for simplicity
-
-    int postId = await db.addPost(userId, text, lat, lon, imagePath: imagePath);
-    return postId > 0; // Check if the post was added successfully
+    String imageUrl = '';
+    if (images.isNotEmpty) {
+      imageUrl = await _uploadImage(images.first);
+    }
+    await Post.addPostToDatabase(text, '', imageUrl);
+    return true;
   }
 
   void submitPostHandler() async {
@@ -89,7 +71,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
       return;
     }
 
-    bool success = await submitPost(_postTextController.text, images, latitude, longitude);
+    bool success = await submitPost(_postTextController.text, images);
     if (success) {
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -120,10 +102,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
           TextField(
             controller: _postTextController,
             decoration: InputDecoration(labelText: 'Post Text'),
-          ),
-          ElevatedButton(
-              onPressed: _addCurrentLocation,
-              child: Text('Add Location')
           ),
           Expanded(
             child: GridView.builder(

@@ -30,8 +30,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_storage: ^11.7.5
   table_calendar: ^3.0.5
-  firebase_core: 2.31.0
+  firebase_core: ^2.31.0
   image_picker: ^1.1.1
   path: any
   sqflite: any

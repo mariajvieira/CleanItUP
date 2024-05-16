@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../JsonModels/users.dart';
-import '../SQLite/sqlite.dart';
+
 
 class SearchUsersScreen extends StatefulWidget {
   const SearchUsersScreen({Key? key}) : super(key: key);
@@ -17,11 +18,26 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   void _searchUsers(String query) async {
     if (query.isNotEmpty) {
       setState(() => _isSearching = true);
-      var users = await UsersDatabaseHelper().searchUsersByName(query);
-      setState(() {
-        _searchResults = users;
-        _isSearching = false;
-      });
+      try {
+        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('fullName', isGreaterThanOrEqualTo: query)
+            .where('fullName', isLessThanOrEqualTo: query + '\uf8ff')
+            .get();
+
+        setState(() {
+          _searchResults =
+              querySnapshot.docs.map((doc) => Users.fromFirestore(doc))
+                  .toList();
+          _isSearching = false;
+        });
+      } catch (e) {
+        print("Error searching users: $e");
+        setState(() {
+          _searchResults = [];
+          _isSearching = false;
+        });
+      }
     } else {
       setState(() {
         _searchResults = [];
@@ -69,7 +85,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                 var user = _searchResults[index];
                 return ListTile(
                   title: Text('${user.firstName} ${user.lastName}'),
-                  subtitle: Text(user.userEmail),
+                  subtitle: Text(user.email),
                 );
               },
             ),

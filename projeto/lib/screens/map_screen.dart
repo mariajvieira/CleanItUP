@@ -1,20 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-
-import '../JsonModels/recyclingBin.dart';
 import '../JsonModels/users.dart';
-import '../addToDB/addBins.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
-import '../SQLite/sqlite.dart';
-import 'package:projeto/SQLite/sqlite.dart';
-import 'package:projeto/JsonModels/recyclingBin.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 
 
@@ -113,30 +104,33 @@ class _MapState extends State<MapScreen>{
 
 }
 
-Future<void> get_bins(List<Marker>m) async {
-  sqfliteFfiInit();
-  databaseFactory = databaseFactoryFfi;
-  late UsersDatabaseHelper dbHelper;
-  dbHelper = UsersDatabaseHelper();
-  add_Bins(dbHelper);
+Future<void> getBins(List<Marker> m) async {
+  try {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('recyclingBins').get();
 
-  List<RecyclingBin> bins = await dbHelper.getAllRecyclingBins();
-  int i=0;
-  bins.forEach((b) {
-    print(b.bin_id);
-    m.insert(i, Marker(point:LatLng(b.bin_latitude, b.bin_longitude),child: Image.asset("lib/assets/bin.png")));
-    i++;
-  });
+    querySnapshot.docs.forEach((doc) {
+      double latitude = doc['latitude'];
+      double longitude = doc['longitude'];
+
+      m.add(
+        Marker(
+          point: LatLng(latitude, longitude),
+          child: Image.asset("lib/assets/bin.png"),
+        ),
+      );
+    });
+  } catch (e) {
+    print("Error fetching recycling bins: $e");
+  }
 }
 
-Widget map(){
-  List<Marker> m=[];
-  print("0000000000000000000000000000");
-  get_bins(m);
+Widget map() {
+  List<Marker> m = [];
+  getBins(m);
+
   return FlutterMap(
     options: const MapOptions(
       initialCenter: LatLng(41.178444, -8.596222),
-      //initialCenter: LatLng(lat!, lng!), NÃO FUNCIONA
       initialZoom: 19,
     ),
     children: [
@@ -145,13 +139,8 @@ Widget map(){
         userAgentPackageName: 'com.example.app',
       ),
       MarkerLayer(
-          markers: /*m*/
-          [
-        Marker(point: LatLng(41.1774101,-8.5957178),child: Image.asset("lib/assets/bin.png")),
-        Marker(point: LatLng(41.1777103,-8.5964536),child: Image.asset("lib/assets/bin.png")),
-        Marker(point: LatLng(41.1777615,-8.5968776),child: Image.asset("lib/assets/bin.png")),
-        Marker(point: LatLng(41.1775628,-8.5957688),child: Image.asset("lib/assets/bin.png"))
-      ]),
+        markers: m,
+      ),
     ],
   );
 }
