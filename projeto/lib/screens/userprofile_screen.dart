@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto/JsonModels/users.dart';
-import 'package:projeto/screens/account_settings_screen.dart';  // Import the AccountSettingsScreen
+import 'package:projeto/screens/account_settings_screen.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
@@ -48,7 +48,7 @@ class _UserProfileState extends State<UserProfile> {
   }
   Widget _buildPostsSection() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,  // Ensures alignment starts from the start horizontally
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
@@ -86,7 +86,7 @@ class _UserProfileState extends State<UserProfile> {
               },
             ),
           ),
-        const Divider(color: Colors.teal, thickness: 2),  // Divider after the section
+        const Divider(color: Colors.teal, thickness: 2),
       ],
     );
   }
@@ -203,13 +203,14 @@ class _UserProfileState extends State<UserProfile> {
     });
     switch (index) {
       case 0:
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const ForumScreen()));
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ForumScreen(user: widget.user)
+        ));
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
         break;
-      case 3: // Assuming 'Calendar' is at index 3
+      case 3:
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => CalendarScreen(user: widget.user,)));
         break;
@@ -222,7 +223,6 @@ class _UserProfileState extends State<UserProfile> {
       children: <Widget>[
         _buildStatisticItem('$numberOfFriends', 'FRIENDS'),
         _buildStatisticItem('$numberOfPosts', 'POSTS'),
-        // Add more items as needed
       ],
     );
   }
@@ -251,18 +251,17 @@ class _UserProfileState extends State<UserProfile> {
 
   Widget _buildAchievementsSection() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start, // Align text to start
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Divider(color: Colors.teal, thickness: 2),
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          // Consistent padding
           child: Text(
             'Achievements',
             style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
           ),
         ),
-        const Divider(color: Colors.teal, thickness: 2),  // Divider after the section
+        const Divider(color: Colors.teal, thickness: 2),
       ],
     );
   }

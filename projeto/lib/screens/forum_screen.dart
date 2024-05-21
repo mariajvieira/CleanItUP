@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
 import 'add_post_screen.dart';
-import 'search_users_screen.dart'; // Make sure to import your AddUserScreen
+import 'search_users_screen.dart';
+import 'map_screen.dart';
+import 'calendar_screen.dart';
+import 'userprofile_screen.dart';
+import '../JsonModels/users.dart';
 
 class ForumScreen extends StatefulWidget {
-  const ForumScreen({Key? key}) : super(key: key);
+  final Users user;
+  const ForumScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<ForumScreen> createState() => _ForumScreenState();
 }
 
 class _ForumScreenState extends State<ForumScreen> {
-  List<Map<String, dynamic>> posts = [
+  int _selectedIndex = 0;
+
+  // Sample list of posts
+  final List<Map<String, dynamic>> posts = [
     {
       "username": "John Smith",
       "image": "lib/assets/volunteer.png",
@@ -30,7 +38,7 @@ class _ForumScreenState extends State<ForumScreen> {
       "image": "lib/assets/clothing.png",
       "likes": 15,
       "comments": 6,
-      "content": "Come to the flea market near feup. A great opportunity for recycling while making some extra money.",
+      "content": "Come to the flea market near FEUP. A great opportunity for recycling while making some extra money.",
     },
   ];
 
@@ -38,16 +46,22 @@ class _ForumScreenState extends State<ForumScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('CleanItUP', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
+        title: Text('Forum', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.teal,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () => _navigateToAddUserScreen(context),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SearchUsersScreen()),
+            ),
           ),
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _navigateToAddPostScreen(context),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddPostScreen()),
+            ),
           ),
         ],
       ),
@@ -60,7 +74,7 @@ class _ForumScreenState extends State<ForumScreen> {
               children: <Widget>[
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage('assets/avatar.png'),
+                    backgroundImage: AssetImage(posts[index]['image']),
                   ),
                   title: Text(posts[index]['username']),
                   subtitle: Text(posts[index]['content']),
@@ -86,20 +100,70 @@ class _ForumScreenState extends State<ForumScreen> {
           );
         },
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.teal,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.public),
+            label: 'Global',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.radio_button_checked),
+            label: 'Near me',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
     );
   }
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
 
-  void _navigateToAddPostScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const AddPostScreen()),
-    );
+    switch (index) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ForumScreen(user: widget.user)));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => MapScreen(user: widget.user)));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => CalendarScreen(user: widget.user)));
+        break;
+      case 4:
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => UserProfile(user: widget.user)));
+        break;
+    }
   }
 
   void _navigateToAddUserScreen(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SearchUsersScreen()),
-    );
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => SearchUsersScreen()));
+  }
+
+  void _navigateToAddPostScreen(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => AddPostScreen()));
   }
 }

@@ -10,9 +10,9 @@ import 'forum_screen.dart';
 
 
 class MapScreen extends StatefulWidget{
-  final Users user; // Add this line to accept a Users object
+  final Users user;
 
-  const MapScreen({Key? key, required this.user}) : super(key: key); // Modify constructor
+  const MapScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   State<MapScreen> createState()=> _MapState();
@@ -86,7 +86,9 @@ class _MapState extends State<MapScreen>{
 
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => const ForumScreen()));
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ForumScreen(user: widget.user)
+        ));
         break;
       case 1:
         Navigator.push(context, MaterialPageRoute(builder: (context) =>  MapScreen(user: widget.user)));
@@ -97,7 +99,7 @@ class _MapState extends State<MapScreen>{
         Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user,)));
         break;
       case 4:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user))); // Pass the user to UserProfile
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)));
         break;
     }
   }

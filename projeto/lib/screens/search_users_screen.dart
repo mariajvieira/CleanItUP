@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../JsonModels/users.dart';
 
-
 class SearchUsersScreen extends StatefulWidget {
   const SearchUsersScreen({Key? key}) : super(key: key);
 
@@ -16,31 +15,36 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   bool _isSearching = false;
 
   void _searchUsers(String query) async {
-    if (query.isNotEmpty) {
-      setState(() => _isSearching = true);
-      try {
-        QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-            .collection('users')
-            .where('fullName', isGreaterThanOrEqualTo: query)
-            .where('fullName', isLessThanOrEqualTo: query + '\uf8ff')
-            .get();
-
-        setState(() {
-          _searchResults =
-              querySnapshot.docs.map((doc) => Users.fromFirestore(doc))
-                  .toList();
-          _isSearching = false;
-        });
-      } catch (e) {
-        print("Error searching users: $e");
-        setState(() {
-          _searchResults = [];
-          _isSearching = false;
-        });
-      }
-    } else {
+    if (query.isEmpty) {
       setState(() {
         _searchResults = [];
+        _isSearching = false;
+      });
+      return;
+    }
+
+    setState(() => _isSearching = true);
+
+    try {
+      var usersCollection = FirebaseFirestore.instance.collection('users');
+      var emailQuery = usersCollection
+          .where('email', isGreaterThanOrEqualTo: query)
+          .where('email', isLessThanOrEqualTo: query + '\uf8ff')
+          .get();
+
+      var emailResults = await emailQuery;
+
+      setState(() {
+        _searchResults = emailResults.docs
+            .map((doc) => Users.fromFirestore(doc))
+            .toList();
+        _isSearching = false;
+      });
+    } catch (e) {
+      print("Error searching users by email: $e");
+      setState(() {
+        _searchResults = [];
+        _isSearching = false;
       });
     }
   }
@@ -64,7 +68,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Search by name',
+                labelText: 'Search by email',
                 suffixIcon: IconButton(
                   icon: Icon(Icons.clear),
                   onPressed: () {
@@ -73,7 +77,7 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
                   },
                 ),
               ),
-              onChanged: _searchUsers,
+              onChanged: (value) => _searchUsers(value),
             ),
           ),
           Expanded(
