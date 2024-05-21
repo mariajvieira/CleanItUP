@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login_screen.dart';
 
 class SignUp extends StatefulWidget {
@@ -14,18 +15,27 @@ class _SignUpState extends State<SignUp> {
   final confirm_password = TextEditingController();
   final firstName = TextEditingController();
   final lastName = TextEditingController();
-  String errorMessage = "Username or password is incorrect";
+  String errorMessage = "Please enter all fields correctly";
   bool isVisible = false;
   bool isVisible_ = false;
   bool isSignUpFailed = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final formKey = GlobalKey<FormState>();
 
   void setErrorMessage(String message) {
     setState(() {
       errorMessage = message;
       isSignUpFailed = true;
+    });
+  }
+
+  Future<void> createUserProfile(String userId) async {
+    return _firestore.collection('users').doc(userId).set({
+      'firstName': firstName.text.trim(),
+      'lastName': lastName.text.trim(),
+      'email': username.text.trim(),
     });
   }
 
@@ -46,39 +56,18 @@ class _SignUpState extends State<SignUp> {
     }
 
     try {
-      print("Attempting to create user with email: ${username.text}");
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: username.text,
         password: password.text,
       );
-      print("User created, attempting to sign up...");
       if (userCredential.user != null) {
+        await createUserProfile(userCredential.user!.uid);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => const Login()));
       }
     } catch (e) {
-      print('Signup error: ${e.toString()}');
       if (e is FirebaseAuthException) {
-        print('Firebase error: ${e.code}');
-        switch (e.code) {
-          case 'email-already-in-use':
-            setErrorMessage("This email address is already in use.");
-            break;
-          case 'invalid-email':
-            setErrorMessage("The email address is invalid.");
-            break;
-          case 'operation-not-allowed':
-            setErrorMessage("Email/password accounts are not enabled.");
-            break;
-          case 'weak-password':
-            setErrorMessage("The password is too weak.");
-            break;
-          default:
-            setErrorMessage(
-                e.message ?? "An error occurred. Please try again.");
-            break;
-        }
+        setErrorMessage(e.message ?? "An error occurred. Please try again.");
       } else {
         setErrorMessage("An unknown error occurred.");
       }
@@ -107,7 +96,7 @@ class _SignUpState extends State<SignUp> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const SizedBox(height: 20.0,),
+                      const SizedBox(height: 20.0),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -131,7 +120,7 @@ class _SignUpState extends State<SignUp> {
                           )
                         ],
                       ),
-                      const SizedBox(height: 10.0,),
+                      const SizedBox(height: 10.0),
                       const Text('Sign up with your UP email',
                         style: TextStyle(
                           color: Colors.white,
@@ -223,6 +212,9 @@ class _SignUpState extends State<SignUp> {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a password';
                           }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          }
                           return null;
                         },
                       ),
@@ -289,6 +281,13 @@ class _SignUpState extends State<SignUp> {
                             style: const TextStyle(color: Colors.red, fontSize: 14),
                           ),
                         ),
+                      FloatingActionButton(
+                        onPressed: signup,
+                        tooltip: 'Sign Up',
+                        backgroundColor: Colors.white,
+                        elevation: 6,
+                        child: const Text('SIGN UP'),
+                      ),
                     ],
                   ),
                 ),
@@ -296,13 +295,6 @@ class _SignUpState extends State<SignUp> {
             ),
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: signup,
-        tooltip: 'Sign Up',
-        backgroundColor: Colors.white,
-        elevation: 6,
-        child: const Text('SIGN UP'),
       ),
     );
   }

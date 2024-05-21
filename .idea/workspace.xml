@@ -4,34 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/appInsightsSettings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/event.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/post.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/app/google-services.json" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/app/google-services.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/JsonModels/recyclingBin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/recyclingBin.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/JsonModels/users.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/users.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/SQLite/sqlite.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/addToDB/addBins.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/add_post_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/add_post_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/edit_profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/edit_profile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/search_users_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/search_users_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/signup_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/signup_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/services/auth.dart" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/calendar_screen_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/calendar_screen_test.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/test/test_driver/steps/forum_screen_steps.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/test/test_driver/steps/forum_screen_steps.dart" afterDir="false" />
-    </list>
+    <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -80,26 +53,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "io.flutter.reload.alreadyRun": "true",
-    "last_opened_file_path": "/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "build.tools",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/franciscafernandes/Desktop/2324/ESOF/2LEIC01T2&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;build.tools&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\android\app" />
