@@ -44,7 +44,11 @@ class _ForumScreenState extends State<ForumScreen> {
             .orderBy('date', descending: true)
             .get();
 
-        List<Map<String, dynamic>> fetchedPosts = postsSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        List<Map<String, dynamic>> fetchedPosts = postsSnapshot.docs.map((doc) {
+          var data = doc.data() as Map<String, dynamic>;
+          data['id'] = doc.id; // Adiciona o ID do documento ao post
+          return data;
+        }).toList();
 
         for (var post in fetchedPosts) {
           String userId = post['userId'];
@@ -64,6 +68,67 @@ class _ForumScreenState extends State<ForumScreen> {
     } catch (e) {
       print('Error loading friends\' posts: $e');
     }
+  }
+
+  Future<void> _toggleLike(String postId, bool isLiked) async {
+    try {
+      var postRef = FirebaseFirestore.instance.collection('Posts').doc(postId);
+      if (isLiked) {
+        await postRef.update({
+          'likes': FieldValue.arrayRemove([widget.user.id])
+        });
+      } else {
+        await postRef.update({
+          'likes': FieldValue.arrayUnion([widget.user.id])
+        });
+      }
+      _loadFriendsPosts(); // Atualiza a lista de posts
+    } catch (e) {
+      print('Error toggling like: $e');
+    }
+  }
+
+  Future<void> _addComment(String postId, String comment) async {
+    try {
+      var postRef = FirebaseFirestore.instance.collection('Posts').doc(postId);
+      await postRef.update({
+        'comments': FieldValue.arrayUnion([{'userId': widget.user.id, 'comment': comment}])
+      });
+      _loadFriendsPosts(); // Atualiza a lista de posts
+    } catch (e) {
+      print('Error adding comment: $e');
+    }
+  }
+
+  void _showAddCommentDialog(String postId) {
+    String comment = '';
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Add Comment'),
+        content: TextField(
+          onChanged: (value) {
+            comment = value;
+          },
+          decoration: InputDecoration(hintText: "Enter your comment"),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: Text('Cancel'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('Add'),
+            onPressed: () {
+              _addComment(postId, comment);
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -96,6 +161,8 @@ class _ForumScreenState extends State<ForumScreen> {
         itemBuilder: (BuildContext context, int index) {
           var post = posts[index];
           var userName = userNames[post['userId']] ?? 'Unknown User';
+          var isLiked = post['likes'].contains(widget.user.id);
+
           return Card(
             margin: const EdgeInsets.all(10),
             child: Column(
@@ -113,11 +180,21 @@ class _ForumScreenState extends State<ForumScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.thumb_up, color: Colors.grey[600]),
+                      IconButton(
+                        icon: Icon(isLiked ? Icons.thumb_up : Icons.thumb_up_alt_outlined, color: Colors.grey[600]),
+                        onPressed: () {
+                          _toggleLike(post['id'], isLiked);
+                        },
+                      ),
                       SizedBox(width: 8.0),
                       Text('${post['likes'].length} Likes'),
                       SizedBox(width: 24.0),
-                      Icon(Icons.comment, color: Colors.grey[600]),
+                      IconButton(
+                        icon: Icon(Icons.comment, color: Colors.grey[600]),
+                        onPressed: () {
+                          _showAddCommentDialog(post['id']);
+                        },
+                      ),
                       SizedBox(width: 8.0),
                       Text('${post['comments'].length} Comments'),
                     ],
