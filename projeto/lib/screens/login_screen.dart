@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import '../JsonModels/users.dart'; // Make sure this path is correct
-import 'geolocation_screen.dart';
 import 'signup_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // Import FirebaseFirestore
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'userprofile_screen.dart'; // Import the user profile screen
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,6 +18,12 @@ class _LoginState extends State<Login> {
   bool isVisible = false;
   bool isLoginFailed = false;
   String errorMessage = "Username or password is incorrect";
+
+  bool serviceEnabled = false;
+  LocationPermission permission = LocationPermission.denied;
+  Position? currentLocation;
+
+  final formKey = GlobalKey<FormState>();
 
   Future<Users?> fetchAdditionalUserInfo(String uid) async {
     try {
@@ -33,18 +40,51 @@ class _LoginState extends State<Login> {
     }
   }
 
+  Future<Position> getCurrentLocation() async {
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      print("Location services are disabled.");
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
+  }
+
   void login() async {
     if (formKey.currentState!.validate()) {
       try {
         final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: usernameController.text.trim(), // Trim to remove any accidental whitespace
+          email: usernameController.text.trim(),
           password: passwordController.text,
         );
         final user = userCredential.user;
         if (user != null) {
           final Users? additionalUserInfo = await fetchAdditionalUserInfo(user.uid);
           if (additionalUserInfo != null) {
-            _navigateToGeoLocationScreen(additionalUserInfo);
+            try {
+              currentLocation = await getCurrentLocation();
+              print("Current location is: $currentLocation");
+              _navigateToUserProfileScreen(additionalUserInfo);
+            } catch (e) {
+              print("Failed to get location: $e");
+              setState(() {
+                errorMessage = "Failed to get location. Please enable location services.";
+                isLoginFailed = true;
+              });
+            }
           } else {
             setState(() {
               errorMessage = "User data not found. Please complete your profile.";
@@ -52,9 +92,9 @@ class _LoginState extends State<Login> {
             });
           }
         }
-      } catch (e, stackTrace) { // Catching stack trace for more detailed debug information
+      } catch (e, stackTrace) {
         print("Failed to log in: $e");
-        print("Stack trace: $stackTrace"); // This will provide a detailed stack trace
+        print("Stack trace: $stackTrace");
         if (e is FirebaseAuthException) {
           print('Firebase Auth error: ${e.code}');
           errorMessage = e.message ?? "An error occurred. Please try again.";
@@ -68,14 +108,12 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _navigateToGeoLocationScreen(Users user) {
+  void _navigateToUserProfileScreen(Users user) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => Geolocation(user: user)), // Ensure Geolocation accepts a Users object
+      MaterialPageRoute(builder: (context) => UserProfile(user: user)),
     );
   }
-
-  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -98,11 +136,11 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget> [
+                    children: <Widget>[
                       const SizedBox(height: 20.0,),
                       const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget> [
+                          children: <Widget>[
                             Text('CleanIt',
                               style: TextStyle(
                                 color: Colors.blueAccent,
@@ -161,7 +199,7 @@ class _LoginState extends State<Login> {
                                 setState(() {
                                   isVisible = !isVisible;
                                 });
-                              }, icon: Icon(isVisible? Icons.visibility : Icons.visibility_off),
+                              }, icon: Icon(isVisible ? Icons.visibility : Icons.visibility_off),
                             )
                         ),
                       ),
