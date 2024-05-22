@@ -87,6 +87,7 @@ flutter:
     - lib/assets/G.png
     - lib/assets/PC.png
     - lib/assets/C.png
+    - lib/assets/near_me.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
