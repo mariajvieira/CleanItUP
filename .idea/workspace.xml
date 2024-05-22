@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/projeto/lib/screens/bin_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/JsonModels/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/bin_list_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/bin_list_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/pubspec.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +92,6 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\lib\assets" />
       <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\android\app" />
       <recent name="$PROJECT_DIR$/projeto/test/test_driver" />
       <recent name="$PROJECT_DIR$/projeto/lib/assets" />
@@ -137,6 +139,13 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Dart Command Line App.addBins.dart" />
+      <item itemvalue="Flutter.Unnamed" />
+      <item itemvalue="Flutter Test.tests in geolocation_screen_test.dart" />
+      <item itemvalue="Flutter Test.tests in recycling_bin_db_test.dart" />
+      <item itemvalue="Gradle.C:/Users/mariajvieira/Desktop/2LEIC01T2 [clean]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.C:/Users/mariajvieira/Desktop/2LEIC01T2 [clean]" />
