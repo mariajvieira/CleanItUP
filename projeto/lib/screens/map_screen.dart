@@ -6,6 +6,7 @@ import 'package:projeto/screens/userprofile_screen.dart';
 import '../JsonModels/users.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
+import 'near_me_screen.dart';
 
 class MapScreen extends StatefulWidget {
   final Users user;
@@ -105,6 +106,10 @@ class _MapState extends State<MapScreen> {
         );
         break;
       case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
         break;
       case 3:
         Navigator.push(

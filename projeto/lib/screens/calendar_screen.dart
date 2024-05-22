@@ -8,6 +8,7 @@ import '../JsonModels/users.dart';
 import 'add_event_screen.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
+import 'near_me_screen.dart';
 
 const Color backgroundColor = Color(0xFFF5F5F5);
 const Color appBarColor = Color(0xFF00796B);
@@ -296,7 +297,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
         );
         break;
       case 2:
-        break; //NEAR ME
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
+        break;
       case 3:
         Navigator.push(
           context,

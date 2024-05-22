@@ -5,6 +5,7 @@ import '../JsonModels/users.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
+import 'near_me_screen.dart';
 
 class AddEventScreen extends StatefulWidget {
   final Users user;
@@ -182,7 +183,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
         );
         break;
       case 2:
-        break; //NEAR ME
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
+        break;
       case 3:
         Navigator.push(
           context,

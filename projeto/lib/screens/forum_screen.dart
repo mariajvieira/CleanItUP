@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_post_screen.dart';
+import 'near_me_screen.dart';
 import 'search_users_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
@@ -245,20 +246,34 @@ class _ForumScreenState extends State<ForumScreen> {
 
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ForumScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForumScreen(user: widget.user)),
+        );
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => MapScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MapScreen(user: widget.user)),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => CalendarScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user)),
+        );
         break;
       case 4:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => UserProfile(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+        );
         break;
     }
   }
