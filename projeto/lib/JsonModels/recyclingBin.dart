@@ -1,11 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
+/*
+ECOPONTOS TYPE:
+-amarelo: plastico --> P
+-verde: vidro  ----> G (glass)
+-azul: papel/cartao ---> PC (paper, card)
+-vermelho: pilhas ---> S (stacks)
+-----------METER ECOPONTOS DE ROUPA??--------
+
+STATES:
+-ok: 0 false
+-full: 1 true
+ */
+
+
 class RecyclingBin {
   String id;
   double latitude;
   double longitude;
   String type;
-  String state;
+  bool state;
 
   RecyclingBin({
     required this.id,
@@ -19,15 +34,15 @@ class RecyclingBin {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
     return RecyclingBin(
       id: doc.id,
-      latitude: data['latitude'],
-      longitude: data['longitude'],
-      type: data['type'],
-      state: data['state'],
+      latitude: data['latitude'] ?? 0.0,
+      longitude: data['longitude'] ?? 0.0,
+      type: data['type'] ?? '',
+      state: data['state'] ?? false,
     );
   }
 
   static Future<void> addRecyclingBinToDatabase(
-      double latitude, double longitude, String type, String state) async {
+      double latitude, double longitude, String type, bool state) async {
     try {
       await FirebaseFirestore.instance.collection('RecyclingBins').add({
         'latitude': latitude,
@@ -51,3 +66,8 @@ class RecyclingBin {
     }
   }
 }
+
+
+
+
+
