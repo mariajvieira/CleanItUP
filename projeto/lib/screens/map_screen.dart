@@ -31,10 +31,12 @@ class _MapState extends State<MapScreen> {
       List<Marker> markers = querySnapshot.docs.map((doc) {
         double latitude = doc['latitude'];
         double longitude = doc['longitude'];
+        String type = doc['type'];
+
 
         return Marker(
           point: LatLng(latitude, longitude),
-          child: Image.asset("lib/assets/bin.png"), // Ensure this path is correct
+          child: Image.asset("lib/assets/${type}.png"), // Ensure this path is correct
         );
       }).toList();
 

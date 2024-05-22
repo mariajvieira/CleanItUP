@@ -6,8 +6,8 @@ ECOPONTOS TYPE:
 -amarelo: plastico --> P
 -verde: vidro  ----> G (glass)
 -azul: papel/cartao ---> PC (paper, card)
--vermelho: pilhas ---> S (stacks)
------------METER ECOPONTOS DE ROUPA??--------
+-vermelho: pilhas ---> B (batteries)
+-rosa: METER ECOPONTOS DE ROUPA ---> C (clothes)
 
 STATES:
 -ok: 0 false

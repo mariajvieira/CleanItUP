@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="" />
+    <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/B.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/C.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/G.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/P.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/projeto/lib/assets/PC.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/JsonModels/recyclingBin.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/recyclingBin.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/map_screen.dart" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,6 +94,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\lib\assets" />
       <recent name="C:\Users\mariajvieira\Desktop\2LEIC01T2\projeto\android\app" />
       <recent name="$PROJECT_DIR$/projeto/test/test_driver" />
       <recent name="$PROJECT_DIR$/projeto/lib/assets" />
