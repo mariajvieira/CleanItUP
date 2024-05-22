@@ -8,7 +8,7 @@ import 'map_screen.dart';
 import 'calendar_screen.dart';
 import 'friend_requests_screen.dart';
 import 'friend_list_screen.dart';
-import 'quiz_screen.dart';
+import 'near_me_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -20,7 +20,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 4;
   int numberOfFriends = 0;
   int numberOfPosts = 0;
   List<Map<String, dynamic>> userPosts = [];
@@ -66,7 +66,7 @@ class _UserProfileState extends State<UserProfile> {
         .listen((snapshot) {
       setState(() {
         numberOfPosts = snapshot.docs.length;
-        userPosts = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        userPosts = snapshot.docs.map((doc) => doc.data()).toList();
       });
       print('Post Changes Detected: $userPosts');
     });
@@ -174,21 +174,10 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const Text(
-                        'up*********',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.amber,
-                          fontFamily: 'Roboto-Bold',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                       const SizedBox(height: 15.0),
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
                       _buildPostsSection(),
-                      _buildQuizButton(),
                     ],
                   ),
                 ),
@@ -234,15 +223,37 @@ class _UserProfileState extends State<UserProfile> {
     setState(() {
       _selectedIndex = index;
     });
+
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ForumScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForumScreen(user: widget.user)),
+        );
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MapScreen(user: widget.user)),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user)));
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user)),
+        );
+        break;
+      case 4:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+        );
         break;
     }
   }
@@ -298,24 +309,6 @@ class _UserProfileState extends State<UserProfile> {
         ),
         const Divider(color: Colors.teal, thickness: 2),
       ],
-    );
-  }
-
-  Widget _buildQuizButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => QuizScreen(user: widget.user)),
-          );
-        },
-        child: Text('Take a Quiz', style: TextStyle(fontSize: 18.0)),
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.white, backgroundColor: Colors.teal,
-        ),
-      ),
     );
   }
 }

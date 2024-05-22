@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:projeto/screens/userprofile_screen.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../JsonModels/event.dart';
 import '../JsonModels/users.dart';
 import 'add_event_screen.dart';
+import 'forum_screen.dart';
+import 'map_screen.dart';
+import 'near_me_screen.dart';
 
 const Color backgroundColor = Color(0xFFF5F5F5);
 const Color appBarColor = Color(0xFF00796B);
@@ -11,39 +16,10 @@ const Color cardColor = Color(0xFFFFFFFF);
 const Color primaryTextColor = Color(0xFF212121);
 const Color secondaryTextColor = Color(0xFF757575);
 
-class Event {
-  final String title;
-  final String description;
-  final String location;
-  final String time;
-  final String district;
 
-  Event(this.title, this.description, this.location, this.time, this.district);
-
-  Map<String, dynamic> toMap() {
-    return {
-      'title': title,
-      'description': description,
-      'location': location,
-      'time': time,
-      'district': district,
-    };
-  }
-
-  factory Event.fromMap(Map<String, dynamic> map) {
-    return Event(
-      map['title'],
-      map['description'],
-      map['location'],
-      map['time'],
-      map['district'],
-    );
-  }
-}
 
 class CalendarScreen extends StatefulWidget {
   final Users user;
-
   const CalendarScreen({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -51,6 +27,7 @@ class CalendarScreen extends StatefulWidget {
 }
 
 class _CalendarScreenState extends State<CalendarScreen> {
+  int _selectedIndex = 3;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
@@ -174,6 +151,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
         : null;
 
     return Scaffold(
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.teal,
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.white70,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.public),
+            label: 'Global',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.radio_button_checked),
+            label: 'Near me',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: 'Calendar',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            label: 'Profile',
+          ),
+        ],
+      ),
       appBar: AppBar(
         title: Text('Upcoming Events', style: TextStyle(color: Colors.white)),
         backgroundColor: appBarColor,
@@ -182,7 +189,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             icon: Icon(Icons.add),
             onPressed: () async {
               final result = await Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => AddEventScreen()));
+                  context, MaterialPageRoute(builder: (context) => AddEventScreen(user: widget.user)));
               if (result != null && result is Map<String, dynamic>) {
                 final newEvent = Event.fromMap(result);
                 _addEvent(newEvent, result['date']);
@@ -270,4 +277,44 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ForumScreen(user: widget.user)),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MapScreen(user: widget.user)),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => NearMeScreen(user: widget.user)),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user)),
+        );
+        break;
+      case 4:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UserProfile(user: widget.user)),
+        );
+        break;
+    }
+  }
+
 }

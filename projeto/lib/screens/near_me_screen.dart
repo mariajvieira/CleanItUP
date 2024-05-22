@@ -1,53 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 import '../JsonModels/users.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
-import 'near_me_screen.dart';
+import 'map_screen.dart';
 
-class MapScreen extends StatefulWidget {
+
+class NearMeScreen extends StatefulWidget {
   final Users user;
-
-  const MapScreen({Key? key, required this.user}) : super(key: key);
+  const NearMeScreen({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<MapScreen> createState() => _MapState();
+  _NearMeScreenState createState() => _NearMeScreenState();
 }
 
-class _MapState extends State<MapScreen> {
-  int _selectedIndex = 1;
-  List<Marker> _markers = [];
-
-
-  Future<void> _fetchBins() async {
-    try {
-      // Fetch the data from Firestore
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('RecyclingBins').get();
-
-      // Map the Firestore documents to Marker objects
-      List<Marker> markers = querySnapshot.docs.map((doc) {
-        double latitude = doc['latitude'];
-        double longitude = doc['longitude'];
-
-        return Marker(
-          point: LatLng(latitude, longitude),
-          child: Image.asset("lib/assets/bin.png"), // Ensure this path is correct
-        );
-      }).toList();
-
-      // Update the state with the new markers
-      setState(() {
-        _markers = markers;
-      });
-    } catch (e) {
-      print("Error fetching recycling bins: $e");
-    }
-  }
-
-
+class _NearMeScreenState extends State<NearMeScreen> {
+  int _selectedIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +50,6 @@ class _MapState extends State<MapScreen> {
           ),
         ],
       ),
-      body: _buildMap(),
     );
   }
 
@@ -125,24 +92,5 @@ class _MapState extends State<MapScreen> {
     }
   }
 
-  Widget _buildMap() {
-    _fetchBins();
-    return FlutterMap(
-      options: const MapOptions(
-        initialCenter: LatLng(41.178444, -8.596222),
-        initialZoom: 19,
-      ),
-      children: [
-        TileLayer(
-          urlTemplate:
-          'https://api.mapbox.com/styles/v1/duartemarques/clw49mqbq02jn01qve0cd8ih1/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiZHVhcnRlbWFycXVlcyIsImEiOiJjbHZmdmZlZm8wZDV3MmlxbW5jdHV1OW05In0.xh3JCt1AYw53bHAb46Loeg',
-          userAgentPackageName: 'com.example.app',
-        ),
-        MarkerLayer(
 
-          markers: _markers,
-        ),
-      ],
-    );
-  }
 }
