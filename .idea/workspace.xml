@@ -5,11 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2a420dff-8726-4d95-a544-e7cc781f170c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/JsonModels/event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/JsonModels/event.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/add_event_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/add_event_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/calendar_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/forum_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/projeto/lib/screens/userprofile_screen.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

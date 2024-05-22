@@ -173,16 +173,6 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const Text(
-                        'up*********',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.amber,
-                          fontFamily: 'Roboto-Bold',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                       const SizedBox(height: 15.0),
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
