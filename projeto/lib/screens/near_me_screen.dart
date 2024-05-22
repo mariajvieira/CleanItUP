@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 import '../JsonModels/users.dart';
 import 'calendar_screen.dart';
@@ -19,6 +20,8 @@ class _NearMeScreenState extends State<NearMeScreen> {
   int _selectedIndex = 2;
   Position? _currentPosition;
   Timer? _timer;
+  List<DocumentSnapshot> _nearbyBins = [];
+  final double _maxDistance = 10; // Define the max distance in meters
 
   @override
   void initState() {
@@ -42,9 +45,6 @@ class _NearMeScreenState extends State<NearMeScreen> {
     // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
 
@@ -52,25 +52,47 @@ class _NearMeScreenState extends State<NearMeScreen> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this also prompts
-        // the user to go to the settings app to enable permissions).
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
     Position position = await Geolocator.getCurrentPosition();
     setState(() {
       _currentPosition = position;
     });
+
+    _fetchNearbyBins();
+  }
+
+  Future<void> _fetchNearbyBins() async {
+    if (_currentPosition == null) return;
+
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('RecyclingBins').get();
+
+      List<DocumentSnapshot> nearbyBins = querySnapshot.docs.where((doc) {
+        double latitude = doc['latitude'];
+        double longitude = doc['longitude'];
+        double distance = Geolocator.distanceBetween(
+          _currentPosition!.latitude,
+          _currentPosition!.longitude,
+          latitude,
+          longitude,
+        );
+        return distance <= _maxDistance;
+      }).toList();
+
+      setState(() {
+        _nearbyBins = nearbyBins;
+      });
+    } catch (e) {
+      print("Error fetching recycling bins: $e");
+    }
   }
 
   void _onItemTapped(int index) {
@@ -151,9 +173,19 @@ class _NearMeScreenState extends State<NearMeScreen> {
       body: Center(
         child: _currentPosition == null
             ? CircularProgressIndicator()
-            : Text(
-            'Latitude: ${_currentPosition!.latitude}, '
-                'Longitude: ${_currentPosition!.longitude}'),
+            : _nearbyBins.isEmpty
+            ? Text('No nearby bins found.')
+            : ListView.builder(
+          itemCount: _nearbyBins.length,
+          itemBuilder: (context, index) {
+            var bin = _nearbyBins[index];
+            return ListTile(
+              leading: Icon(Icons.delete),
+              title: Text('Recycling Bin at (${bin['latitude']}, ${bin['longitude']})'),
+              subtitle: Text('Type: ${bin['type']}'),
+            );
+          },
+        ),
       ),
     );
   }
