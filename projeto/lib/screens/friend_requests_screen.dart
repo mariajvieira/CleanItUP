@@ -3,6 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FriendRequestsScreen extends StatefulWidget {
+  final VoidCallback onFriendRequestAccepted;
+
+  const FriendRequestsScreen({Key? key, required this.onFriendRequestAccepted}) : super(key: key);
+
   @override
   _FriendRequestsScreenState createState() => _FriendRequestsScreenState();
 }
@@ -21,15 +25,15 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
     try {
       var requestsSnapshot = await FirebaseFirestore.instance
           .collection('friendRequests')
-          .where('to', isEqualTo: uid)
+          .where('receiverId', isEqualTo: uid)
           .where('status', isEqualTo: 'pending')
           .get();
 
       var allRequests = requestsSnapshot.docs.map((doc) {
         return {
           'id': doc.id,
-          'name': doc.data()['fromName'], // Assuming 'fromName' holds the name of the requester
-          'from': doc.data()['from'] // 'from' holds the uid of the requester
+          'name': doc.data()['senderName'],
+          'senderId': doc.data()['senderId']
         };
       }).toList();
 
@@ -41,24 +45,36 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
     }
   }
 
-  void acceptFriendRequest(String docId, String fromId) async {
+  void acceptFriendRequest(String docId, String senderId) async {
     try {
       // Accept the friend request
       await FirebaseFirestore.instance.collection('friendRequests').doc(docId).update({
         'status': 'accepted'
       });
 
-      // Add each other as friends in the users collection or a dedicated friends collection
       var batch = FirebaseFirestore.instance.batch();
       var currentUser = FirebaseAuth.instance.currentUser!.uid;
 
+      // Fetch friend's details
+      var friendDoc = await FirebaseFirestore.instance.collection('users').doc(senderId).get();
+      var friendData = friendDoc.data();
+      var friendName = (friendData?['firstName'] ?? 'Unknown') + ' ' + (friendData?['lastName'] ?? '');
+      var friendEmail = friendData?['email'] ?? 'Unknown';
+
+      // Fetch current user's details
+      var currentUserDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser).get();
+      var currentUserData = currentUserDoc.data();
+      var currentUserName = (currentUserData?['firstName'] ?? 'Unknown') + ' ' + (currentUserData?['lastName'] ?? '');
+      var currentUserEmail = currentUserData?['email'] ?? 'Unknown';
+
+      // Add each other as friends
       batch.set(
         FirebaseFirestore.instance.collection('friends').doc(),
-        {'userId': currentUser, 'friendId': fromId},
+        {'userId': currentUser, 'friendId': senderId, 'name': friendName, 'email': friendEmail},
       );
       batch.set(
         FirebaseFirestore.instance.collection('friends').doc(),
-        {'userId': fromId, 'friendId': currentUser},
+        {'userId': senderId, 'friendId': currentUser, 'name': currentUserName, 'email': currentUserEmail},
       );
 
       await batch.commit();
@@ -68,10 +84,12 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
         SnackBar(content: Text('Friend request accepted!')),
       );
 
-      // Remove from the list in the UI
       setState(() {
         friendRequests.removeWhere((request) => request['id'] == docId);
       });
+
+      // update the friends list
+      widget.onFriendRequestAccepted();
     } catch (e) {
       print('Error handling friend request: $e');
     }
@@ -87,7 +105,6 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
         SnackBar(content: Text('Friend request rejected')),
       );
 
-      // Remove from the list in the UI
       setState(() {
         friendRequests.removeWhere((request) => request['id'] == docId);
       });
@@ -114,7 +131,7 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
               children: [
                 IconButton(
                   icon: Icon(Icons.check, color: Colors.green),
-                  onPressed: () => acceptFriendRequest(request['id'], request['from']),
+                  onPressed: () => acceptFriendRequest(request['id'], request['senderId']),
                 ),
                 IconButton(
                   icon: Icon(Icons.close, color: Colors.red),

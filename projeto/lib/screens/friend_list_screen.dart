@@ -14,6 +14,7 @@ class FriendListScreen extends StatefulWidget {
 
 class _FriendListScreenState extends State<FriendListScreen> {
   List<Friend> friends = [];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -22,15 +23,22 @@ class _FriendListScreenState extends State<FriendListScreen> {
   }
 
   void _loadFriends() async {
-    var snapshot = await FirebaseFirestore.instance
-        .collection('friends')
-        .where('user1Id', isEqualTo: widget.user.id)
-        .orderBy('name') // Assuming 'name' field exists and is correct
-        .get();
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('friends')
+          .where('userId', isEqualTo: widget.user.id)
+          .get();
 
-    setState(() {
-      friends = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
-    });
+      setState(() {
+        friends = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading friends: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -39,7 +47,16 @@ class _FriendListScreenState extends State<FriendListScreen> {
       appBar: AppBar(
         title: Text('Friends List'),
       ),
-      body: ListView.builder(
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : friends.isEmpty
+          ? Center(
+        child: Text(
+          'No friends yet',
+          style: TextStyle(fontSize: 18.0, color: Colors.grey),
+        ),
+      )
+          : ListView.builder(
         itemCount: friends.length,
         itemBuilder: (context, index) {
           return ListTile(

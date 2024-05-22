@@ -14,15 +14,37 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   final TextEditingController _searchController = TextEditingController();
   List<Users> _searchResults = [];
   bool _isSearching = false;
+  List<String> _friendsIds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFriends();
+  }
+
+  void _loadFriends() async {
+    var currentUser = FirebaseAuth.instance.currentUser!.uid;
+    var friendsSnapshot = await FirebaseFirestore.instance
+        .collection('friends')
+        .where('userId', isEqualTo: currentUser)
+        .get();
+
+    setState(() {
+      _friendsIds = friendsSnapshot.docs.map((doc) => doc['friendId'] as String).toList();
+    });
+  }
 
   void sendFriendRequest(Users user) async {
     var currentUser = FirebaseAuth.instance.currentUser!;
     try {
+      var currentUserDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
+      var currentUserData = currentUserDoc.data();
+      var currentUserName = (currentUserData?['firstName'] ?? 'Unknown') + ' ' + (currentUserData?['lastName'] ?? '');
+
       await FirebaseFirestore.instance.collection('friendRequests').add({
-        'from': currentUser.uid,
-        'to': user.id,
-        'fromName': currentUser.displayName ?? currentUser.email, // Envie o nome ou e-mail como fallback
-        'toName': user.firstName + ' ' + user.lastName,
+        'senderId': currentUser.uid,
+        'receiverId': user.id,
+        'senderName': currentUserName,
         'status': 'pending'
       });
       setState(() {
@@ -37,8 +59,8 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     try {
       var snapshot = await FirebaseFirestore.instance
           .collection('friendRequests')
-          .where('from', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .where('to', isEqualTo: user.id)
+          .where('senderId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('receiverId', isEqualTo: user.id)
           .get();
       for (var doc in snapshot.docs) {
         await doc.reference.delete();
@@ -90,13 +112,20 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
               itemBuilder: (context, index) {
                 var user = _searchResults[index];
                 if (user.id == FirebaseAuth.instance.currentUser!.uid) {
-                  return Container(); // Skip the current user
+                  return Container();
                 }
+                bool isFriend = _friendsIds.contains(user.id);
                 return ListTile(
                   title: Text('${user.firstName} ${user.lastName}'),
                   subtitle: Text(user.email),
-                  trailing: IconButton(
-                    icon: Icon(user.isRequestSent ? Icons.undo : Icons.person_add),
+                  trailing: isFriend
+                      ? Text(
+                    'Friends',
+                    style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                  )
+                      : IconButton(
+                    icon: Icon(
+                        user.isRequestSent ? Icons.undo : Icons.person_add),
                     onPressed: () {
                       if (user.isRequestSent) {
                         removeFriendRequest(user);
@@ -136,11 +165,11 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
 
       var requestsCollection = FirebaseFirestore.instance.collection('friendRequests');
       var requestsQuery = requestsCollection
-          .where('from', isEqualTo: currentUser)
+          .where('senderId', isEqualTo: currentUser)
           .where('status', isEqualTo: 'pending');
 
       var sentRequests = await requestsQuery.get();
-      var sentRequestsIds = sentRequests.docs.map((doc) => doc['to']).toList();
+      var sentRequestsIds = sentRequests.docs.map((doc) => doc['receiverId']).toList();
 
       setState(() {
         _searchResults = emailResults.docs.map((doc) {

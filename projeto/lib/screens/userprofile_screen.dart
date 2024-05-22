@@ -47,7 +47,7 @@ class _UserProfileState extends State<UserProfile> {
   }
 
   void _loadFriends() async {
-    var snapshot = await FirebaseFirestore.instance.collection('friends').where('user1Id', isEqualTo: widget.user.id).get();
+    var snapshot = await FirebaseFirestore.instance.collection('friends').where('userId', isEqualTo: widget.user.id).get();
     setState(() {
       friendsList = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
       numberOfFriends = friendsList.length;
@@ -119,7 +119,12 @@ class _UserProfileState extends State<UserProfile> {
               IconButton(
                 icon: Icon(Icons.group_add, color: Colors.white),
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => FriendRequestsScreen()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FriendRequestsScreen(onFriendRequestAccepted: _loadFriends),
+                    ),
+                  );
                 },
               ),
             ],

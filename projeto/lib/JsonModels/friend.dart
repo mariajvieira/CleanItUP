@@ -9,10 +9,11 @@ class Friend {
 
   factory Friend.fromFirestore(DocumentSnapshot doc) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
     return Friend(
       id: doc.id,
-      name: data['friendName'], // Assuming the field name in Firestore is 'friendName'
-      email: data['email'],
+      name: data['name'] ?? 'Unknown',
+      email: data['email'] ?? 'Unknown',
     );
   }
 }
