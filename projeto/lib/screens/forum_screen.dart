@@ -45,7 +45,7 @@ class _ForumScreenState extends State<ForumScreen> {
             .get();
 
         List<Map<String, dynamic>> fetchedPosts = postsSnapshot.docs.map((doc) {
-          var data = doc.data() as Map<String, dynamic>;
+          var data = doc.data();
           data['id'] = doc.id; // Adiciona o ID do documento ao post
           return data;
         }).toList();
