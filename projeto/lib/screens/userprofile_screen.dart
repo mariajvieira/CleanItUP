@@ -8,6 +8,7 @@ import 'map_screen.dart';
 import 'calendar_screen.dart';
 import 'friend_requests_screen.dart';
 import 'friend_list_screen.dart';
+import 'quiz_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -187,6 +188,7 @@ class _UserProfileState extends State<UserProfile> {
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
                       _buildPostsSection(),
+                      _buildQuizButton(),
                     ],
                   ),
                 ),
@@ -296,6 +298,24 @@ class _UserProfileState extends State<UserProfile> {
         ),
         const Divider(color: Colors.teal, thickness: 2),
       ],
+    );
+  }
+
+  Widget _buildQuizButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QuizScreen(user: widget.user)),
+          );
+        },
+        child: Text('Take a Quiz', style: TextStyle(fontSize: 18.0)),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white, backgroundColor: Colors.teal,
+        ),
+      ),
     );
   }
 }
