@@ -30,27 +30,44 @@ class _UserProfileState extends State<UserProfile> {
     super.initState();
     _loadUserData();
     _loadFriends();
+    _listenToPostChanges();
   }
 
   void _loadUserData() async {
     try {
       final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(widget.user.id).get();
-      final posts = List<Map<String, dynamic>>.from(userData['posts'] ?? []);
-
       setState(() {
-        numberOfPosts = posts.length;
-        userPosts = posts;
+        numberOfPosts = userData['postCount'] ?? 0;
       });
+      print('User Data Loaded: $userData');
     } catch (e) {
       print('Error loading user data: $e');
     }
   }
 
   void _loadFriends() async {
-    var snapshot = await FirebaseFirestore.instance.collection('friends').where('userId', isEqualTo: widget.user.id).get();
-    setState(() {
-      friendsList = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
-      numberOfFriends = friendsList.length;
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('friends').where('userId', isEqualTo: widget.user.id).get();
+      setState(() {
+        friendsList = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
+        numberOfFriends = friendsList.length;
+      });
+      print('Friends Loaded: $friendsList');
+    } catch (e) {
+      print('Error loading friends: $e');
+    }
+  }
+
+  void _listenToPostChanges() {
+    FirebaseFirestore.instance.collection('Posts')
+        .where('userId', isEqualTo: widget.user.id)
+        .snapshots()
+        .listen((snapshot) {
+      setState(() {
+        numberOfPosts = snapshot.docs.length;
+        userPosts = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      });
+      print('Post Changes Detected: $userPosts');
     });
   }
 
@@ -87,8 +104,9 @@ class _UserProfileState extends State<UserProfile> {
               itemCount: userPosts.length,
               itemBuilder: (context, index) {
                 var post = userPosts[index];
-                return Image.asset(
-                  post['image_path'],
+                print('Displaying Post: $post');
+                return Image.network(
+                  post['imageUrl'],
                   fit: BoxFit.cover,
                 );
               },

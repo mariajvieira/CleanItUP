@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class Post {
   String id;
   String title;
@@ -34,16 +33,28 @@ class Post {
   }
 
   static Future<void> addPostToDatabase(
-      String title, String description, String imageUrl) async {
+      String title, String description, String userId, String imageUrl) async {
     try {
       DocumentReference docRef = await FirebaseFirestore.instance.collection('Posts').add({
         'title': title,
         'description': description,
+        'userId': userId,
         'likes': [],
         'comments': [],
         'date': Timestamp.fromDate(DateTime.now()),
         'imageUrl': imageUrl,
       });
+
+      // Atualizar contagem de posts
+      var userDoc = FirebaseFirestore.instance.collection('users').doc(userId);
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        var snapshot = await transaction.get(userDoc);
+        if (snapshot.exists) {
+          var newPostCount = (snapshot.data()?['postCount'] ?? 0) + 1;
+          transaction.update(userDoc, {'postCount': newPostCount});
+        }
+      });
+
       print('New post added with ID: ${docRef.id}');
     } catch (e) {
       print("Failed to add post: $e");
