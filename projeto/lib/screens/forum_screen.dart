@@ -6,6 +6,7 @@ import 'search_users_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
 import 'userprofile_screen.dart';
+import 'comments_screen.dart';
 import '../JsonModels/users.dart';
 
 class ForumScreen extends StatefulWidget {
@@ -193,7 +194,12 @@ class _ForumScreenState extends State<ForumScreen> {
                       IconButton(
                         icon: Icon(Icons.comment, color: Colors.grey[600]),
                         onPressed: () {
-                          _showAddCommentDialog(post['id']);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CommentsScreen(postId: post['id'], user: widget.user),
+                            ),
+                          );
                         },
                       ),
                       SizedBox(width: 8.0),
