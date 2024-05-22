@@ -26,6 +26,7 @@ class _UserProfileState extends State<UserProfile> {
   int numberOfFriends = 0;
   int numberOfPosts = 0;
   int greenScore = 0;
+  String profileImageUrl = '';
   List<Map<String, dynamic>> userPosts = [];
   List<Friend> friendsList = [];
 
@@ -44,6 +45,7 @@ class _UserProfileState extends State<UserProfile> {
       setState(() {
         numberOfPosts = userData['postCount'] ?? 0;
         greenScore = userData['points'] ?? 0;
+        profileImageUrl = userData['profileImageUrl'] ?? '';
       });
       print('User Data Loaded: $userData');
     } catch (e) {
@@ -186,8 +188,10 @@ class _UserProfileState extends State<UserProfile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const CircleAvatar(
-                        backgroundImage: AssetImage('assets/Avatar.png'),
+                      CircleAvatar(
+                        backgroundImage: profileImageUrl.isNotEmpty
+                            ? NetworkImage(profileImageUrl)
+                            : AssetImage('assets/Avatar.png') as ImageProvider,
                         radius: 55.0,
                       ),
                       const SizedBox(height: 10.0),
@@ -203,7 +207,6 @@ class _UserProfileState extends State<UserProfile> {
                       ),
                       const SizedBox(height: 15.0),
                       _buildStatisticSection(),
-                      _buildAchievementsSection(),
                       _buildPostsSection(),
                       _buildQuizButton(),
                     ],
@@ -321,23 +324,6 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildAchievementsSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Divider(color: Colors.teal, thickness: 2),
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-          child: Text(
-            'Achievements',
-            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.bold),
-          ),
-        ),
-        const Divider(color: Colors.teal, thickness: 2),
-      ],
     );
   }
 

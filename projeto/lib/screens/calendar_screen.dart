@@ -124,13 +124,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ElevatedButton(
                 child: Text("Share"),
                 onPressed: () {
-                  _launchURL(""); //acrescentar
+                  _launchURL("");
                 },
               ),
               ElevatedButton(
                 child: Text("I'll attend"),
                 onPressed: () {
-                  // acrescentar
                 },
               ),
               Divider()

@@ -25,10 +25,8 @@ class _MapState extends State<MapScreen> {
 
   Future<void> _fetchBins() async {
     try {
-      // Fetch the data from Firestore
       QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('RecyclingBins').get();
 
-      // Map the Firestore documents to Marker objects
       List<Marker> markers = querySnapshot.docs.map((doc) {
         double latitude = doc['latitude'];
         double longitude = doc['longitude'];
@@ -37,11 +35,10 @@ class _MapState extends State<MapScreen> {
 
         return Marker(
           point: LatLng(latitude, longitude),
-          child: Image.asset("lib/assets/${type}.png"), // Ensure this path is correct
+          child: Image.asset("lib/assets/${type}.png"),
         );
       }).toList();
 
-      // Update the state with the new markers
       setState(() {
         _markers = markers;
       });
