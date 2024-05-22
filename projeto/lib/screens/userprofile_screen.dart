@@ -9,6 +9,7 @@ import 'calendar_screen.dart';
 import 'friend_requests_screen.dart';
 import 'friend_list_screen.dart';
 import 'near_me_screen.dart';
+import 'quiz_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -23,6 +24,7 @@ class _UserProfileState extends State<UserProfile> {
   int _selectedIndex = 4;
   int numberOfFriends = 0;
   int numberOfPosts = 0;
+  int greenScore = 0;
   List<Map<String, dynamic>> userPosts = [];
   List<Friend> friendsList = [];
 
@@ -32,6 +34,7 @@ class _UserProfileState extends State<UserProfile> {
     _loadUserData();
     _loadFriends();
     _listenToPostChanges();
+    _listenToScoreChanges();
   }
 
   void _loadUserData() async {
@@ -39,6 +42,7 @@ class _UserProfileState extends State<UserProfile> {
       final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(widget.user.id).get();
       setState(() {
         numberOfPosts = userData['postCount'] ?? 0;
+        greenScore = userData['points'] ?? 0;
       });
       print('User Data Loaded: $userData');
     } catch (e) {
@@ -69,6 +73,15 @@ class _UserProfileState extends State<UserProfile> {
         userPosts = snapshot.docs.map((doc) => doc.data()).toList();
       });
       print('Post Changes Detected: $userPosts');
+    });
+  }
+
+  void _listenToScoreChanges() {
+    FirebaseFirestore.instance.collection('users').doc(widget.user.id).snapshots().listen((snapshot) {
+      setState(() {
+        greenScore = snapshot['points'] ?? 0;
+      });
+      print('Score Changes Detected: $greenScore');
     });
   }
 
@@ -178,6 +191,7 @@ class _UserProfileState extends State<UserProfile> {
                       _buildStatisticSection(),
                       _buildAchievementsSection(),
                       _buildPostsSection(),
+                      _buildQuizButton(),
                     ],
                   ),
                 ),
@@ -266,6 +280,7 @@ class _UserProfileState extends State<UserProfile> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => FriendListScreen(user: widget.user)));
         }),
         _buildStatisticItem('$numberOfPosts', 'POSTS', () {}),
+        _buildStatisticItem('$greenScore', 'GREEN SCORE', () {}),
       ],
     );
   }
@@ -288,7 +303,7 @@ class _UserProfileState extends State<UserProfile> {
             Text(number, style: const TextStyle(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
             Text(label,
-                style: const TextStyle(color: Colors.white70, fontSize: 12)),
+                style: const TextStyle(color: Colors.white70, fontSize: 12), textAlign: TextAlign.center),
           ],
         ),
       ),
@@ -309,6 +324,24 @@ class _UserProfileState extends State<UserProfile> {
         ),
         const Divider(color: Colors.teal, thickness: 2),
       ],
+    );
+  }
+
+  Widget _buildQuizButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QuizScreen(user: widget.user)),
+          );
+        },
+        child: Text('Take a Quiz', style: TextStyle(fontSize: 18.0)),
+        style: ElevatedButton.styleFrom(
+          foregroundColor: Colors.white, backgroundColor: Colors.teal,
+        ),
+      ),
     );
   }
 }
