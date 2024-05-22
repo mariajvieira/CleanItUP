@@ -10,6 +10,7 @@ import 'friend_requests_screen.dart';
 import 'friend_list_screen.dart';
 import 'near_me_screen.dart';
 import 'quiz_screen.dart';
+import 'post_details_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
@@ -119,9 +120,22 @@ class _UserProfileState extends State<UserProfile> {
               itemBuilder: (context, index) {
                 var post = userPosts[index];
                 print('Displaying Post: $post');
-                return Image.network(
-                  post['imageUrl'],
-                  fit: BoxFit.cover,
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PostDetailsScreen(
+                          post: post,
+                          userName: '${widget.user.firstName} ${widget.user.lastName}',
+                        ),
+                      ),
+                    );
+                  },
+                  child: Image.network(
+                    post['imageUrl'],
+                    fit: BoxFit.cover,
+                  ),
                 );
               },
             ),
