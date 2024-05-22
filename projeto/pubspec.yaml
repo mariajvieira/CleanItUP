@@ -82,7 +82,11 @@ flutter:
     - lib/assets/clothing.png
     - lib/assets/garbage.png
     - lib/assets/volunteer.png
-    - lib/assets/bin.png
+    - lib/assets/B.png
+    - lib/assets/P.png
+    - lib/assets/G.png
+    - lib/assets/PC.png
+    - lib/assets/C.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
