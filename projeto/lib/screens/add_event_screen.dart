@@ -11,7 +11,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
   String _description = '';
   String _location = '';
   String _time = '';
-  String _district = 'Lisbon'; // Default value
+  String _district = 'Lisbon';
+  DateTime _selectedDate = DateTime.now();
 
   List<String> _districts = [
     'Aveiro', 'Beja', 'Braga', 'Bragança', 'Castelo Branco', 'Coimbra', 'Évora',
@@ -22,8 +23,28 @@ class _AddEventScreenState extends State<AddEventScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // implementar guardar
-      Navigator.pop(context);
+      Navigator.pop(context, {
+        'title': _title,
+        'description': _description,
+        'location': _location,
+        'time': _time,
+        'district': _district,
+        'date': _selectedDate,
+      });
+    }
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate,
+      firstDate: DateTime(2020, 1),
+      lastDate: DateTime(2025, 12),
+    );
+    if (picked != null && picked != _selectedDate) {
+      setState(() {
+        _selectedDate = picked;
+      });
     }
   }
 
@@ -75,6 +96,21 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     );
                   }).toList(),
                 ),
+                SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    Text(
+                      'Date: ${_selectedDate.toLocal()}'.split(' ')[0],
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    SizedBox(width: 20.0),
+                    ElevatedButton(
+                      onPressed: () => _selectDate(context),
+                      child: Text('Select date'),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16.0),
                 ElevatedButton(
                   onPressed: _submitForm,
                   child: Text('Add Event'),

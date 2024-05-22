@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../JsonModels/users.dart';
 import 'add_event_screen.dart';
 
@@ -10,7 +11,6 @@ const Color cardColor = Color(0xFFFFFFFF);
 const Color primaryTextColor = Color(0xFF212121);
 const Color secondaryTextColor = Color(0xFF757575);
 
-
 class Event {
   final String title;
   final String description;
@@ -19,6 +19,26 @@ class Event {
   final String district;
 
   Event(this.title, this.description, this.location, this.time, this.district);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'title': title,
+      'description': description,
+      'location': location,
+      'time': time,
+      'district': district,
+    };
+  }
+
+  factory Event.fromMap(Map<String, dynamic> map) {
+    return Event(
+      map['title'],
+      map['description'],
+      map['location'],
+      map['time'],
+      map['district'],
+    );
+  }
 }
 
 class CalendarScreen extends StatefulWidget {
@@ -41,15 +61,56 @@ class _CalendarScreenState extends State<CalendarScreen> {
     'Santarém', 'Setúbal', 'Viana do Castelo', 'Vila Real', 'Viseu'
   ];
 
-  Map<DateTime, List<Event>> _events = {
-    DateTime.utc(2024, 5, 7): [
-      Event('River Cleanup', 'Join us to clean the riverbanks in our community. Volunteers needed!', 'Riverbank Park', '08:00 AM', 'Lisbon'),
-      Event('Beach Cleanup', 'Join us to clean the beach in our community. Volunteers needed!', 'Riverbank Beach', '08:00 AM', 'Lisbon')
-    ],
-    DateTime.utc(2024, 5, 23): [
-      Event('Plant Trees', 'Help us plant trees in the local park. All materials provided.', 'Green Park', '10:00 AM', 'Porto')
-    ],
-  };
+  Map<DateTime, List<Event>> _events = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadEvents();
+  }
+
+  DateTime _stripTime(DateTime date) {
+    return DateTime(date.year, date.month, date.day);
+  }
+
+  Future<void> _loadEvents() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance.collection('events').get();
+      Map<DateTime, List<Event>> events = {};
+      for (var doc in snapshot.docs) {
+        DateTime date = _stripTime((doc['date'] as Timestamp).toDate());
+        if (events[date] == null) events[date] = [];
+        events[date]!.add(Event.fromMap(doc.data()));
+      }
+      setState(() {
+        _events = events;
+      });
+      print('Events loaded: $_events');
+    } catch (e) {
+      print('Error loading events: $e');
+    }
+  }
+
+  Future<void> _addEvent(Event event, DateTime date) async {
+    try {
+      await FirebaseFirestore.instance.collection('events').add({
+        'title': event.title,
+        'description': event.description,
+        'location': event.location,
+        'time': event.time,
+        'district': event.district,
+        'date': Timestamp.fromDate(date),
+      });
+
+      setState(() {
+        DateTime eventDate = _stripTime(date);
+        if (_events[eventDate] == null) _events[eventDate] = [];
+        _events[eventDate]!.add(event);
+      });
+    } catch (e) {
+      print('Error adding event: $e');
+    }
+  }
 
   void _launchURL(String url) async {
     if (!await launch(url)) throw 'Could not launch $url';
@@ -68,7 +129,6 @@ class _CalendarScreenState extends State<CalendarScreen> {
       ),
     );
   }
-
 
   void _showEventDetails(List<Event> events) {
     showModalBottomSheet(
@@ -106,7 +166,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Event>? _selectedEvents = _events[_selectedDay]?.where((event) => _selectedDistrict == 'All' || event.district == _selectedDistrict).toList();
+    List<Event>? _selectedEvents = _selectedDay != null
+        ? _events[_stripTime(_selectedDay!)]
+        ?.where((event) =>
+    _selectedDistrict == 'All' || event.district == _selectedDistrict)
+        .toList()
+        : null;
 
     return Scaffold(
       appBar: AppBar(
@@ -115,8 +180,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AddEventScreen()));
+            onPressed: () async {
+              final result = await Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => AddEventScreen()));
+              if (result != null && result is Map<String, dynamic>) {
+                final newEvent = Event.fromMap(result);
+                _addEvent(newEvent, result['date']);
+              }
             },
           )
         ],
@@ -151,17 +221,22 @@ class _CalendarScreenState extends State<CalendarScreen> {
               return isSameDay(_selectedDay, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
-              List<Event>? dayEvents = _events[selectedDay];
-              if (dayEvents != null) {
-                _showEventDetails(dayEvents);
-              }
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
               });
+              List<Event>? dayEvents = _events[_stripTime(selectedDay)];
+              if (dayEvents != null && dayEvents.isNotEmpty) {
+                _showEventDetails(dayEvents);
+              } else {
+                print('No events on this day');
+              }
             },
             eventLoader: (day) {
-              return _events[day]?.where((event) => _selectedDistrict == 'All' || event.district == _selectedDistrict).toList() ?? [];
+              return _events[_stripTime(day)]
+                  ?.where((event) => _selectedDistrict == 'All' || event.district == _selectedDistrict)
+                  .toList() ??
+                  [];
             },
             onFormatChanged: (format) {
               if (_calendarFormat != format) {
@@ -182,7 +257,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   title: Text(_selectedEvents![index].title),
                   subtitle: Text('Location: ${_selectedEvents[index].location} - ${_selectedEvents[index].district}'),
                   onTap: () {
-                    List<Event>? dayEvents = _events[_selectedDay];
+                    List<Event>? dayEvents = _events[_stripTime(_selectedDay!)];
                     if (dayEvents != null) {
                       _showEventDetails(dayEvents);
                     }
