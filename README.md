@@ -177,12 +177,13 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 
 #### General considerations
 * The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
-* In this sprint, the main  focus was on the unit testing that wasn´t fully implemented as weel as the rest of the planned features.
+* In this sprint, the project was fully finished. The main focus was the connection to the Firebase.
+* The project has the majority of the planned features.
 
 #### Main Difficulties of Each Team Element:
 * Duarte Marques:
 * Francisca Fernandes:
-* Maria Vieira: 
+* Maria Vieira: Firebase connection in the project
 * Marta Cruz:
 * Nazim Nasirov:
 
