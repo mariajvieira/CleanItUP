@@ -98,7 +98,7 @@ class _MapState extends State<MapScreen> {
                   MaterialPageRoute(builder: (context) => BinListScreen(user: widget.user)),
                 );
               },
-              child: const Icon(Icons.arrow_forward),
+              child: const Icon(Icons.menu),
             ),
           ),
         ],
