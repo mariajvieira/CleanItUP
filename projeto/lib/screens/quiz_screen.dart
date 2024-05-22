@@ -51,7 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
     try {
       var userDoc = FirebaseFirestore.instance.collection('users').doc(widget.user.id);
       await userDoc.update({
-        'score': FieldValue.increment(_score)
+        'points': FieldValue.increment(_score)
       });
     } catch (e) {
       print('Error updating score: $e');
