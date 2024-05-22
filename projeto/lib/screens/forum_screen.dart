@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'add_post_screen.dart';
 import 'search_users_screen.dart';
 import 'map_screen.dart';
@@ -16,31 +17,54 @@ class ForumScreen extends StatefulWidget {
 
 class _ForumScreenState extends State<ForumScreen> {
   int _selectedIndex = 0;
+  List<Map<String, dynamic>> posts = [];
+  Map<String, String> userNames = {};
 
-  // Sample list of posts
-  final List<Map<String, dynamic>> posts = [
-    {
-      "username": "John Smith",
-      "image": "lib/assets/volunteer.png",
-      "likes": 15,
-      "comments": 6,
-      "content": "Had an amazing day, cleaning the beach with my friends.",
-    },
-    {
-      "username": "Anne Silva",
-      "image": "lib/assets/garbage.png",
-      "likes": 24,
-      "comments": 17,
-      "content": "Working on my newest recycling project, with my kids. Results soon",
-    },
-    {
-      "username": "Laura Santos",
-      "image": "lib/assets/clothing.png",
-      "likes": 15,
-      "comments": 6,
-      "content": "Come to the flea market near FEUP. A great opportunity for recycling while making some extra money.",
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _loadFriendsPosts();
+  }
+
+  Future<void> _loadFriendsPosts() async {
+    try {
+      var friendsSnapshot = await FirebaseFirestore.instance
+          .collection('friends')
+          .where('userId', isEqualTo: widget.user.id)
+          .get();
+
+      List<String> friendsIds = friendsSnapshot.docs
+          .map((doc) => doc['friendId'] as String)
+          .toList();
+
+      if (friendsIds.isNotEmpty) {
+        var postsSnapshot = await FirebaseFirestore.instance
+            .collection('Posts')
+            .where('userId', whereIn: friendsIds)
+            .orderBy('date', descending: true)
+            .get();
+
+        List<Map<String, dynamic>> fetchedPosts = postsSnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+        for (var post in fetchedPosts) {
+          String userId = post['userId'];
+          if (!userNames.containsKey(userId)) {
+            var userSnapshot = await FirebaseFirestore.instance.collection('users').doc(userId).get();
+            if (userSnapshot.exists) {
+              var userData = userSnapshot.data() as Map<String, dynamic>;
+              userNames[userId] = '${userData['firstName']} ${userData['lastName']}';
+            }
+          }
+        }
+
+        setState(() {
+          posts = fetchedPosts;
+        });
+      }
+    } catch (e) {
+      print('Error loading friends\' posts: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,21 +89,25 @@ class _ForumScreenState extends State<ForumScreen> {
           ),
         ],
       ),
-      body: ListView.builder(
+      body: posts.isEmpty
+          ? Center(child: Text('No posts yet'))
+          : ListView.builder(
         itemCount: posts.length,
         itemBuilder: (BuildContext context, int index) {
+          var post = posts[index];
+          var userName = userNames[post['userId']] ?? 'Unknown User';
           return Card(
             margin: const EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundImage: AssetImage(posts[index]['image']),
+                    backgroundImage: NetworkImage(post['imageUrl']),
                   ),
-                  title: Text(posts[index]['username']),
-                  subtitle: Text(posts[index]['content']),
+                  title: Text(userName),
+                  subtitle: Text(post['description']),
                 ),
-                Image.asset(posts[index]['image']),
+                Image.network(post['imageUrl']),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
                   child: Row(
@@ -87,11 +115,11 @@ class _ForumScreenState extends State<ForumScreen> {
                     children: <Widget>[
                       Icon(Icons.thumb_up, color: Colors.grey[600]),
                       SizedBox(width: 8.0),
-                      Text('${posts[index]['likes']} Likes'),
+                      Text('${post['likes'].length} Likes'),
                       SizedBox(width: 24.0),
                       Icon(Icons.comment, color: Colors.grey[600]),
                       SizedBox(width: 8.0),
-                      Text('${posts[index]['comments']} Comments'),
+                      Text('${post['comments'].length} Comments'),
                     ],
                   ),
                 ),
@@ -132,6 +160,7 @@ class _ForumScreenState extends State<ForumScreen> {
       ),
     );
   }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
