@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../JsonModels/users.dart'; // Make sure this path is correct
+import '../JsonModels/users.dart';
 import 'signup_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'userprofile_screen.dart'; // Import the user profile screen
+import 'userprofile_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
