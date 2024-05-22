@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 import '../JsonModels/users.dart';
+import 'bin_list_screen.dart';
 import 'calendar_screen.dart';
 import 'forum_screen.dart';
 import 'near_me_screen.dart';
@@ -84,7 +85,24 @@ class _MapState extends State<MapScreen> {
           ),
         ],
       ),
-      body: _buildMap(),
+      body: Stack(
+        children: [
+          _buildMap(),
+          Positioned(
+            top: 16,
+            left: 16,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => BinListScreen(user: widget.user)),
+                );
+              },
+              child: const Icon(Icons.arrow_forward),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -132,7 +150,7 @@ class _MapState extends State<MapScreen> {
     return FlutterMap(
       options: const MapOptions(
         initialCenter: LatLng(41.178444, -8.596222),
-        initialZoom: 19,
+        initialZoom: 18,
       ),
       children: [
         TileLayer(
