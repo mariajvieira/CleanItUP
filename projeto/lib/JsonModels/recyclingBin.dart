@@ -21,6 +21,7 @@ class RecyclingBin {
   double longitude;
   String type;
   bool state;
+  String description;
 
   RecyclingBin({
     required this.id,
@@ -28,6 +29,7 @@ class RecyclingBin {
     required this.longitude,
     required this.type,
     required this.state,
+    required this.description,
   });
 
   factory RecyclingBin.fromFirestore(DocumentSnapshot doc) {
@@ -38,17 +40,19 @@ class RecyclingBin {
       longitude: data['longitude'] ?? 0.0,
       type: data['type'] ?? '',
       state: data['state'] ?? false,
+      description: data['description'] ?? '',
     );
   }
 
   static Future<void> addRecyclingBinToDatabase(
-      double latitude, double longitude, String type, bool state) async {
+      double latitude, double longitude, String type, bool state, String description) async {
     try {
       await FirebaseFirestore.instance.collection('RecyclingBins').add({
         'latitude': latitude,
         'longitude': longitude,
         'type': type,
         'state': state,
+        'description': description
       });
     } catch (e) {
       print("Failed to add recycling bin: $e");
