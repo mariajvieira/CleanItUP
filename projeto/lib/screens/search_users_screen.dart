@@ -16,11 +16,13 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   bool _isSearching = false;
 
   void sendFriendRequest(Users user) async {
-    // friend request
+    var currentUser = FirebaseAuth.instance.currentUser!;
     try {
       await FirebaseFirestore.instance.collection('friendRequests').add({
-        'from': FirebaseAuth.instance.currentUser!.uid,
+        'from': currentUser.uid,
         'to': user.id,
+        'fromName': currentUser.displayName ?? currentUser.email, // Envie o nome ou e-mail como fallback
+        'toName': user.firstName + ' ' + user.lastName,
         'status': 'pending'
       });
       setState(() {
@@ -32,7 +34,6 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
   }
 
   void removeFriendRequest(Users user) async {
-    //remove friend request
     try {
       var snapshot = await FirebaseFirestore.instance
           .collection('friendRequests')
@@ -88,6 +89,9 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {
                 var user = _searchResults[index];
+                if (user.id == FirebaseAuth.instance.currentUser!.uid) {
+                  return Container(); // Skip the current user
+                }
                 return ListTile(
                   title: Text('${user.firstName} ${user.lastName}'),
                   subtitle: Text(user.email),
@@ -122,18 +126,28 @@ class _SearchUsersScreenState extends State<SearchUsersScreen> {
     setState(() => _isSearching = true);
 
     try {
+      var currentUser = FirebaseAuth.instance.currentUser!.uid;
       var usersCollection = FirebaseFirestore.instance.collection('users');
       var emailQuery = usersCollection
           .where('email', isGreaterThanOrEqualTo: query)
-          .where('email', isLessThanOrEqualTo: query + '\uf8ff')
-          .get();
+          .where('email', isLessThanOrEqualTo: query + '\uf8ff');
 
-      var emailResults = await emailQuery;
+      var emailResults = await emailQuery.get();
+
+      var requestsCollection = FirebaseFirestore.instance.collection('friendRequests');
+      var requestsQuery = requestsCollection
+          .where('from', isEqualTo: currentUser)
+          .where('status', isEqualTo: 'pending');
+
+      var sentRequests = await requestsQuery.get();
+      var sentRequestsIds = sentRequests.docs.map((doc) => doc['to']).toList();
 
       setState(() {
-        _searchResults = emailResults.docs
-            .map((doc) => Users.fromFirestore(doc))
-            .toList();
+        _searchResults = emailResults.docs.map((doc) {
+          var user = Users.fromFirestore(doc);
+          user.isRequestSent = sentRequestsIds.contains(user.id);
+          return user;
+        }).toList();
         _isSearching = false;
       });
     } catch (e) {

@@ -1,16 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projeto/JsonModels/users.dart';
-import 'package:projeto/screens/account_settings_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../JsonModels/users.dart';
+import '../JsonModels/friend.dart';
+import 'account_settings_screen.dart';
 import 'forum_screen.dart';
 import 'map_screen.dart';
 import 'calendar_screen.dart';
 import 'friend_requests_screen.dart';
+import 'friend_list_screen.dart';
 
 class UserProfile extends StatefulWidget {
   final Users user;
 
-  const UserProfile({Key? key, required this.user});
+  const UserProfile({Key? key, required this.user}) : super(key: key);
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -21,24 +23,21 @@ class _UserProfileState extends State<UserProfile> {
   int numberOfFriends = 0;
   int numberOfPosts = 0;
   List<Map<String, dynamic>> userPosts = [];
+  List<Friend> friendsList = [];
 
   @override
   void initState() {
     super.initState();
     _loadUserData();
+    _loadFriends();
   }
 
   void _loadUserData() async {
     try {
-      final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users')
-          .doc(widget.user.id)
-          .get();
-
-      final friendsCount = userData['numberOfFriends'];
-      final posts = userData['posts'];
+      final DocumentSnapshot userData = await FirebaseFirestore.instance.collection('users').doc(widget.user.id).get();
+      final posts = List<Map<String, dynamic>>.from(userData['posts'] ?? []);
 
       setState(() {
-        numberOfFriends = friendsCount;
         numberOfPosts = posts.length;
         userPosts = posts;
       });
@@ -46,6 +45,15 @@ class _UserProfileState extends State<UserProfile> {
       print('Error loading user data: $e');
     }
   }
+
+  void _loadFriends() async {
+    var snapshot = await FirebaseFirestore.instance.collection('friends').where('user1Id', isEqualTo: widget.user.id).get();
+    setState(() {
+      friendsList = snapshot.docs.map((doc) => Friend.fromFirestore(doc)).toList();
+      numberOfFriends = friendsList.length;
+    });
+  }
+
   Widget _buildPostsSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,16 +211,13 @@ class _UserProfileState extends State<UserProfile> {
     });
     switch (index) {
       case 0:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ForumScreen(user: widget.user)
-        ));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ForumScreen(user: widget.user)));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) =>MapScreen(user: widget.user)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MapScreen(user: widget.user)));
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => CalendarScreen(user: widget.user,)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CalendarScreen(user: widget.user)));
         break;
     }
   }
@@ -221,30 +226,35 @@ class _UserProfileState extends State<UserProfile> {
     return Wrap(
       alignment: WrapAlignment.spaceEvenly,
       children: <Widget>[
-        _buildStatisticItem('$numberOfFriends', 'FRIENDS'),
-        _buildStatisticItem('$numberOfPosts', 'POSTS'),
+        _buildStatisticItem('$numberOfFriends', 'FRIENDS', () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => FriendListScreen(user: widget.user)));
+        }),
+        _buildStatisticItem('$numberOfPosts', 'POSTS', () {}),
       ],
     );
   }
 
-  Widget _buildStatisticItem(String number, String label) {
-    return Container(
-      width: 80.0,
-      margin: const EdgeInsets.symmetric(horizontal: 4.0),
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      decoration: BoxDecoration(
-        color: Colors.green,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Text(number, style: const TextStyle(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 12)),
-        ],
+  Widget _buildStatisticItem(String number, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 80.0,
+        margin: const EdgeInsets.symmetric(horizontal: 4.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0),
+        decoration: BoxDecoration(
+          color: Colors.green,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(number, style: const TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(label,
+                style: const TextStyle(color: Colors.white70, fontSize: 12)),
+          ],
+        ),
       ),
     );
   }
@@ -265,5 +275,4 @@ class _UserProfileState extends State<UserProfile> {
       ],
     );
   }
-
 }
