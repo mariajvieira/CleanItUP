@@ -5,6 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:projeto/JsonModels/users.dart';
 import 'package:projeto/screens/userprofile_screen.dart';
 
+// Mock classes for Firestore
 class MockFirestoreInstance extends Mock implements FirebaseFirestore {}
 
 class MockDocumentSnapshot extends Mock implements DocumentSnapshot<Map<String, dynamic>> {
@@ -37,7 +38,6 @@ class MockQuerySnapshot extends Mock implements QuerySnapshot<Map<String, dynami
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-
   final Users testUser = Users(id: 'testUserId', firstName: 'Test', lastName: 'User', email: 'test@example.com');
 
   testWidgets('UserProfile displays user data and posts', (WidgetTester tester) async {
@@ -68,5 +68,7 @@ void main() {
     await tester.pump();
 
     expect(find.byType(Image), findsNWidgets(2));
+    expect(find.text('Test post 1'), findsOneWidget);
+    expect(find.text('Test post 2'), findsOneWidget);
   });
 }
