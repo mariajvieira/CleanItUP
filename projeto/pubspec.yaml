@@ -58,6 +58,7 @@ dev_dependencies:
   flutter_gherkin: ^3.0.0-rc.17
   flutter_driver:
     sdk: flutter
+  mockito: ^5.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
