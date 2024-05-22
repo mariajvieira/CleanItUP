@@ -19,7 +19,7 @@ class UserProfile extends StatefulWidget {
 }
 
 class _UserProfileState extends State<UserProfile> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 4;
   int numberOfFriends = 0;
   int numberOfPosts = 0;
   List<Map<String, dynamic>> userPosts = [];
@@ -65,7 +65,7 @@ class _UserProfileState extends State<UserProfile> {
         .listen((snapshot) {
       setState(() {
         numberOfPosts = snapshot.docs.length;
-        userPosts = snapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+        userPosts = snapshot.docs.map((doc) => doc.data()).toList();
       });
       print('Post Changes Detected: $userPosts');
     });
@@ -168,16 +168,6 @@ class _UserProfileState extends State<UserProfile> {
                         style: const TextStyle(
                           fontSize: 30.0,
                           color: Colors.black,
-                          fontFamily: 'Roboto-Bold',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      const Text(
-                        'up*********',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.amber,
                           fontFamily: 'Roboto-Bold',
                           fontWeight: FontWeight.bold,
                         ),
