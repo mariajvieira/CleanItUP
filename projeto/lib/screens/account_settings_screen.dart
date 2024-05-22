@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projeto/JsonModels/users.dart';
-import 'edit_profile_screen.dart'; // Ensure this path matches the location of your EditProfileScreen
+import 'edit_profile_screen.dart';
+import 'login_screen.dart';
 
 class AccountSettingsScreen extends StatelessWidget {
   final Users user;
 
   const AccountSettingsScreen({Key? key, required this.user}) : super(key: key);
+
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Login()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,37 +30,13 @@ class AccountSettingsScreen extends StatelessWidget {
             leading: Icon(Icons.person),
             title: Text('Edit Profile'),
             onTap: () {
-              // Navigate to the EditProfileScreen with the current user
               Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text('Notifications'),
-            onTap: () {
-              // Navigate to notifications settings screen
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.language),
-            title: Text('Language'),
-            onTap: () {
-              // Navigate to language settings screen
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.color_lens),
-            title: Text('Theme'),
-            onTap: () {
-              // Navigate to theme settings screen
             },
           ),
           ListTile(
             leading: Icon(Icons.exit_to_app),
             title: Text('Logout'),
-            onTap: () {
-              // Handle user logout
-            },
+            onTap: () => _logout(context),
           ),
         ],
       ),

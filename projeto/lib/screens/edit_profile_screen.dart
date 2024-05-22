@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:projeto/JsonModels/users.dart';
-import 'dart:io'; // Needed for File type
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:io';
 
 class EditProfileScreen extends StatefulWidget {
   final Users user;
@@ -15,6 +17,8 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _formKey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   late TextEditingController _nameController;
   late TextEditingController _emailController;
@@ -43,6 +47,32 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       setState(() {
         _image = File(pickedFile.path);
       });
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    try {
+      final user = _auth.currentUser;
+      if (user != null) {
+        await _firestore.collection('users').doc(user.uid).update({
+          'firstName': _nameController.text.trim(),
+          'email': _emailController.text.trim(),
+        });
+
+        if (_passwordController.text.isNotEmpty) {
+          await user.updatePassword(_passwordController.text.trim());
+        }
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Profile updated successfully')),
+        );
+
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile: $e')),
+      );
     }
   }
 
@@ -116,7 +146,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               label: Text('Save Changes'),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  // depois guardar
+                  _updateProfile();
                 }
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),

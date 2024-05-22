@@ -16,8 +16,6 @@ const Color cardColor = Color(0xFFFFFFFF);
 const Color primaryTextColor = Color(0xFF212121);
 const Color secondaryTextColor = Color(0xFF757575);
 
-
-
 class CalendarScreen extends StatefulWidget {
   final Users user;
   const CalendarScreen({Key? key, required this.user}) : super(key: key);
@@ -39,11 +37,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
   ];
 
   Map<DateTime, List<Event>> _events = {};
+  List<Event> _attendingEvents = [];
 
   @override
   void initState() {
     super.initState();
     _loadEvents();
+    _loadAttendingEvents();
   }
 
   DateTime _stripTime(DateTime date) {
@@ -68,6 +68,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
     }
   }
 
+  Future<void> _loadAttendingEvents() async {
+    try {
+      var snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.user.id)
+          .collection('attendingEvents')
+          .get();
+      List<Event> attendingEvents = snapshot.docs.map((doc) => Event.fromMap(doc.data())).toList();
+      setState(() {
+        _attendingEvents = attendingEvents;
+      });
+      print('Attending events loaded: $_attendingEvents');
+    } catch (e) {
+      print('Error loading attending events: $e');
+    }
+  }
+
   Future<void> _addEvent(Event event, DateTime date) async {
     try {
       await FirebaseFirestore.instance.collection('events').add({
@@ -86,6 +103,30 @@ class _CalendarScreenState extends State<CalendarScreen> {
       });
     } catch (e) {
       print('Error adding event: $e');
+    }
+  }
+
+  Future<void> _markEventAsAttending(Event event) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(widget.user.id)
+          .collection('attendingEvents')
+          .doc(event.title)
+          .set(event.toMap());
+
+      setState(() {
+        _attendingEvents.add(event);
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Marked as attending')),
+      );
+    } catch (e) {
+      print('Error marking event as attending: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to mark as attending')),
+      );
     }
   }
 
@@ -124,15 +165,36 @@ class _CalendarScreenState extends State<CalendarScreen> {
               ElevatedButton(
                 child: Text("Share"),
                 onPressed: () {
-                  _launchURL(""); //acrescentar
+                  _launchURL("");
                 },
               ),
               ElevatedButton(
                 child: Text("I'll attend"),
                 onPressed: () {
-                  // acrescentar
+                  _markEventAsAttending(event);
                 },
               ),
+              Divider()
+            ],
+          )).toList(),
+        ),
+      ),
+    );
+  }
+
+  void _showAttendingEvents() {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => Container(
+        padding: EdgeInsets.all(16),
+        child: ListView(
+          children: _attendingEvents.map((event) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(event.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              Text(event.description, style: TextStyle(fontSize: 18)),
+              Text('Location: ${event.location}', style: TextStyle(fontSize: 16)),
+              Text('Time: ${event.time}', style: TextStyle(fontSize: 16)),
               Divider()
             ],
           )).toList(),
@@ -186,6 +248,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
         backgroundColor: appBarColor,
         actions: [
           IconButton(
+            icon: Icon(Icons.person),
+            onPressed: _showAttendingEvents,
+          ),
+          IconButton(
             icon: Icon(Icons.add),
             onPressed: () async {
               final result = await Navigator.push(
@@ -195,7 +261,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 _addEvent(newEvent, result['date']);
               }
             },
-          )
+          ),
         ],
       ),
       body: Column(
@@ -316,5 +382,4 @@ class _CalendarScreenState extends State<CalendarScreen> {
         break;
     }
   }
-
 }

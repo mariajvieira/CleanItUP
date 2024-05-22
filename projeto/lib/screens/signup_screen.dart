@@ -262,7 +262,7 @@ class _SignUpState extends State<SignUp> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.pop(context); // Use pop instead of push
+                              Navigator.pop(context);
                             },
                             child: const Text("LOGIN",
                               style: TextStyle(

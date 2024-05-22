@@ -47,7 +47,6 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
 
   void acceptFriendRequest(String docId, String senderId) async {
     try {
-      // Accept the friend request
       await FirebaseFirestore.instance.collection('friendRequests').doc(docId).update({
         'status': 'accepted'
       });
@@ -55,19 +54,16 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
       var batch = FirebaseFirestore.instance.batch();
       var currentUser = FirebaseAuth.instance.currentUser!.uid;
 
-      // Fetch friend's details
       var friendDoc = await FirebaseFirestore.instance.collection('users').doc(senderId).get();
       var friendData = friendDoc.data();
       var friendName = (friendData?['firstName'] ?? 'Unknown') + ' ' + (friendData?['lastName'] ?? '');
       var friendEmail = friendData?['email'] ?? 'Unknown';
 
-      // Fetch current user's details
       var currentUserDoc = await FirebaseFirestore.instance.collection('users').doc(currentUser).get();
       var currentUserData = currentUserDoc.data();
       var currentUserName = (currentUserData?['firstName'] ?? 'Unknown') + ' ' + (currentUserData?['lastName'] ?? '');
       var currentUserEmail = currentUserData?['email'] ?? 'Unknown';
 
-      // Add each other as friends
       batch.set(
         FirebaseFirestore.instance.collection('friends').doc(),
         {'userId': currentUser, 'friendId': senderId, 'name': friendName, 'email': friendEmail},
@@ -79,7 +75,6 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
 
       await batch.commit();
 
-      // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Friend request accepted!')),
       );
@@ -88,7 +83,6 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
         friendRequests.removeWhere((request) => request['id'] == docId);
       });
 
-      // update the friends list
       widget.onFriendRequestAccepted();
     } catch (e) {
       print('Error handling friend request: $e');
@@ -97,10 +91,8 @@ class _FriendRequestsScreenState extends State<FriendRequestsScreen> {
 
   void rejectFriendRequest(String docId) async {
     try {
-      // Reject the friend request
       await FirebaseFirestore.instance.collection('friendRequests').doc(docId).delete();
 
-      // Show rejection message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Friend request rejected')),
       );
