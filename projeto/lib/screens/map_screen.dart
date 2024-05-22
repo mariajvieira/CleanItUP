@@ -21,27 +21,24 @@ class _MapState extends State<MapScreen> {
   int _selectedIndex = 1;
   List<Marker> _markers = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchBins();
-  }
 
   Future<void> _fetchBins() async {
     try {
-      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('recyclingBins').get();
+      // Fetch the data from Firestore
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('RecyclingBins').get();
 
+      // Map the Firestore documents to Marker objects
       List<Marker> markers = querySnapshot.docs.map((doc) {
         double latitude = doc['latitude'];
         double longitude = doc['longitude'];
 
         return Marker(
           point: LatLng(latitude, longitude),
-          child: Image.asset("../lib/assets/bin.png"),
-
+          child: Image.asset("lib/assets/bin.png"), // Ensure this path is correct
         );
       }).toList();
 
+      // Update the state with the new markers
       setState(() {
         _markers = markers;
       });
@@ -49,6 +46,8 @@ class _MapState extends State<MapScreen> {
       print("Error fetching recycling bins: $e");
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +126,7 @@ class _MapState extends State<MapScreen> {
   }
 
   Widget _buildMap() {
+    _fetchBins();
     return FlutterMap(
       options: const MapOptions(
         initialCenter: LatLng(41.178444, -8.596222),
@@ -139,6 +139,7 @@ class _MapState extends State<MapScreen> {
           userAgentPackageName: 'com.example.app',
         ),
         MarkerLayer(
+
           markers: _markers,
         ),
       ],
