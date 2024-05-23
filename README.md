@@ -3,7 +3,20 @@
 Welcome to the documentation pages of the CleanItUP app!
 You can find here details about the CleanItUP, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by type of activities:
 
+* [Business modeling](#Business-Modelling) 
+  * [Product Vision](#Product-Vision)
+  * [Features and Assumptions](#Features-and-Assumptions)
+  * [Elevator Pitch](#Elevator-pitch)
+* [Requirements](#Requirements)
+  * [User stories](#User-stories)
+  * [Domain model](#Domain-model)
+* [Architecture and Design](#Architecture-And-Design)
+  * [Logical architecture](#Logical-Architecture)
+  * [Physical architecture](#Physical-Architecture)
+  * [Vertical prototype](#Vertical-Prototype)
+* [Project management](#Project-Management)
 
+  
 ## Business Modelling
 ### Product Vision
 #### What is CleanItUP?
