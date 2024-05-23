@@ -16,4 +16,23 @@ All notable changes to this project will be documented in this file.
 - Users database improvement.
 
 ### Removed
+--
+
+## Sprint 3 (2024-04-29 - 2024-05-13)
+
+### Added
+- Firebase connection;
+- Near me screen;
+- Friend requests;
+- Log out;
+- Posts and forum screen;
+- Points and quizz page;
+- Edit profile information.
+
+### Changed
+- Recycling Bin database populated;
+- Calendar screen improved.
+
+### Removed
+--
 
