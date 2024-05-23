@@ -196,10 +196,10 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 * The project has the majority of the planned features.
 
 #### Main Difficulties of Each Team Element:
-* Duarte Marques:
+* Duarte Marques: Firebase connection and the storage of the Recycling Bins.
 * Francisca Fernandes: Firstly, it was very challenging to make Firebase work correctly. There were constant errors, particularly inconsistencies between Firebase, Gradle, and the Android Manifest. After resolving these issues, I found the implementation of posts in the forum to be quite complicated, as it required a lot of effort. Additionally, ensuring that the number of friends appeared on the profile immediately after accepting a friend request was also challenging.
-* Maria Vieira: Firebase connection in the project
-* Marta Cruz: Firebase connection in the project
+* Maria Vieira: Firebase connection in the project.
+* Marta Cruz: Firebase connection in the project.
 * Nazim Nasirov:
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
