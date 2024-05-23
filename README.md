@@ -8,7 +8,6 @@ You can find here details about the CleanItUP, from a high-level vision to low-l
   * [Features and Assumptions](#Features-and-Assumptions)
   * [Elevator Pitch](#Elevator-pitch)
 * [Requirements](#Requirements)
-  * [User stories](#User-stories)
   * [Domain model](#Domain-model)
 * [Architecture and Design](#Architecture-And-Design)
   * [Logical architecture](#Logical-Architecture)
