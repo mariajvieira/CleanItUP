@@ -148,6 +148,21 @@ This demonstration of the app was made in Dart, using AndroidStudio and Flutter.
 
 
 ## Project Management 
+### Definition of Ready 
+* User story is well-defined and includes acceptance criteria and mockups.
+* Team understands the user story and its scope.
+* The story is estimated and sized.
+  
+### Definition of Done (DoD)
+* Code meets the project's coding standards.
+* Code is reviewed and approved by at least one other team member.
+* No critical or high-severity issues reported by static code analysis tools.
+* Unit tests are written and passing.
+* All relevant documentation is updated.
+* The feature or bug fix meets the acceptance criteria defined in the user story.
+* No open critical or high-severity bugs related to the PBI.
+* The feature is deployed to a staging environment and tested.
+
 ### Sprint 2 Overview 
 #### Sprint Planning for This Iteration (Expected)
 Details about the planned tasks and objectives set at the beginning of the sprint.
@@ -189,23 +204,19 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 ![Captura de ecrã 2024-05-22 234035](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/83b99c18-8ef9-45a7-8ef3-9315faaf3798)
 ![Captura de ecrã 2024-05-22 235358](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/fd4552a1-decd-41f2-bbec-60c7e80b684e)
 
+#### What wet well
+* The team is satisfied with the final app.
+* We were able to implement all the desired "social features" (friend requests, friendships, posts, comments, likes, events).
+* The features regarding the locations of bins were also successfully implemented.
 
-#### General considerations
-* The team carefully analyzed the feedback provided by the professor, both in class and in the spreadsheet, in order to incorporate the advice to improve their project.
-* In this sprint, the project was fully finished. The main focus was the connection to the Firebase.
-* The project has the majority of the planned features.
-
-#### Main Difficulties of Each Team Element:
-* Duarte Marques: Firebase connection and the storage of the Recycling Bins.
-* Francisca Fernandes: Firstly, it was very challenging to make Firebase work correctly. There were constant errors, particularly inconsistencies between Firebase, Gradle, and the Android Manifest. After resolving these issues, I found the implementation of posts in the forum to be quite complicated, as it required a lot of effort. Additionally, ensuring that the number of friends appeared on the profile immediately after accepting a friend request was also challenging.
-* Maria Vieira: Firebase connection in the project.
-* Marta Cruz: Firebase connection in the project.
-* Nazim Nasirov:
+#### Puzzles
+* Ensuring Firebase worked correctly with consistent connections between Firebase, Gradle, and the Android Manifest.
+* Ensuring that the number of friends appeared on the profile immediately after accepting a friend request was also challenging.
+* Implementation of posts in the forum
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
 
 #### Final retrospective 
-The team believes to have done a significative incrementation on the project.
-For the next sprint, one of our main goals is to expand the testing. 
-Next, the team wants to finish the "in Progress" tasks, and to start new ones, such as changing the profile picture and features regarding friendships.
+The team believes to have done a significative incrementation on the project for this sprint. 
+
 
