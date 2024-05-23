@@ -204,6 +204,15 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 ![Captura de ecrã 2024-05-22 234035](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/83b99c18-8ef9-45a7-8ef3-9315faaf3798)
 ![Captura de ecrã 2024-05-22 235358](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/fd4552a1-decd-41f2-bbec-60c7e80b684e)
 
+#### Sprint Planning for This Iteration (Current)
+Updates and current status of the sprint planning.
+![Captura de ecrã 2024-05-23 012104](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/33f3bb3d-166f-48b6-bee2-149eb80c2b93)
+![Captura de ecrã 2024-05-23 012320](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/3e1ced34-0f04-4427-8ba7-9edb5e57afbc)
+![Captura de ecrã 2024-05-23 012339](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/79ebf4e3-743f-4edc-b9cf-7dc169f7753e)
+![Captura de ecrã 2024-05-23 012352](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/f848fbfb-96fd-4bb1-b79a-94dd0608e98c)
+![Captura de ecrã 2024-05-23 012405](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/0efeb3d0-696f-46b1-87bd-ef017c8de502)
+
+
 
 #### Sprint Retrospective
 
