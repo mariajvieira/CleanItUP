@@ -199,7 +199,7 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 * Duarte Marques:
 * Francisca Fernandes:
 * Maria Vieira: Firebase connection in the project
-* Marta Cruz:
+* Marta Cruz: Firebase connection in the project
 * Nazim Nasirov:
 
 Note: further information on the improvements made in this iteration available in Changelog.md. 
