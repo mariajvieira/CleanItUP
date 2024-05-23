@@ -217,7 +217,7 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 * Ensuring that the number of friends appeared on the profile immediately after accepting a friend request was also challenging.
 * Implementation of posts in the forum
 
-#### Improvements made
+##### Improvements made
 For further information on the improvements made in this iteration, please refer to the Changelog.md file. 
 
 ##### Final retrospective 
