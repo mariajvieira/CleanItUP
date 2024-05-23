@@ -204,19 +204,31 @@ Details about the planned tasks and objectives set at the beginning of the sprin
 ![Captura de ecrã 2024-05-22 234035](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/83b99c18-8ef9-45a7-8ef3-9315faaf3798)
 ![Captura de ecrã 2024-05-22 235358](https://github.com/FEUP-LEIC-ES-2023-24/2LEIC01T2/assets/145373875/fd4552a1-decd-41f2-bbec-60c7e80b684e)
 
-#### What wet well
+
+#### Sprint Retrospective
+
+##### What went well
 * The team is satisfied with the final app.
 * We were able to implement all the desired "social features" (friend requests, friendships, posts, comments, likes, events).
 * The features regarding the locations of bins were also successfully implemented.
 
-#### Puzzles
+##### Puzzles
 * Ensuring Firebase worked correctly with consistent connections between Firebase, Gradle, and the Android Manifest.
 * Ensuring that the number of friends appeared on the profile immediately after accepting a friend request was also challenging.
 * Implementation of posts in the forum
 
-Note: further information on the improvements made in this iteration available in Changelog.md. 
+#### Improvements made
+For further information on the improvements made in this iteration, please refer to the Changelog.md file. 
 
-#### Final retrospective 
-The team believes to have done a significative incrementation on the project for this sprint. 
+##### Final retrospective 
+The team believes to have done a significative incrementation on the project for this final sprint. 
+Despite the challenging difficulties and the problems with the Firebase connection, the group overcame these problems and the project turned out as expected. 
+In the end, we are proud of the final version of CleanItUP.
+
+#### Lessons Learned
+Throughout the project, we learned the benefits of working with Scrum and the importance of effective teamwork. 
+By leveraging each team member's strengths and fostering open communication, we were able to collaborate more efficiently and solve problems quicker. 
+Overall, the development of CleanItUP was a positive experience.
+
 
 
