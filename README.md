@@ -1,5 +1,7 @@
 # 2LEIC01T2 - CleanItUP Development Report
 
+## Grade: 16/20
+
 Welcome to the documentation pages of the CleanItUP app!
 You can find here details about the CleanItUP, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by type of activities:
 
